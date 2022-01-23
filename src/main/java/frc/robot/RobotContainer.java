@@ -17,6 +17,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.ShooterTest;
 import frc.robot.utils.AutoConstants;
 import frc.robot.utils.DriveConstants;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -25,8 +26,13 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 public class RobotContainer {
 
+    public final Drivetrain m_robotDrive = new Drivetrain(); 
+    public final ShooterTest m_shooterTest = new ShooterTest();
+    public final OI m_oi = new OI();
 
     public RobotContainer() {
+
+        
           /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -69,7 +75,7 @@ public class RobotContainer {
         config
     );
 
-    Drivetrain m_robotDrive = new Drivetrain();
+    
     
 
     RamseteCommand ramseteCommand = new RamseteCommand(

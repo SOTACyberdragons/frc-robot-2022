@@ -6,7 +6,6 @@ import frc.robot.utils.DriveConstants;
 
 import java.util.List;
 
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -17,15 +16,14 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-
-
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public class getAutonomousCommand extends Command {
+  public class getAutonomousCommand extends CommandBase {
 
     // Create a voltage constraint to ensure we don't accelerate too fast
     DifferentialDriveVoltageConstraint autoVoltageConstraint =
@@ -77,7 +75,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
     );
 
     @Override
-	protected boolean isFinished() {
+    public boolean isFinished() {
 		return false;
 	}
 

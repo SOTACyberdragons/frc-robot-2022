@@ -1,10 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-
-import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.commands.ShootTest;
 import edu.wpi.first.wpilibj.XboxController;
 //import frc.robot.commands.DriveStraight20inches;
 // import frc.robot.commands.FeedBall;
@@ -27,7 +26,7 @@ public class OI {
     // speeds
     private boolean squaredInput = true;
 
-    public Command moveToAngle20;
+    public CommandBase moveToAngle20;
 
     public Joystick leftDriveStick = new Joystick(0); //main driver
     public Joystick rightDriveStick = new Joystick(1); //main driver
@@ -67,6 +66,8 @@ public class OI {
 
         //  final DriveStraight20inches testCmd = new DriveStraight20inches(Robot.drivetrain);
        
+        JoystickButton shootTest = new JoystickButton(rightDriveStick, ButtonMap.SHOOT_TEST);
+        shootTest.whileHeld(new ShootTest());
         /*
          * Set command
          */

@@ -23,8 +23,7 @@ public class ShooterTest extends SubsystemBase {
 
     public void givePower()
     {
-        if (oi.getShootButtonState()) {
-            leftMotor.set(ControlMode.PercentOutput, 1);
-        }
+        leftMotor.set(ControlMode.PercentOutput, 0.5);
     }
+    
 }
