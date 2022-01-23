@@ -1,6 +1,8 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.AutoConstants;
 import frc.robot.utils.DriveConstants;
 
@@ -24,6 +26,8 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
    * @return the command to run in autonomous
    */
   public class getAutonomousCommand extends CommandBase {
+
+    private final Drivetrain drivetrain = new Drivetrain();
 
     // Create a voltage constraint to ensure we don't accelerate too fast
     DifferentialDriveVoltageConstraint autoVoltageConstraint =
@@ -60,18 +64,18 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         exampleTrajectory,
-        Robot.drivetrain::getPose,
+        drivetrain::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
         new SimpleMotorFeedforward(DriveConstants.ksVolts,
                                    DriveConstants.kvVoltSecondsPerMeter,
                                    DriveConstants.kaVoltSecondsSquaredPerMeter),
         DriveConstants.kDriveKinematics,
-        Robot.drivetrain::getWheelSpeeds,
+        drivetrain::getWheelSpeeds,
         new PIDController(DriveConstants.kPDriveVel, 0, 0),
         new PIDController(DriveConstants.kPDriveVel, 0, 0),
         // RamseteCommand passes volts to the callback
-        Robot.drivetrain::tankDriveVolts,
-        Robot.drivetrain
+        drivetrain::tankDriveVolts,
+        drivetrain
     );
 
     @Override

@@ -1,4 +1,5 @@
 package frc.robot.commands;
+import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,6 +11,7 @@ import frc.robot.globalDriveState;
 public class DifferentialDriveWithJoysticks extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private Drivetrain m_subsystem = new Drivetrain();
+  private OI oi = new OI();
 
   /**
    * Creates a new ExampleCommand.
@@ -33,7 +35,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
     globalDriveState.update++;
     
     double throttle = 1;
-    Robot.drivetrain.drive(-Robot.oi.getLeftStick().getY()*throttle, Robot.oi.getRightStick().getX());
+    m_subsystem.drive(-oi.getLeftStick().getY()*throttle, oi.getRightStick().getX());
   }
 
   // Called once the command ends or is interrupted.

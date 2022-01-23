@@ -5,15 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.OI;
-import frc.robot.commands.ShootTest;
 
 
 public class ShooterTest extends SubsystemBase {
     private static TalonSRX leftMotor;
     private static TalonSRX rightMotor;
-
-    OI oi = new OI();
     
     public ShooterTest()
     {
