@@ -31,8 +31,8 @@ public class RobotContainer {
 
     
     
-    public final Joystick leftStick = new Joystick(0);
-    public final Joystick rightStick = new Joystick(1);
+    public static  Joystick leftStick = new Joystick(0);
+    public static Joystick rightStick = new Joystick(1);
 
     public JoystickButton leftTrigger = new JoystickButton(leftStick, 1), leftButton2 = new JoystickButton(leftStick, 2),
             leftButton3 = new JoystickButton(leftStick, 3), leftButton4 = new JoystickButton(leftStick, 4),
@@ -46,7 +46,7 @@ public class RobotContainer {
         return leftStick.getRawAxis(0);
     }
 
-    public double getLeftJoyY() {
+    public static double getLeftJoyY() {
         return leftStick.getRawAxis(1);
     }
 
@@ -62,7 +62,7 @@ public class RobotContainer {
             rightButton10 = new JoystickButton(rightStick, 10), rightButton11 = new JoystickButton(rightStick, 11),
             rightButton12 = new JoystickButton(rightStick, 12);
 
-    public double getRightJoyX() {
+    public static double getRightJoyX() {
         return rightStick.getRawAxis(0);
     }
 

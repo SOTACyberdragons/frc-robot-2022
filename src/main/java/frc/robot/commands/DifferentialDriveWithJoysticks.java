@@ -1,5 +1,4 @@
 package frc.robot.commands;
-import frc.robot.OI;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Drivetrain;
@@ -35,7 +34,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
     globalDriveState.update++;
     
     double throttle = 1;
-    m_subsystem.drive(-RobotContainer.getLeftJoyY()*throttle, oi.getRightStick().getX());
+    m_subsystem.drive(-RobotContainer.getLeftJoyY()*throttle, RobotContainer.getRightJoyX());
   }
 
   // Called once the command ends or is interrupted.
