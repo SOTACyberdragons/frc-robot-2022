@@ -16,29 +16,74 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.ShootTest;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ShooterTest;
 import frc.robot.utils.AutoConstants;
 import frc.robot.utils.DriveConstants;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 
 public class RobotContainer {
 
-    public final Drivetrain m_robotDrive = new Drivetrain(); 
-    public final ShooterTest m_shooterTest = new ShooterTest();
-    public final OI m_oi = new OI();
+    
+    
+    public final Joystick leftStick = new Joystick(0);
+    public final Joystick rightStick = new Joystick(1);
+
+    public JoystickButton leftTrigger = new JoystickButton(leftStick, 1), leftButton2 = new JoystickButton(leftStick, 2),
+            leftButton3 = new JoystickButton(leftStick, 3), leftButton4 = new JoystickButton(leftStick, 4),
+            leftButton5 = new JoystickButton(leftStick, 5), leftButton6 = new JoystickButton(leftStick, 6),
+            leftButton7 = new JoystickButton(leftStick, 7), leftButton8 = new JoystickButton(leftStick, 8),
+            leftButton9 = new JoystickButton(leftStick, 9), leftButton10 = new JoystickButton(leftStick, 10),
+            leftButton11 = new JoystickButton(leftStick, 11), leftButton12 = new JoystickButton(leftStick, 12);
+    
+
+    public double getLeftJoyX() {
+        return leftStick.getRawAxis(0);
+    }
+
+    public double getLeftJoyY() {
+        return leftStick.getRawAxis(1);
+    }
+
+    public double getLeftJoyThrottle() { 
+        return leftStick.getRawAxis(2);
+    }
+
+    public JoystickButton rightTrigger = new JoystickButton(rightStick, 1),
+            rightButton2 = new JoystickButton(rightStick, 2), rightButton3 = new JoystickButton(rightStick, 3),
+            rightButton4 = new JoystickButton(rightStick, 4), rightButton5 = new JoystickButton(rightStick, 5),
+            rightButton6 = new JoystickButton(rightStick, 6), rightButton7 = new JoystickButton(rightStick, 7),
+            rightButton8 = new JoystickButton(rightStick, 8), rightButton9 = new JoystickButton(rightStick, 9),
+            rightButton10 = new JoystickButton(rightStick, 10), rightButton11 = new JoystickButton(rightStick, 11),
+            rightButton12 = new JoystickButton(rightStick, 12);
+
+    public double getRightJoyX() {
+        return rightStick.getRawAxis(0);
+    }
+
+    public double getRightJoyY() {
+        return rightStick.getRawAxis(1);
+    }
+
+    public double getRightJoyThrottle() {
+        return rightStick.getRawAxis(2);
+    }
 
     public RobotContainer() {
+        configureButtonBindings();
+    
+        
+    }
 
-        
-          /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-        
+    private void configureButtonBindings() {
+
+        rightTrigger.whileHeld(new ShootTest());
+
     }
   public Command getAutonomousCommand() {
 
@@ -80,26 +125,26 @@ public class RobotContainer {
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         exampleTrajectory,
-        m_robotDrive::getPose,
+        Robot.m_robotDrive::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
         new SimpleMotorFeedforward(DriveConstants.ksVolts,
                                    DriveConstants.kvVoltSecondsPerMeter,
                                    DriveConstants.kaVoltSecondsSquaredPerMeter),
         DriveConstants.kDriveKinematics,
-        m_robotDrive::getWheelSpeeds,
+        Robot.m_robotDrive::getWheelSpeeds,
         new PIDController(DriveConstants.kPDriveVel, 0, 0),
         new PIDController(DriveConstants.kPDriveVel, 0, 0),
         // RamseteCommand passes volts to the callback
-        m_robotDrive::tankDriveVolts,
-        m_robotDrive
+        Robot.m_robotDrive::tankDriveVolts,
+        Robot.m_robotDrive
     );
 
     // Reset odometry to the starting pose of the trajectory.
 
-    m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+    Robot.m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return ramseteCommand.andThen(() -> m_robotDrive.tankDriveVolts(0, 0));
+    return ramseteCommand.andThen(() -> Robot.m_robotDrive.tankDriveVolts(0, 0));
   }
 
 
