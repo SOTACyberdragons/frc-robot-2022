@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
@@ -24,7 +25,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.globalDriveState;
-//import frc.robot.commands.DifferentialDriveWithJoysticks;
+import frc.robot.TestDriveFunctions;
+import frc.robot.subsystems.ShooterTest;
+
+import frc.robot.commands.DifferentialDriveWithJoysticks;
 //import frc.robot.subsystems.Feeder;
 //import frc.robot.subsystems.Hopper;
 //import frc.robot.subsystems.Intake;
@@ -46,6 +50,10 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   public static Drivetrain drivetrain = new Drivetrain();
 
+  public static ShooterTest shooterTest = new ShooterTest();
+
+  public static DifferentialDriveWithJoysticks differentialDriveWithJoysticks = new DifferentialDriveWithJoysticks();
+
   //public static DifferentialDriveWithJoysticks joystickCommand;
   //public static Spinner spinner;
   // public static Intake intake;
@@ -54,7 +62,9 @@ public class Robot extends TimedRobot {
   // public static Hopper hopper;
   public static OI oi = new OI();
 
-  public static RobotContainer robotContainer; 
+  public static TestDriveFunctions testFunctions = new TestDriveFunctions(5000);
+
+  public static RobotContainer robotContainer = new RobotContainer(); 
   // private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
   // private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
@@ -64,8 +74,7 @@ public class Robot extends TimedRobot {
   // private final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   // private final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   // private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-  
-  
+
   @Override
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
@@ -73,8 +82,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     Scheduler.getInstance();
+    
+ 
+    //testFunctions.run();
 
-    //robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
     //drivetrain = new Drivetrain();
     //spinner = new Spinner();
     // intake = new Intake();
@@ -93,7 +105,8 @@ public class Robot extends TimedRobot {
   
   @Override
   public void robotPeriodic() {
-    Scheduler.getInstance().run();
+    //CommandScheduler.getInstance().enable();
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -109,6 +122,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     Scheduler.getInstance().run();
+
     switch (m_autoSelected) {
     case kCustomAuto:
       // Put custom auto code here
@@ -124,24 +138,33 @@ public class Robot extends TimedRobot {
    * This function is called periodically during operator control.
    */
 
+   @Override 
+   public void teleopInit()
+   {
+   }
+
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();
-
+    CommandScheduler.getInstance().run();
     //globalDriveState.update++;
     
     //this is a temporary solution, because the drive command isn't actually getting scheduled
-    double throttle = 1;
-    Robot.drivetrain.drive(-Robot.oi.getLeftStick().getY()*throttle, Robot.oi.getRightStick().getX());
+      // double throttle = 1;
+       //Robot.drivetrain.drive(-Robot.oi.getLeftStick().getY()*throttle, Robot.oi.getRightStick().getX());
+      
+
+    //  Robot.drivetrain.drive(Robot.oi.getR2(), Robot.oi.getL2());
+    //  Robot.drivetrain.reverse(Robot.oi.getL2(), Robot.oi.getR2());
     
-    SmartDashboard.putNumber("driving status: ", globalDriveState.update);
+    SmartDashboard.putNumber("driving status: ", testFunctions.timesRan);
     SmartDashboard.putNumber("Left Ticks: ", drivetrain.getLeftRawEncoderTicks());
     SmartDashboard.putNumber("Right Ticks: ", drivetrain.getRightRawEncoderTicks());
     SmartDashboard.putNumber("Right Distance: ", drivetrain.getRightDistance());
     SmartDashboard.putNumber("Left Distance: ", drivetrain.getLeftDistance());
     SmartDashboard.putNumber("Drive Distance: ", drivetrain.getDistance());
+    SmartDashboard.putNumber("L2 Value", oi.getL2());
+    
 
-    SmartDashboard.putBoolean("Left encoder  out of phase:", drivetrain.leftEncoderOutOfPhase());
     // SmartDashboard.putBoolean("Break Beam:", feeder.getBreakBeam());
     //SmartDashboard.putBoolean("Right encoder  out of phase:", value);
 
