@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.XboxController;
 //import frc.robot.commands.DriveStraight20inches;
 // import frc.robot.commands.FeedBall;
 // import frc.robot.commands.MoveIntake;
@@ -32,6 +33,22 @@ public class OI {
     public Joystick rightDriveStick = new Joystick(1); //main driver
     public Joystick leftAuxStick = new Joystick(2); //co-driver
     public Joystick rightAuxStick = new Joystick(3); //co-driver
+
+    private XboxController gameController = new XboxController(4);
+    public double getLeftX(){
+        return gameController.getLeftX();
+    }
+    public double getRightX(){
+        return gameController.getRightX();
+    }
+    public double getR2(){
+        return gameController.getRightTriggerAxis();
+    }
+    public double getL2(){
+        return gameController.getLeftTriggerAxis();
+    }
+
+    
 
     public OI() {
         /*
@@ -72,6 +89,11 @@ public class OI {
 	public Joystick getRightStick() {
 		return rightDriveStick;
 	}
+
+    public boolean getShootButtonState()
+    {
+        return leftDriveStick.getRawButtonPressed(3);
+    }
 
     public Joystick getLeftAuxStick() {
 		return leftAuxStick;

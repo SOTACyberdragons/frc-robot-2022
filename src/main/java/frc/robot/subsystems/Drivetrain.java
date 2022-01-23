@@ -65,7 +65,6 @@ public class Drivetrain extends SubsystemBase {
 	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(distanceBetweenWheels));
 	DifferentialDriveOdometry odometry; 
 		
-
 	public Drivetrain() {
 		//zeroEncoders();
 
@@ -91,8 +90,6 @@ public class Drivetrain extends SubsystemBase {
 		rightMaster.setSensorPhase(false);
 		leftMaster.setSensorPhase(false);
 
-
-		
         rightMaster.setNeutralMode(NeutralMode.Coast);
         leftMaster.setNeutralMode(NeutralMode.Coast);
         rightSlave.setNeutralMode(NeutralMode.Coast);
@@ -173,7 +170,6 @@ public class Drivetrain extends SubsystemBase {
 	public double getRightDistance() {
 		return getRightRawEncoderTicks() * DISTANCE_PER_PULSE_METERS;
 	}
-
 
 	public double getAverageDistance() {
 		return (getRightDistance() + getLeftDistance()) / 2;
@@ -279,6 +275,9 @@ public class Drivetrain extends SubsystemBase {
 	public void drive(final double xSpeed, final double zRotation) {
 		drive.arcadeDrive(xSpeed, zRotation, true);
 	}
+	public void reverse(final double xSpeed, final double zRotation) {
+		drive.arcadeDrive(-xSpeed, zRotation);
+	}
 
 	public LimeLight getLimeLight() {
 		return limelight;
@@ -332,7 +331,6 @@ public class Drivetrain extends SubsystemBase {
 		leftMaster.set(ControlMode.Velocity, leftInPerSecToTicksPer100ms);
 		final double rightInPerSecToTicksPer100ms = right / DISTANCE_PER_PULSE / 10;
 		leftMaster.set(ControlMode.Velocity, rightInPerSecToTicksPer100ms);
-
 	}
 
 	@Override
@@ -341,10 +339,9 @@ public class Drivetrain extends SubsystemBase {
 	  odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 	}
 
-	// @Override
+	 //@Override
 	 public void initDefaultCommand() {
-	 	setDefaultCommand(new DifferentialDriveWithJoysticks(new Drivetrain()));
+	 	setDefaultCommand(new DifferentialDriveWithJoysticks());
 	 }
 }
-
 

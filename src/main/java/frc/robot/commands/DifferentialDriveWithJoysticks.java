@@ -9,23 +9,22 @@ import frc.robot.globalDriveState;
 /** An example command that uses an example subsystem. */
 public class DifferentialDriveWithJoysticks extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Drivetrain m_subsystem;
+  private Drivetrain m_subsystem = new Drivetrain();
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DifferentialDriveWithJoysticks(Drivetrain subsystem) {
-    m_subsystem = subsystem;
+  public DifferentialDriveWithJoysticks() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(m_subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-     
+      
   }
 
   // Called every time the scheduler runs while the command is scheduled.

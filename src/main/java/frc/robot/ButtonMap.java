@@ -2,6 +2,8 @@ package frc.robot;
 
 public class ButtonMap {
     //driver buttons
+
+    
    public static final int SPIN_TO_COLOR = 1; //right stick
    public static final int DRIVE_STRAIGHT = 2; //right stick
 

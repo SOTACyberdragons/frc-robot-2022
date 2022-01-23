@@ -47,9 +47,4 @@ public class RobotMap {
 
 	//DIO 
 	public static final int STOP_SIGN = 0;
-
-
-
-
-	
 }
