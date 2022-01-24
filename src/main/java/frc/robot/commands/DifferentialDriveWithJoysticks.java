@@ -1,8 +1,7 @@
 package frc.robot.commands;
+
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.globalDriveState;
@@ -10,7 +9,7 @@ import frc.robot.globalDriveState;
 /** An example command that uses an example subsystem. */
 public class DifferentialDriveWithJoysticks extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private Drivetrain m_subsystem = new Drivetrain();
+
 
   /**
    * Creates a new ExampleCommand.
@@ -19,7 +18,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
    */
   public DifferentialDriveWithJoysticks() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(m_subsystem);
+    addRequirements(Robot.m_robotDrive);
   }
 
   // Called when the command is initially scheduled.
@@ -34,7 +33,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
     globalDriveState.update++;
     
     double throttle = 1;
-    m_subsystem.drive(-RobotContainer.getLeftJoyY()*throttle, RobotContainer.getRightJoyX());
+    Robot.m_robotDrive.drive(-RobotContainer.getLeftJoyY()*throttle, RobotContainer.getRightJoyX());
   }
 
   // Called once the command ends or is interrupted.

@@ -337,10 +337,6 @@ public class Drivetrain extends SubsystemBase {
 	  // Update the odometry in the periodic block
 	  odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 	}
-
-	 //@Override
-	 public void initDefaultCommand() {
-	 	setDefaultCommand(new DifferentialDriveWithJoysticks());
-	 }
+	
 }
 

@@ -22,4 +22,8 @@ public class ShooterTest extends SubsystemBase {
         leftMotor.set(ControlMode.PercentOutput, 0.5);
     }
     
+    public void stop() { 
+        leftMotor.set(ControlMode.PercentOutput, 0);
+        rightMotor.set(ControlMode.PercentOutput, 0);
+    }
 }

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DifferentialDriveWithJoysticks;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ShooterTest;
 
@@ -43,6 +44,7 @@ public class Robot extends TimedRobot {
   public static Drivetrain m_robotDrive;
   public static ShooterTest m_shooterTest; 
   public static RobotContainer m_robotContainer;
+
   @Override
   public void robotInit() {
 
@@ -105,7 +107,9 @@ public class Robot extends TimedRobot {
    {
      if (m_autonomousCommand != null) {
         m_autonomousCommand.cancel();
-    }
+     }
+     CommandScheduler.getInstance().setDefaultCommand(m_robotDrive, new DifferentialDriveWithJoysticks());
+
    }
 
   @Override
