@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 
@@ -38,15 +39,16 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   public static TestDriveFunctions testFunctions = new TestDriveFunctions(5000);
-  private RobotContainer robotContainer;
 
   public static Drivetrain m_robotDrive;
   public static ShooterTest m_shooterTest; 
+  public static RobotContainer m_robotContainer;
   @Override
   public void robotInit() {
 
     m_robotDrive = new Drivetrain();
     m_shooterTest = new ShooterTest();
+    m_robotContainer = new RobotContainer();
 
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
