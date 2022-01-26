@@ -14,6 +14,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.commands.DriveAutoDistance;
 import frc.robot.commands.ShootTest;
 import frc.robot.utils.AutoConstants;
 import frc.robot.utils.DriveConstants;
@@ -78,7 +79,9 @@ public class RobotContainer {
 
         rightTrigger.whileHeld(new ShootTest());
 
+        rightButton3.whileHeld(new DriveAutoDistance());
     }
+    
     public Command getAutonomousCommand() {
 
         // Create a voltage constraint to ensure we don't accelerate too fast

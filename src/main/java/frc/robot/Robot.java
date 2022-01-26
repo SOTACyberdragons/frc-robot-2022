@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DifferentialDriveWithJoysticks;
+import frc.robot.commands.DriveAutoDistance;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ShooterTest;
 
@@ -43,6 +44,8 @@ public class Robot extends TimedRobot {
 
   public static Drivetrain m_robotDrive;
   public static ShooterTest m_shooterTest; 
+  public static DriveAutoDistance autoDriver = new DriveAutoDistance();
+  
   public static RobotContainer m_robotContainer;
 
   @Override
@@ -57,27 +60,23 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     CommandScheduler.getInstance().enable();
-    
-
-  
-    
   }
 
-  
   @Override
   public void robotPeriodic() {
-    //CommandScheduler.getInstance().enable();
     CommandScheduler.getInstance().run();
   }
 
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    // // schedule the autonomous command (example)
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
+
+    autoDriver.schedule();
   }
 
   /**
@@ -87,15 +86,18 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
 
-    switch (m_autoSelected) {
-    case kCustomAuto:
-      // Put custom auto code here
-      break;
-    case kDefaultAuto:
-    default:
-      // Put default auto code here
-      break;
-    }
+    SmartDashboard.putNumber("distance", m_robotDrive.getDistance());
+
+  //   switch (m_autoSelected) {
+  //   case kCustomAuto:
+  //     // Put custom auto code here
+  //     break;
+  //   case kDefaultAuto:
+  //   default:
+  //     // Put default auto code here
+  //     break;
+  //   }
+  // }
   }
 
   /**
@@ -109,14 +111,12 @@ public class Robot extends TimedRobot {
         m_autonomousCommand.cancel();
      }
      CommandScheduler.getInstance().setDefaultCommand(m_robotDrive, new DifferentialDriveWithJoysticks());
-
    }
 
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
     //globalDriveState.update++;
-  
     
     SmartDashboard.putNumber("driving status: ", testFunctions.timesRan);
     SmartDashboard.putNumber("Left Ticks: ", m_robotDrive.getLeftRawEncoderTicks());
@@ -124,10 +124,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Right Distance: ", m_robotDrive.getRightDistance());
     SmartDashboard.putNumber("Left Distance: ", m_robotDrive.getLeftDistance());
     SmartDashboard.putNumber("Drive Distance: ", m_robotDrive.getDistance());
-
-  
-
-  
   }
 
   @Override
