@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
 public class Constants {
 
 	/**
@@ -40,5 +42,16 @@ public class Constants {
 	
 	public static enum AutoChoice {DO_NOT_MOVE};
 
-        
+	//ramsete constants
+
+    public static final double ksVolts = 0.6168;
+
+	public static final double kvVoltSecondsPerMeter = 0.063669;
+
+	public static final double kaVoltSecondsSquaredPerMeter = 0.0039651;
+
+	public static final double kTrackwidthMeters = 0.69;
+
+    public static final DifferentialDriveKinematics kDriveKinematics =
+        new DifferentialDriveKinematics(kTrackwidthMeters);
 }

@@ -1,0 +1,26 @@
+{
+  "SysId": {
+    "Analysis Type": "Drivetrain",
+    "Analyzer": {
+      "window": {
+        "visible": false
+      }
+    },
+    "AnalyzerJSONLocation": "C:\\Users\\Public\\wpilib\\2020\\sysid_data20220126-180855.json",
+    "Generator": {
+      "window": {
+        "visible": false
+      }
+    },
+    "Logger": {
+      "window": {
+        "visible": false
+      }
+    },
+    "NetworkTables Settings": {
+      "serverTeam": "5700"
+    },
+    "mode": "Client",
+    "serverTeam": "5700"
+  }
+}

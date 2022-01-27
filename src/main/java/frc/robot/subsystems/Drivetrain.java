@@ -58,7 +58,7 @@ public class Drivetrain extends SubsystemBase {
 	private final LimeLight limelight = new LimeLight();
 
 	public final DifferentialDrive drive;
-	private final PigeonIMU gyro = new PigeonIMU(0);
+	public final PigeonIMU gyro = new PigeonIMU(12);
 	private Preferences prefs;
 	
 	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(distanceBetweenWheels));

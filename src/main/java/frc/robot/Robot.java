@@ -124,6 +124,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Right Distance: ", m_robotDrive.getRightDistance());
     SmartDashboard.putNumber("Left Distance: ", m_robotDrive.getLeftDistance());
     SmartDashboard.putNumber("Drive Distance: ", m_robotDrive.getDistance());
+
+    SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.gyro.getYaw());
   }
 
   @Override
