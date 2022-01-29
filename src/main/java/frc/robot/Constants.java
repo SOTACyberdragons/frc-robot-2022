@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalSource;
 
 public class Constants {
 
@@ -44,14 +46,22 @@ public class Constants {
 
 	//ramsete constants
 
-    public static final double ksVolts = 0.6168;
+    public static final double ksVolts = 0.5885;
 
-	public static final double kvVoltSecondsPerMeter = 0.063669;
+	public static final double kvVoltSecondsPerMeter = 0.27875;
 
-	public static final double kaVoltSecondsSquaredPerMeter = 0.0039651;
+	public static final double kaVoltSecondsSquaredPerMeter = 0.0188;
 
 	public static final double kTrackwidthMeters = 0.69;
 
     public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackwidthMeters);
+
+	public static final double kMaxSpeedMetersPerSecond = 0.1;
+	public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
+
+	public static final double kRamseteB = 2;
+    public static final double kRamseteZeta = 0.7;
+
+	public static final double kDistancePerPulse = 2048;
 }

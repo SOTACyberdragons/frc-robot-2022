@@ -12,6 +12,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,9 +26,9 @@ import frc.robot.Robot;
 public class AutoDistance extends SubsystemBase {
     
 
-    public void driveOnPath()
-    {
-    //     DifferentialDriveVoltageConstraint autoVoltageConstraint =
+    // public void driveOnPath()
+    // {
+    //     var autoVoltageConstraint =
     //     new DifferentialDriveVoltageConstraint(
     //         new SimpleMotorFeedforward(
     //             Constants.ksVolts,
@@ -36,16 +37,19 @@ public class AutoDistance extends SubsystemBase {
     //         Constants.kDriveKinematics,
     //         10);
 
+    //         System.out.println("Creating config\n");
+
     // // Create config for trajectory
     // TrajectoryConfig config =
     //     new TrajectoryConfig(
-    //             AutoConstants.kMaxSpeedMetersPerSecond,
-    //             AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+    //             Constants.kMaxSpeedMetersPerSecond,
+    //             Constants.kMaxAccelerationMetersPerSecondSquared)
     //         // Add kinematics to ensure max speed is actually obeyed
-    //         .setKinematics(DriveConstants.kDriveKinematics)
-    //         // Apply the voltage constraint
-    //         .addConstraint(autoVoltageConstraint);
+    //         .setKinematics(Constants.kDriveKinematics).addConstraint(autoVoltageConstraint);
+
     //         Trajectory exampleTrajectory;
+
+    //         System.out.println("defining trajectory");
 
     //         exampleTrajectory =
     //         TrajectoryGenerator.generateTrajectory(
@@ -58,23 +62,36 @@ public class AutoDistance extends SubsystemBase {
     //             // Pass config
     //             config);
 
+    //             System.out.println("defining ramsete command");
+
     //     RamseteCommand ramseteCommand =
     //         new RamseteCommand(
     //             exampleTrajectory,
     //             Robot.m_robotDrive::getPose,
-    //             new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
+    //             new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
     //             new SimpleMotorFeedforward(
-    //                 DriveConstants.ksVolts,
-    //                 DriveConstants.kvVoltSecondsPerMeter,
-    //                 DriveConstants.kaVoltSecondsSquaredPerMeter),
-    //             DriveConstants.kDriveKinematics,
+    //                 Constants.ksVolts,
+    //                 Constants.kvVoltSecondsPerMeter,
+    //                 Constants.kaVoltSecondsSquaredPerMeter),
+    //             Constants.kDriveKinematics,
     //             Robot.m_robotDrive::getWheelSpeeds,
     //             new PIDController(DriveConstants.kPDriveVel, 0, 0),
     //             new PIDController(DriveConstants.kPDriveVel, 0, 0),
     //             // RamseteCommand passes volts to the callback
     //             Robot.m_robotDrive::tankDriveVolts,
     //             Robot.m_robotDrive);
-    }
+
+    //             // Reset odometry to the starting pose of the trajectory.
+    //             Robot.m_robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+
+
+    //             // Run path following command, then stop at the end.
+    //             return ramseteCommand.andThen(() -> Robot.m_robotDrive.tankDriveVolts(0, 0));
+
+    //         for (int i = 0; i <= 20; i++) {
+    //             System.out.println("Executing autonomous command");
+    //         }
+    //     }
 
     
     public void driveXDistance(double totalDistance)

@@ -15,12 +15,6 @@ public class DriveAutoDistance extends CommandBase {
 
     public void execute()
     {
-        autoDistance.driveOnPath();
-
-        try {
-            Thread.sleep(9999);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //autoDistance.driveOnPath();
     }
 }

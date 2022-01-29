@@ -220,8 +220,6 @@ public class Drivetrain extends SubsystemBase {
 	public Pose2d getPose() {
 		return odometry.getPoseMeters();
 	}
-
-		
 	/**
 	 * Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.
 	 *
