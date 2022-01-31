@@ -44,21 +44,20 @@ public class Constants {
 	
 	public static enum AutoChoice {DO_NOT_MOVE};
 
-	//ramsete constants
+	//values from profiler
+    public static final double ksVolts = 0.58951;
 
-    public static final double ksVolts = 0.5885;
+	public static final double kvVoltSecondsPerMeter = 1.7954;
 
-	public static final double kvVoltSecondsPerMeter = 0.27875;
-
-	public static final double kaVoltSecondsSquaredPerMeter = 0.0188;
+	public static final double kaVoltSecondsSquaredPerMeter = 0.11108;
 
 	public static final double kTrackwidthMeters = 0.69;
 
     public static final DifferentialDriveKinematics kDriveKinematics =
         new DifferentialDriveKinematics(kTrackwidthMeters);
 
-	public static final double kMaxSpeedMetersPerSecond = 0.1;
-	public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
+	public static final double kMaxSpeedMetersPerSecond = 0.3;
+	public static final double kMaxAccelerationMetersPerSecondSquared = 0.3;
 
 	public static final double kRamseteB = 2;
     public static final double kRamseteZeta = 0.7;

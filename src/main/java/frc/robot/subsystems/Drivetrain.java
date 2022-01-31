@@ -62,7 +62,7 @@ public class Drivetrain extends SubsystemBase {
 	private Preferences prefs;
 	
 	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(distanceBetweenWheels));
-	DifferentialDriveOdometry odometry; 
+	public DifferentialDriveOdometry odometry; 
 		
 	public Drivetrain() {
 		//zeroEncoders();
