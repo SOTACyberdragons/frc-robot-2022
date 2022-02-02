@@ -17,7 +17,9 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.DriveAutoDistance;
+import frc.robot.commands.MeterDrive;
 import frc.robot.commands.ShootTest;
+import frc.robot.commands.TestGyroCommand;
 import frc.robot.utils.AutoConstants;
 import frc.robot.utils.DriveConstants;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -74,14 +76,16 @@ public class RobotContainer {
     
     public RobotContainer() {
         configureButtonBindings();
-        
     }
     
     private void configureButtonBindings() {
         
-        rightTrigger.whileHeld(new ShootTest());
+        //rightTrigger.whileHeld(new ShootTest());
         
-        rightButton3.whileHeld(new DriveAutoDistance());
+        //rightButton3.whileHeld(new DriveAutoDistance());
+
+        rightButton9.whenPressed(new TestGyroCommand());
+        rightButton10.whenPressed(new MeterDrive(3));
     }
     
     public Command getAutonomousCommand()

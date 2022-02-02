@@ -33,7 +33,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
     globalDriveState.update++;
     
     double throttle = 1;
-    Robot.m_robotDrive.drive(RobotContainer.getLeftJoyY()*throttle, RobotContainer.getRightJoyX());
+    Robot.m_robotDrive.drive(-RobotContainer.getLeftJoyY()*throttle, RobotContainer.getRightJoyX());
   }
 
   // Called once the command ends or is interrupted.

@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 import com.fasterxml.jackson.databind.deser.impl.FailingDeserializer;
 
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
@@ -58,7 +59,7 @@ public class Drivetrain extends SubsystemBase {
 	private final LimeLight limelight = new LimeLight();
 
 	public final DifferentialDrive drive;
-	public final PigeonIMU gyro = new PigeonIMU(12);
+	public final WPI_PigeonIMU gyro = new WPI_PigeonIMU(12);
 	private Preferences prefs;
 	
 	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(distanceBetweenWheels));
@@ -152,6 +153,16 @@ public class Drivetrain extends SubsystemBase {
 
 	public double getRightRawEncoderTicks() {
 		return rightMaster.getSelectedSensorPosition(0);
+	}
+
+	public double getLeftEncoderMeters()
+	{
+		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE_METERS;
+	}
+
+	public double getRightEncoderMeters()
+	{
+		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE_METERS;
 	}
 
 	public double getLeftEncoderInches() {
@@ -288,7 +299,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getDistance() {
-		return ((getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2)*DISTANCE_PER_PULSE;
+		return ((getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2)*DISTANCE_PER_PULSE_METERS;
 	}
 
 	public double getRightDistanceInches() {

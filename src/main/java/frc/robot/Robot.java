@@ -8,10 +8,10 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-
-
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,6 +20,7 @@ import frc.robot.commands.DifferentialDriveWithJoysticks;
 import frc.robot.commands.DriveAutoDistance;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ShooterTest;
+import frc.robot.commands.TestGyroCommand;
 
 //import frc.robot.subsystems.Feeder;
 //import frc.robot.subsystems.Hopper;
@@ -48,6 +49,8 @@ public class Robot extends TimedRobot {
   public static DriveAutoDistance autoDriver = new DriveAutoDistance();
   
   public static RobotContainer m_robotContainer;
+
+  public static TestGyroCommand gyroTestCommand = new TestGyroCommand();
   
   @Override
   public void robotInit() {
@@ -60,7 +63,9 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     
-    CommandScheduler.getInstance().enable();
+    CommandScheduler.getInstance().enable();  
+
+    Shuffleboard.getTab("Gyro tab").add(Robot.m_robotDrive.gyro);
   }
   
   @Override
@@ -70,16 +75,17 @@ public class Robot extends TimedRobot {
   
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     
     //schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.schedule();
+    // }
+    //gyroTestCommand.schedule();
+
+  
     
-    autoDriver.schedule();
-    
-    Robot.m_robotDrive.gyro.addYaw(-Robot.m_robotDrive.gyro.getYaw()); //zero out gyro
+    //Robot.m_robotDrive.gyro.addYaw(-Robot.m_robotDrive.gyro.getYaw()); //zero out gyro
   }
   
   /**
@@ -89,7 +95,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
     
-    SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.gyro.getYaw());
+    SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.gyro.getAngle());
     SmartDashboard.putNumber("distance", m_robotDrive.getDistance());
     
     // if (Robot.m_robotDrive.gyro.getYaw() > -180) {
