@@ -8,8 +8,7 @@ import frc.robot.globalDriveState;
 
 /** An example command that uses an example subsystem. */
 public class DifferentialDriveWithJoysticks extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
 
   /**
    * Creates a new ExampleCommand.
@@ -24,21 +23,27 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     globalDriveState.update++;
-    
+
     double throttle = 1;
-    Robot.m_robotDrive.drive(-RobotContainer.getLeftJoyY()*throttle, RobotContainer.getRightJoyX());
+    
+    // Uncomment for Joystick Controllers
+    // Robot.m_robotDrive.drive(-RobotContainer.getLeftJoyY() * throttle, RobotContainer.getRightJoyX());
+
+    // Uncomment for XBox Controller
+    Robot.m_robotDrive.drive(RobotContainer.getXBoxThrottle(), RobotContainer.getXBoxRotation());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
