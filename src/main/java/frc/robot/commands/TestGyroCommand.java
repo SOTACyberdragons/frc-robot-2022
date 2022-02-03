@@ -1,40 +1,34 @@
-package frc.robot.commands;
+// package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.subsystems.spinWithGyro;
+// import edu.wpi.first.wpilibj2.command.CommandBase;
+// import frc.robot.Robot;
+// import frc.robot.subsystems.SpinWithGyro;
 
-public class TestGyroCommand extends CommandBase
-{
-    spinWithGyro gyroSubsystem = new spinWithGyro();
+// public class TestGyroCommand extends CommandBase
+// {
+//     SpinWithGyro gyroSubsystem = new SpinWithGyro();
+
+//     double turnLimit;
     
-    public void initialize() {
-        System.out.println("Gyro is initialized\n");
+//     public void initialize() {
+//         System.out.println("Gyro is initialized\n");
+
+//         turnLimit = Robot.m_robotDrive.gyro.getAngle() + 90;
+//     }
+    
+//     public void execute() {
+//         gyroSubsystem.spin();
+//     }
+    
+//     @Override
+//     public boolean isFinished()
+//     {
+//         if (Robot.m_robotDrive.gyro.getAngle() >= turnLimit || 
+//         Robot.m_robotDrive.gyro.getAngle() <= -turnLimit) 
+//         {
+//             return true;
+//         }
         
-        Robot.m_robotDrive.gyro.reset();
-    }
-    
-    public void execute() {
-        gyroSubsystem.spin();
-    }
-    
-    @Override
-    public boolean isFinished()
-    {
-        System.out.println(Robot.m_robotDrive.getAngle());
-
-        if (Robot.m_robotDrive.gyro.getAngle() >= 90 || 
-        Robot.m_robotDrive.gyro.getAngle() <= -90) 
-        {
-            return true;
-        }
-        
-        return false;
-    }
-    
-    // @Override
-    // public void end(boolean interrupted)
-    // {
-        //     gyroSubsystem.stop();
-        // }
-    }
+//         return false;
+//     }
+// }

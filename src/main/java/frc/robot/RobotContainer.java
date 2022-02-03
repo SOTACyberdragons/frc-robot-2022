@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.commands.DriveAutoDistance;
 import frc.robot.commands.MeterDrive;
 import frc.robot.commands.ShootTest;
-import frc.robot.commands.TestGyroCommand;
+import frc.robot.subsystems.SpinWithGyro;
 import frc.robot.utils.AutoConstants;
 import frc.robot.utils.DriveConstants;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 public class RobotContainer {
+    
     public static Rotation2d gyroAngle = new Rotation2d();
     
     
@@ -84,74 +85,8 @@ public class RobotContainer {
         
         //rightButton3.whileHeld(new DriveAutoDistance());
 
-        rightButton9.whenPressed(new TestGyroCommand());
+        rightButton9.whenPressed(new SpinWithGyro().spinWithGyroCommand());
         rightButton10.whenPressed(new MeterDrive(3));
-    }
-    
-    public Command getAutonomousCommand()
-    {
-        var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-        new SimpleMotorFeedforward(
-        Constants.ksVolts,
-        Constants.kvVoltSecondsPerMeter,
-        Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics,
-        10);
-        
-        // Create config for trajectory
-        TrajectoryConfig config =
-        new TrajectoryConfig(
-        Constants.kMaxSpeedMetersPerSecond,
-        Constants.kMaxAccelerationMetersPerSecondSquared)
-        // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(Constants.kDriveKinematics).addConstraint(autoVoltageConstraint);
-        
-        Trajectory trajectory;
-        
-        ArrayList<Translation2d> points = new ArrayList<Translation2d>();
-        points.add(new Translation2d(1, 0));
-        points.add(new Translation2d(2, 0));
-
-        trajectory =
-        TrajectoryGenerator.generateTrajectory (
-        // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        points, 
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
-        // Pass config
-        config);
-        
-        System.out.println("defining ramsete command");
-        
-        RamseteCommand ramseteCommand =
-        new RamseteCommand(
-        trajectory,
-        Robot.m_robotDrive::getPose,
-        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-        new SimpleMotorFeedforward(
-        Constants.ksVolts,
-        Constants.kvVoltSecondsPerMeter,
-        Constants.kaVoltSecondsSquaredPerMeter),
-        Constants.kDriveKinematics,
-        Robot.m_robotDrive::getWheelSpeeds,
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        new PIDController(DriveConstants.kPDriveVel, 0, 0),
-        // RamseteCommand passes volts to the callback
-        Robot.m_robotDrive::tankDriveVolts,
-        Robot.m_robotDrive);
-        
-        // Reset odometry to the starting pose of the trajectory.
-        Robot.m_robotDrive.resetOdometry(trajectory.getInitialPose());
-        
-        for (int i = 0; i <= 20; i++) {
-            System.out.println("Executing autonomous command");
-        }
-        
-        // Run path following command, then stop at the end.
-        return ramseteCommand.andThen(() -> Robot.m_robotDrive.tankDriveVolts(0, 0));
     }
     
     

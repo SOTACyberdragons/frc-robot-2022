@@ -9,7 +9,7 @@ public class MeterDrive extends CommandBase {
 
     public MeterDrive(int meterCount)
     {
-        this.meters = meterCount * (1 / Drivetrain.DISTANCE_PER_PULSE_METERS);
+        this.meters = meterCount;
     }
 
     public void initialize()
@@ -25,7 +25,7 @@ public class MeterDrive extends CommandBase {
     @Override
     public boolean isFinished()
     {
-        if (Robot.m_robotDrive.getDistance() >= 3) {
+        if (Robot.m_robotDrive.getDistance() >= meters) {
             return true;
         } else {
             return false;

@@ -20,7 +20,7 @@ import frc.robot.commands.DifferentialDriveWithJoysticks;
 import frc.robot.commands.DriveAutoDistance;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ShooterTest;
-import frc.robot.commands.TestGyroCommand;
+import frc.robot.subsystems.SpinWithGyro;
 
 //import frc.robot.subsystems.Feeder;
 //import frc.robot.subsystems.Hopper;
@@ -47,10 +47,10 @@ public class Robot extends TimedRobot {
   public static Drivetrain m_robotDrive;
   public static ShooterTest m_shooterTest; 
   public static DriveAutoDistance autoDriver = new DriveAutoDistance();
+
+  public static SpinWithGyro spinWithGyro = new SpinWithGyro();
   
   public static RobotContainer m_robotContainer;
-
-  public static TestGyroCommand gyroTestCommand = new TestGyroCommand();
   
   @Override
   public void robotInit() {
@@ -121,6 +121,9 @@ public class Robot extends TimedRobot {
       @Override 
       public void teleopInit()
       {
+        Robot.m_robotDrive.zeroEncoders();
+        Robot.m_robotDrive.gyro.reset();
+        
         if (m_autonomousCommand != null) {
           m_autonomousCommand.cancel();
         }
