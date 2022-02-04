@@ -1,8 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalSource;
+// import edu.wpi.first.wpilibj.DigitalInput;
+// import edu.wpi.first.wpilibj.DigitalSource;
 
 public class Constants {
 
@@ -31,6 +31,7 @@ public class Constants {
 	public static final int TALON_MAX_OUTPUT = 1023;
 	public static final int VERSA_ENCODER_TPR = 4096;
 	public static final int MAG_ENCODER_TPR = 4096;
+	
 	/**
 	 * Roborio
 	 */
@@ -64,5 +65,11 @@ public class Constants {
 	// XBox Controller Drivetrain Constants
 	public static final double kMaxDriveSpeed = .5;
   	public static final double kMaxTurnSpeed = .5; 
+
+	// Updated drivetrain constants
+	public static final int kEncoderCPR = 2048;
+    public static final double kWheelDiameterMeters = 0.152;
+	public static final double kGearRation = 7.75;
+    public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR) / kGearRation;
 
 }

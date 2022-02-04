@@ -25,7 +25,7 @@ import frc.robot.utils.DriveConstants;
 public class SpinWithGyro extends CommandBase {
     void zeroGyro()
     {
-        Robot.m_robotDrive.gyro.addYaw(-Robot.m_robotDrive.gyro.getYaw());
+        Robot.m_robotDrive.m_gyro.addYaw(-Robot.m_robotDrive.m_gyro.getYaw());
     }
 
     public SpinWithGyro()

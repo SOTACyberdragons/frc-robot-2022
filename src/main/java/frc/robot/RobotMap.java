@@ -47,4 +47,7 @@ public class RobotMap {
 
 	//DIO 
 	public static final int STOP_SIGN = 0;
+
+	//Pigeon IMU
+	public static final int PIGEON_IMU = 12;
 }

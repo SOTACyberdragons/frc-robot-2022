@@ -3,16 +3,19 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 import com.fasterxml.jackson.databind.deser.impl.FailingDeserializer;
+
+import com.ctre.phoenix.motorcontrol.Faults;
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.Preferences;
@@ -31,74 +34,74 @@ import frc.robot.oi.limelightvision.limelight.LimeLight;
 import frc.robot.utils.TalonFXConfig;
 import edu.wpi.first.wpilibj.MotorSafety;
 import frc.robot.commands.DifferentialDriveWithJoysticks;
+
 /**
  *
  */
 public class Drivetrain extends SubsystemBase {
 
-
 	public final static double WHEELBASE_WIDTH = 24.25;
 	public final static double WHEEL_DIAMETER = 6;
-	public final static double PULSE_PER_REVOLUTION = 2048; // from http://www.ctr-electronics.com/talon-fx.html#product_tabs_tech_specs
-	public final static double REDUCTION_TO_ENCODER_FAST = PULSE_PER_REVOLUTION * 7.95; //11:42 24:50
-	public final static double REDUCTION_TO_ENCODER_SLOW = (2048 * 42*60)/(11*14); //11:42 14:60
+	public final static double PULSE_PER_REVOLUTION = 2048; // from
+															// http://www.ctr-electronics.com/talon-fx.html#product_tabs_tech_specs
+	public final static double REDUCTION_TO_ENCODER_FAST = PULSE_PER_REVOLUTION * 7.95; // 11:42 24:50
+	public final static double REDUCTION_TO_ENCODER_SLOW = (2048 * 42 * 60) / (11 * 14); // 11:42 14:60
 	public final static double DISTANCE_PER_PULSE = (Math.PI * WHEEL_DIAMETER) / REDUCTION_TO_ENCODER_FAST;
 	public final static double DISTANCE_PER_PULSE_METERS = Units.inchesToMeters(DISTANCE_PER_PULSE);
 	public final static double MEETERS_PER_SECOND = 7.95 * 2 * Math.PI * Units.inchesToMeters(3) / 60;
 	public final static double MAX_SPEED = 110.0;
-	public static final double MAX_ACCEL = 1.0 / 0.0254; //0.2g in in/s^2
+	public static final double MAX_ACCEL = 1.0 / 0.0254; // 0.2g in in/s^2
 	public static final double MAX_JERK = 20 / 0.0254; // 30 / 0.0254; //from example code in Pathfinder
 	public final double encoderMaxSpeed = 33000;
 	public final double distanceBetweenWheels = 24;
 
 	public final boolean gyroReversed = false;
-
 	public WPI_TalonFX leftSlave, leftMaster, rightSlave, rightMaster;
-	private Faults faults = new Faults();
 
+	private Faults faults = new Faults();
 	private final LimeLight limelight = new LimeLight();
 
 	public final DifferentialDrive drive;
 	public final WPI_PigeonIMU gyro = new WPI_PigeonIMU(12);
-	private Preferences prefs;
-	
-	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(distanceBetweenWheels));
-	public DifferentialDriveOdometry odometry; 
-		
+
+	// private Preferences prefs;
+
+	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
+			Units.inchesToMeters(distanceBetweenWheels));
+
+	public DifferentialDriveOdometry odometry;
+
 	public Drivetrain() {
-		//zeroEncoders();
+		// zeroEncoders();
 
 		leftMaster = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_MASTER);
-        leftSlave = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_SLAVE);
+		leftSlave = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_SLAVE);
+		rightMaster = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_MASTER);
+		rightSlave = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_SLAVE);
 
-        rightMaster = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_MASTER);
-        rightSlave = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_SLAVE);
-
-        leftMaster.configFactoryDefault();
-        rightMaster.configFactoryDefault();
-        leftSlave.configFactoryDefault();
+		leftMaster.configFactoryDefault();
+		leftSlave.configFactoryDefault();
+		rightMaster.configFactoryDefault();
 		rightSlave.configFactoryDefault();
-		
-		leftSlave.follow(leftMaster);
-        rightSlave.follow(rightMaster);
 
-        leftMaster.setInverted(false);
-        leftSlave.setInverted(false);
-        rightMaster.setInverted(true);
-        rightSlave.setInverted(true);
-		
+		leftSlave.follow(leftMaster);
+		rightSlave.follow(rightMaster);
+
+		leftMaster.setInverted(false);
+		leftSlave.setInverted(false);
+		rightMaster.setInverted(true);
+		rightSlave.setInverted(true);
+
 		rightMaster.setSensorPhase(false);
 		leftMaster.setSensorPhase(false);
 
-        rightMaster.setNeutralMode(NeutralMode.Coast);
-        leftMaster.setNeutralMode(NeutralMode.Coast);
-        rightSlave.setNeutralMode(NeutralMode.Coast);
-        leftSlave.setNeutralMode(NeutralMode.Coast);
+		rightMaster.setNeutralMode(NeutralMode.Coast);
+		rightSlave.setNeutralMode(NeutralMode.Coast);
+		leftMaster.setNeutralMode(NeutralMode.Coast);
+		leftSlave.setNeutralMode(NeutralMode.Coast);
 
 		odometry = new DifferentialDriveOdometry(getHeading());
 		drive = new DifferentialDrive(leftMaster, rightMaster);
-
-		//drive.setRightSideInverted(false);
 	}
 
 	public void initDriveTalonSRX(final WPI_TalonSRX talon) {
@@ -118,16 +121,16 @@ public class Drivetrain extends SubsystemBase {
 		/* set closed loop gains in slot 0 - see documentation */
 		// distance
 		talon.selectProfileSlot(Constants.SLOT_IDX, Constants.PID_LOOP_IDX);
-		talon.config_kF(0, Constants.TALON_MAX_OUTPUT / encoderMaxSpeed, Constants.TIMEOUT_MS);
 		talon.config_kP(0, 0.45, Constants.TIMEOUT_MS);
 		talon.config_kI(0, 0, Constants.TIMEOUT_MS);
 		talon.config_kD(0, 0.0, Constants.TIMEOUT_MS);
+		talon.config_kF(0, Constants.TALON_MAX_OUTPUT / encoderMaxSpeed, Constants.TIMEOUT_MS);
 
 		// turning
-		talon.config_kF(1, 0, Constants.TIMEOUT_MS);
 		talon.config_kP(1, 0.1, Constants.TIMEOUT_MS);
 		talon.config_kI(1, 0, Constants.TIMEOUT_MS);
 		talon.config_kD(1, 0, Constants.TIMEOUT_MS);
+		talon.config_kF(1, 0, Constants.TIMEOUT_MS);
 
 		/* set acceleration and cruise velocity - see documentation */
 		talon.configMotionCruiseVelocity(25000, Constants.TIMEOUT_MS);
@@ -155,13 +158,11 @@ public class Drivetrain extends SubsystemBase {
 		return rightMaster.getSelectedSensorPosition(0);
 	}
 
-	public double getLeftEncoderMeters()
-	{
+	public double getLeftEncoderMeters() {
 		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE_METERS;
 	}
 
-	public double getRightEncoderMeters()
-	{
+	public double getRightEncoderMeters() {
 		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE_METERS;
 	}
 
@@ -187,9 +188,8 @@ public class Drivetrain extends SubsystemBase {
 
 	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
 		return new DifferentialDriveWheelSpeeds(
-			leftMaster.getActiveTrajectoryVelocity() * DISTANCE_PER_PULSE_METERS * 10,
-			rightMaster.getActiveTrajectoryVelocity() * DISTANCE_PER_PULSE_METERS * 10
-		);
+				leftMaster.getActiveTrajectoryVelocity() * DISTANCE_PER_PULSE_METERS * 10,
+				rightMaster.getActiveTrajectoryVelocity() * DISTANCE_PER_PULSE_METERS * 10);
 	}
 
 	/**
@@ -209,9 +209,9 @@ public class Drivetrain extends SubsystemBase {
 	 * @param rightVolts the commanded right output
 	 */
 	public void tankDriveVolts(double leftVolts, double rightVolts) {
-	 	leftMaster.setVoltage(leftVolts);
-	 	rightMaster.setVoltage(-rightVolts);
-	 	drive.feed();
+		leftMaster.setVoltage(leftVolts);
+		rightMaster.setVoltage(-rightVolts);
+		drive.feed();
 	}
 
 	/**
@@ -223,6 +223,7 @@ public class Drivetrain extends SubsystemBase {
 	public void arcadeDrive(double fwd, double rot) {
 		drive.arcadeDrive(fwd, rot);
 	}
+
 	/**
 	 * Returns the currently-estimated pose of the robot.
 	 *
@@ -231,8 +232,10 @@ public class Drivetrain extends SubsystemBase {
 	public Pose2d getPose() {
 		return odometry.getPoseMeters();
 	}
+
 	/**
-	 * Sets the max output of the drive.  Useful for scaling the drive to drive more slowly.
+	 * Sets the max output of the drive. Useful for scaling the drive to drive more
+	 * slowly.
 	 *
 	 * @param maxOutput the maximum output to which the drive will be constrained
 	 */
@@ -247,18 +250,18 @@ public class Drivetrain extends SubsystemBase {
 		gyro.setFusedHeading(0);
 	}
 
-	  /**
+	/**
 	 * Returns the turn rate of the robot.
 	 *
 	 * @return The turn rate of the robot, in degrees per second
 	 */
 	public double getTurnRate() {
-		double [] xyz_dps = new double [3];
+		double[] xyz_dps = new double[3];
 		gyro.getRawGyro(xyz_dps);
 		double currentAngularRate = xyz_dps[2];
 		return currentAngularRate;
 	}
-	
+
 	public double getAngle() {
 		final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
 		final double[] xyz_dps = new double[3];
@@ -266,7 +269,7 @@ public class Drivetrain extends SubsystemBase {
 		final double currentAngle = gyro.getFusedHeading(fusionStatus);
 		return currentAngle;
 	}
-	
+
 	public Rotation2d getHeading() {
 		final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
 		double angle = gyro.getFusedHeading(fusionStatus);
@@ -283,6 +286,7 @@ public class Drivetrain extends SubsystemBase {
 	public void drive(final double xSpeed, final double zRotation) {
 		drive.arcadeDrive(xSpeed, zRotation, true);
 	}
+
 	public void reverse(final double xSpeed, final double zRotation) {
 		drive.arcadeDrive(-xSpeed, zRotation);
 	}
@@ -299,16 +303,16 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getDistance() {
-		return ((getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2)*DISTANCE_PER_PULSE_METERS;
+		return ((getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2) * DISTANCE_PER_PULSE_METERS;
 	}
 
 	public double getRightDistanceInches() {
-		return getLeftRawEncoderTicks() *DISTANCE_PER_PULSE;
+		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE;
 	}
 
 	public double getLeftDistanceInches() {
 		return getRightRawEncoderTicks() * DISTANCE_PER_PULSE;
- 	}
+	}
 
 	public void setAngle(final double angle) {
 		final double distance = (getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2;
@@ -341,13 +345,10 @@ public class Drivetrain extends SubsystemBase {
 		leftMaster.set(ControlMode.Velocity, rightInPerSecToTicksPer100ms);
 	}
 
-	
-
 	@Override
 	public void periodic() {
-	  // Update the odometry in the periodic block
-	  odometry.update(getHeading(), getLeftDistance(), getRightDistance());
+		// Update the odometry in the periodic block
+		odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 	}
-	
-}
 
+}

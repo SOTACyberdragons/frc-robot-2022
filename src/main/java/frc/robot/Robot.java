@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DifferentialDriveWithJoysticks;
-import frc.robot.commands.DriveAutoDistance;
-import frc.robot.subsystems.Drivetrain;
+// import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.DrivetrainRefactored;
 import frc.robot.subsystems.ShooterTest;
 import frc.robot.subsystems.SpinWithGyro;
 
@@ -44,9 +44,9 @@ public class Robot extends TimedRobot {
 
   public static TestDriveFunctions testFunctions = new TestDriveFunctions(5000);
 
-  public static Drivetrain m_robotDrive;
+  // public static Drivetrain m_robotDrive;
+  public static DrivetrainRefactored m_robotDrive;
   public static ShooterTest m_shooterTest;
-  public static DriveAutoDistance autoDriver = new DriveAutoDistance();
 
   public static SpinWithGyro spinWithGyro = new SpinWithGyro();
 
@@ -55,7 +55,8 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    m_robotDrive = new Drivetrain();
+    // m_robotDrive = new Drivetrain();
+    m_robotDrive = new DrivetrainRefactored();
     m_shooterTest = new ShooterTest();
     m_robotContainer = new RobotContainer();
 
@@ -64,8 +65,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     CommandScheduler.getInstance().enable();
-
-    Shuffleboard.getTab("Gyro tab").add(Robot.m_robotDrive.gyro);
   }
 
   @Override
@@ -94,12 +93,10 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.gyro.getAngle());
-    SmartDashboard.putNumber("distance", m_robotDrive.getDistance());
-
-    // if (Robot.m_robotDrive.gyro.getYaw() > -180) {
-    // Robot.m_robotDrive.tankDriveVolts(0.5, -05);
-    // }
+    // SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.gyro.getAngle());
+    SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.m_gyro.getAngle());
+    // SmartDashboard.putNumber("distance", m_robotDrive.getDistance());
+    SmartDashboard.putNumber("distance", m_robotDrive.getAverageDistance());
 
     // switch (m_autoSelected) {
     // case kCustomAuto:
@@ -119,8 +116,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    Robot.m_robotDrive.zeroEncoders();
-    Robot.m_robotDrive.gyro.reset();
+    // Robot.m_robotDrive.zeroEncoders();
+    // Robot.m_robotDrive.gyro.reset();
+    Robot.m_robotDrive.resetEncoders();
+    Robot.m_robotDrive.zeroHeading();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
@@ -134,14 +133,17 @@ public class Robot extends TimedRobot {
     // globalDriveState.update++;
 
     SmartDashboard.putNumber("driving status: ", testFunctions.timesRan);
-    SmartDashboard.putNumber("Left Ticks: ", m_robotDrive.getLeftRawEncoderTicks());
-    SmartDashboard.putNumber("Right Ticks: ", m_robotDrive.getRightRawEncoderTicks());
+    // SmartDashboard.putNumber("Left Ticks: ", m_robotDrive.getLeftRawEncoderTicks());
+    // SmartDashboard.putNumber("Right Ticks: ", m_robotDrive.getRightRawEncoderTicks());
+    SmartDashboard.putNumber("Left Ticks: ", m_robotDrive.getLeftEncoder());
+    SmartDashboard.putNumber("Right Ticks: ", m_robotDrive.getRightEncoder());
     SmartDashboard.putNumber("Right Distance: ", m_robotDrive.getRightDistance());
     SmartDashboard.putNumber("Left Distance: ", m_robotDrive.getLeftDistance());
-    SmartDashboard.putNumber("Drive Distance: ", m_robotDrive.getDistance());
+    // SmartDashboard.putNumber("Drive Distance: ", m_robotDrive.getDistance());
+    SmartDashboard.putNumber("Drive Distance: ", m_robotDrive.getAverageDistance());
+    SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.m_gyro.getAngle());
 
     // SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.gyro.getYaw());
-
     // Pose2d currentPos = new Pose2d();
 
   }

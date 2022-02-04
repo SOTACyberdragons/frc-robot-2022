@@ -23,21 +23,19 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     globalDriveState.update++;
-
-    double throttle = 1;
     
     // Uncomment for Joystick Controllers
+    // double throttle = 1;
     // Robot.m_robotDrive.drive(-RobotContainer.getLeftJoyY() * throttle, RobotContainer.getRightJoyX());
 
     // Uncomment for XBox Controller
-    Robot.m_robotDrive.drive(RobotContainer.getXBoxThrottle(), RobotContainer.getXBoxRotation());
+    Robot.m_robotDrive.m_drive(RobotContainer.getXBoxThrottle(), RobotContainer.getXBoxRotation());
   }
 
   // Called once the command ends or is interrupted.
