@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
@@ -128,15 +130,6 @@ public class DrivetrainRefactored extends SubsystemBase {
     }
 
     /**
-     * Gets the average distance of the two encoders.
-     *
-     * @return the average of the two encoder readings
-     */
-    public double getAverageDistance() {
-        return (getRightDistance() + getLeftDistance()) / 2;
-    }
-
-    /**
      * Gets the left drive encoder.
      *
      * @return the left drive encoder
@@ -155,8 +148,8 @@ public class DrivetrainRefactored extends SubsystemBase {
     }
 
     public boolean leftEncoderOutOfPhase() {
-		return faults.SensorOutOfPhase;
-	}
+        return faults.SensorOutOfPhase;
+    }
 
     public double getLeftDistance() {
         return getLeftEncoder() * Constants.kEncoderDistancePerPulse;
@@ -164,6 +157,22 @@ public class DrivetrainRefactored extends SubsystemBase {
 
     public double getRightDistance() {
         return getRightEncoder() * Constants.kEncoderDistancePerPulse;
+    }
+
+    /**
+     * Gets the average distance of the two encoders.
+     *
+     * @return the average of the two encoder readings
+     */
+    public double getAverageDistance() {
+        return (getRightDistance() + getLeftDistance()) / 2;
+    }
+
+    public void setDistance(final double distanceIn) {
+        final double distanceTicks = distanceIn / Constants.kEncoderDistancePerPulse;
+        final double totalDistance = (getLeftEncoder() + getRightEncoder()) / 2 + distanceTicks;
+        final double angle = getAngle();
+        rightMaster.set(ControlMode.MotionMagic, totalDistance, DemandType.AuxPID, angle);
     }
 
     /**
@@ -193,6 +202,10 @@ public class DrivetrainRefactored extends SubsystemBase {
         return Rotation2d.fromDegrees(newAngle);
     }
 
+    public double getAngle() {
+        return m_gyro.getAngle();
+    }
+
     /**
      * Returns the turn rate of the robot.
      *
@@ -203,7 +216,7 @@ public class DrivetrainRefactored extends SubsystemBase {
     }
 
     public void m_drive(final double xSpeed, final double zRotation) {
-		m_drive.arcadeDrive(xSpeed, zRotation, true);
-	}
+        m_drive.arcadeDrive(xSpeed, zRotation, true);
+    }
 
 }
