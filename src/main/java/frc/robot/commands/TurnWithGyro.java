@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
+// TODO Need to cleanup scoping issues and tune properly.
 public class TurnWithGyro extends CommandBase {
   public static double rotationAmount;
   public static double startHeading;

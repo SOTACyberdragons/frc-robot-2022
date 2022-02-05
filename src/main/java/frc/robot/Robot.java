@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     // m_robotDrive = new Drivetrain();
+    // TODO I believe this is creating the second instance of DifferentialDrive train.
     m_robotDrive = new DrivetrainRefactored();
     m_robotContainer = new RobotContainer();
 
