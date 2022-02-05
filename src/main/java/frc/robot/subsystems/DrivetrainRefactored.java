@@ -91,6 +91,9 @@ public class DrivetrainRefactored extends SubsystemBase {
         return m_odometry.getPoseMeters();
     }
 
+
+    // TODO Math for getWheelSpeeds() is incorrect.
+
     /**
      * Returns the current wheel speeds of the robot.
      *
@@ -226,7 +229,7 @@ public class DrivetrainRefactored extends SubsystemBase {
         return -m_gyro.getRate();
     }
 
-    // TODO Unable to figure out how to expose m_drive. This causes DiffertialDrive to be instantiated twice.
+    // TODO Unable to figure out how to expose m_drive properly. This is probably causing DiffertialDrive to be instantiated twice.
     public void m_drive(final double xSpeed, final double zRotation) {
         m_drive.arcadeDrive(xSpeed, zRotation, true);
     }
