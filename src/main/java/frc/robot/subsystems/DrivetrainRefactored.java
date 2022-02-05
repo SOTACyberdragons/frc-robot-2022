@@ -1,15 +1,16 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -17,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.utils.TalonFXConfig;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DrivetrainRefactored extends SubsystemBase {
 
@@ -29,9 +32,14 @@ public class DrivetrainRefactored extends SubsystemBase {
     // Instantiate the gyro
     public final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(RobotMap.PIGEON_IMU);
 
+    // Private Preferences prefs;
+    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.kDistanceBetweenWheels);
+
     // Create drive and odometry objects
-    public final DifferentialDrive m_drive;
     public DifferentialDriveOdometry m_odometry;
+    private final Field2d m_field = new Field2d();
+
+    private final DifferentialDrive m_drive;
 
     public DrivetrainRefactored() {
 
@@ -61,14 +69,17 @@ public class DrivetrainRefactored extends SubsystemBase {
         leftMaster.setNeutralMode(NeutralMode.Coast);
         leftSlave.setNeutralMode(NeutralMode.Coast);
 
-        m_drive = new DifferentialDrive(leftMaster, rightMaster);
         m_odometry = new DifferentialDriveOdometry(m_gyro.getRotation2d());
+        m_drive = new DifferentialDrive(leftMaster, rightMaster);
+
+        SmartDashboard.putData("Field", m_field);
     }
 
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
         m_odometry.update(getHeading(), getLeftDistance(), getRightDistance());
+        m_field.setRobotPose(m_odometry.getPoseMeters());
     }
 
     /**

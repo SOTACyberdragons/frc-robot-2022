@@ -11,7 +11,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,7 +19,6 @@ import frc.robot.commands.DifferentialDriveWithJoysticks;
 // import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainRefactored;
 import frc.robot.subsystems.ShooterTest;
-import frc.robot.subsystems.SpinWithGyro;
 
 //import frc.robot.subsystems.Feeder;
 //import frc.robot.subsystems.Hopper;
@@ -42,22 +40,16 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private Command m_autonomousCommand;
 
-  public static TestDriveFunctions testFunctions = new TestDriveFunctions(5000);
-
   // public static Drivetrain m_robotDrive;
   public static DrivetrainRefactored m_robotDrive;
-  public static ShooterTest m_shooterTest;
-
-  public static SpinWithGyro spinWithGyro = new SpinWithGyro();
-
   public static RobotContainer m_robotContainer;
+  public static ShooterTest m_shooterTest;
 
   @Override
   public void robotInit() {
 
     // m_robotDrive = new Drivetrain();
     m_robotDrive = new DrivetrainRefactored();
-    m_shooterTest = new ShooterTest();
     m_robotContainer = new RobotContainer();
 
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
@@ -69,83 +61,54 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
-  }
-
-  @Override
-  public void autonomousInit() {
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
-    // schedule the autonomous command (example)
-    // if (m_autonomousCommand != null) {
-    // m_autonomousCommand.schedule();
-    // }
-    // gyroTestCommand.schedule();
-
-    // Robot.m_robotDrive.gyro.addYaw(-Robot.m_robotDrive.gyro.getYaw()); //zero out
-    // gyro
-  }
-
-  /**
-   * This function is called periodically during autonomous.
-   */
-  @Override
-  public void autonomousPeriodic() {
-    CommandScheduler.getInstance().run();
-
-    // SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.gyro.getAngle());
-    SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.m_gyro.getAngle());
-    // SmartDashboard.putNumber("distance", m_robotDrive.getDistance());
-    SmartDashboard.putNumber("distance", m_robotDrive.getAverageDistance());
-
-    // switch (m_autoSelected) {
-    // case kCustomAuto:
-    // // Put custom auto code here
-    // break;
-    // case kDefaultAuto:
-    // default:
-    // // Put default auto code here
-    // break;
-    // }
-    // }
-  }
-
-  /**
-   * This function is called periodically during operator control.
-   */
-
-  @Override
-  public void teleopInit() {
-    // Robot.m_robotDrive.zeroEncoders();
-    // Robot.m_robotDrive.gyro.reset();
-    Robot.m_robotDrive.resetEncoders();
-    Robot.m_robotDrive.zeroHeading();
-
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-    CommandScheduler.getInstance().setDefaultCommand(m_robotDrive, new DifferentialDriveWithJoysticks());
-  }
-
-  @Override
-  public void teleopPeriodic() {
-    CommandScheduler.getInstance().run();
-    // globalDriveState.update++;
-
-    SmartDashboard.putNumber("driving status: ", testFunctions.timesRan);
-    // SmartDashboard.putNumber("Left Ticks: ", m_robotDrive.getLeftRawEncoderTicks());
-    // SmartDashboard.putNumber("Right Ticks: ", m_robotDrive.getRightRawEncoderTicks());
     SmartDashboard.putNumber("Left Ticks: ", m_robotDrive.getLeftEncoder());
     SmartDashboard.putNumber("Right Ticks: ", m_robotDrive.getRightEncoder());
     SmartDashboard.putNumber("Right Distance: ", m_robotDrive.getRightDistance());
     SmartDashboard.putNumber("Left Distance: ", m_robotDrive.getLeftDistance());
-    // SmartDashboard.putNumber("Drive Distance: ", m_robotDrive.getDistance());
     SmartDashboard.putNumber("Drive Distance: ", m_robotDrive.getAverageDistance());
-    SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.m_gyro.getAngle());
+    SmartDashboard.putNumber("Gyro angle: ", m_robotDrive.m_gyro.getAngle());
 
-    // SmartDashboard.putNumber("Gyro angle: ", Robot.m_robotDrive.gyro.getYaw());
-    // Pose2d currentPos = new Pose2d();
 
+    CommandScheduler.getInstance().run();
+  }
+
+   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+   @Override
+   public void autonomousInit() {
+     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+ 
+     /*
+      * String autoSelected = SmartDashboard.getString("Auto Selector",
+      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+      * = new MyAutoCommand(); break; case "Default Auto": default:
+      * autonomousCommand = new ExampleCommand(); break; }
+      */
+ 
+     // schedule the autonomous command (example)
+     if (m_autonomousCommand != null) {
+       m_autonomousCommand.schedule();
+     }
+   }
+
+  /** This function is called periodically during autonomous. */
+  @Override
+  public void autonomousPeriodic() {}
+
+  @Override
+  public void teleopInit() {
+    // This makes sure that the autonomous stops running when
+    // teleop starts running. If you want the autonomous to
+    // continue until interrupted by another command, remove
+    // this line or comment it out.
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
+  }
+
+  @Override
+  public void teleopPeriodic() {
+    // globalDriveState.update++;
+    CommandScheduler.getInstance().setDefaultCommand(m_robotDrive, new DifferentialDriveWithJoysticks());
   }
 
   @Override

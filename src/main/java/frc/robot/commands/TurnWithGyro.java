@@ -10,42 +10,42 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class DriveForward extends CommandBase {
-  public static double driveDistance;
-  public static double startingDistance;
-  public static double targetDistance;
+public class TurnWithGyro extends CommandBase {
+  public static double rotationAmount;
+  public static double startHeading;
+  public static double targetHeading;
 
   // PID Constansts
-  private static final double kP = .25; // Power
+  private static final double kP = .03; // Power
   private static final double kI = .0075; // Ease in sensitivity
-  private static final double kD = .125; // Smoothing
-  private static final double kF = .1;
-  
+  private static final double kD = 0; // Smoothing
+  private static final double kF = 0;
+
   public static PIDController m_pidController = new PIDController(kP, kI, kD);
 
-  /** Creates a new DriveForward. */
-  public DriveForward(double distanceInMeters) {
+  /** Creates a new TurnWithGyro. */
+  public TurnWithGyro(double angleInput) {
     // Use addRequirements() here to declare subsystem dependencies.
-    driveDistance = distanceInMeters;
+    rotationAmount = angleInput;
     addRequirements(Robot.m_robotDrive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startingDistance = Robot.m_robotDrive.getAverageDistance();
-    targetDistance = startingDistance + driveDistance;
-    m_pidController.setSetpoint(targetDistance);
-    m_pidController.setTolerance(.05, .05);
-    SmartDashboard.putNumber("Target distance: ", targetDistance);
+    startHeading = Robot.m_robotDrive.getAngle();
+    targetHeading = startHeading + rotationAmount;
+    m_pidController.setSetpoint(targetHeading);
+    m_pidController.setTolerance(1, .5);
+    SmartDashboard.putNumber("Target heading: ", targetHeading);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double pidOutput = MathUtil.clamp((m_pidController.calculate(Robot.m_robotDrive.getAverageDistance()) + kF), -0.5, 0.5);
-    Robot.m_robotDrive.m_drive(pidOutput, 0);
-    SmartDashboard.putNumber("PID Output: ", m_pidController.calculate(Robot.m_robotDrive.getAverageDistance()));    
+    double pidOutput = MathUtil.clamp((m_pidController.calculate(Robot.m_robotDrive.getAngle()) + kF), -0.4, 0.4);
+    Robot.m_robotDrive.m_drive(0, -pidOutput);
+    SmartDashboard.putNumber("PID Output: ", m_pidController.calculate(Robot.m_robotDrive.getAngle()));    
     SmartDashboard.putNumber("PID Clamped: ", pidOutput);
   }
 

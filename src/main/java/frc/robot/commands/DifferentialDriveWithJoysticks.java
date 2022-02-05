@@ -1,10 +1,10 @@
 package frc.robot.commands;
 
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.globalDriveState;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 /** An example command that uses an example subsystem. */
 public class DifferentialDriveWithJoysticks extends CommandBase {
@@ -34,7 +34,6 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
     // double throttle = 1;
     // Robot.m_robotDrive.drive(-RobotContainer.getLeftJoyY() * throttle, RobotContainer.getRightJoyX());
 
-    // Uncomment for XBox Controller
     Robot.m_robotDrive.m_drive(RobotContainer.getXBoxThrottle(), RobotContainer.getXBoxRotation());
   }
 
