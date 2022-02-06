@@ -48,13 +48,13 @@ public class Constants {
 	};
 
 	// values from profiler
-	public static final double ksVolts = 0.58951;
+	public static final double ksVolts = 2; //0.589151 initially
 	public static final double kvVoltSecondsPerMeter = 1.7954;
 	public static final double kaVoltSecondsSquaredPerMeter = 0.11108;
 	public static final double kTrackwidthMeters = 0.69;
 	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
 			kTrackwidthMeters);
-	public static final double kMaxSpeedMetersPerSecond = 0.5;
+	public static final double kMaxSpeedMetersPerSecond = 0.7;
 	public static final double kMaxAccelerationMetersPerSecondSquared = 0.1;
 
 	public static final double kRamseteB = 2;
@@ -74,5 +74,9 @@ public class Constants {
 	public static final double kDistanceBetweenWheels = .6096;
 	
 	public static final double kPDriveVel = 0.5;
+
+    public static int kTimeoutMs = 30;
+
+    public static int kPIDLoopIdx = 0;
 
 }

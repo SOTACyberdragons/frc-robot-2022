@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.globalDriveState;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
@@ -17,7 +16,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
    */
   public DifferentialDriveWithJoysticks() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.m_robotDrive);
+    addRequirements(RobotContainer.m_robotDrive);
   }
 
   // Called when the command is initially scheduled.
@@ -28,13 +27,11 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    globalDriveState.update++;
-    
     // Uncomment for Joystick Controllers
     // double throttle = 1;
     // Robot.m_robotDrive.drive(-RobotContainer.getLeftJoyY() * throttle, RobotContainer.getRightJoyX());
 
-    Robot.m_robotDrive.m_drive(RobotContainer.getXBoxThrottle(), RobotContainer.getXBoxRotation());
+    RobotContainer.m_robotDrive.m_drive(RobotContainer.getXBoxThrottle(), RobotContainer.getXBoxRotation());
   }
 
   // Called once the command ends or is interrupted.

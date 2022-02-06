@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 // TODO Need to cleanup scoping issues and tune properly.
 public class DriveForward extends CommandBase {
@@ -17,24 +18,24 @@ public class DriveForward extends CommandBase {
   public static double targetDistance;
 
   // PID Constansts
-  private static final double kP = .25; // Power
+  private static final double kP = .5; // Power
   private static final double kI = .0075; // Ease in sensitivity
   private static final double kD = .125; // Smoothing
-  private static final double kF = .1;
+  private static final double kF = .2;
   
-  public static PIDController m_pidController = new PIDController(kP, kI, kD);
+  public PIDController m_pidController = new PIDController(kP, kI, kD);
 
   /** Creates a new DriveForward. */
   public DriveForward(double distanceInMeters) {
     // Use addRequirements() here to declare subsystem dependencies.
     driveDistance = distanceInMeters;
-    addRequirements(Robot.m_robotDrive);
+    addRequirements(RobotContainer.m_robotDrive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startingDistance = Robot.m_robotDrive.getAverageDistance();
+    startingDistance = RobotContainer.m_robotDrive.getAverageDistance();
     targetDistance = startingDistance + driveDistance;
     m_pidController.setSetpoint(targetDistance);
     m_pidController.setTolerance(.05, .05);
@@ -44,9 +45,9 @@ public class DriveForward extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double pidOutput = MathUtil.clamp((m_pidController.calculate(Robot.m_robotDrive.getAverageDistance()) + kF), -0.5, 0.5);
-    Robot.m_robotDrive.m_drive(pidOutput, 0);
-    SmartDashboard.putNumber("PID Output: ", m_pidController.calculate(Robot.m_robotDrive.getAverageDistance()));    
+    double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance()) + kF), -0.5, 0.5);
+    RobotContainer.m_robotDrive.m_drive(pidOutput, 0);
+    SmartDashboard.putNumber("PID Output: ", m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance()));    
     SmartDashboard.putNumber("PID Clamped: ", pidOutput);
   }
 

@@ -41,16 +41,17 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   // public static Drivetrain m_robotDrive;
-  public static DrivetrainRefactored m_robotDrive;
+  //public static DrivetrainRefactored m_robotDrive;
   public static RobotContainer m_robotContainer;
   public static ShooterTest m_shooterTest;
 
   @Override
   public void robotInit() {
-
+    RobotContainer.m_robotDrive.zeroHeading();
+    RobotContainer.m_robotDrive.resetEncoders();
     // m_robotDrive = new Drivetrain();
-    // TODO I believe this is creating the second instance of DifferentialDrive train.
-    m_robotDrive = new DrivetrainRefactored();
+    
+    //RobotContainer.m_robotDrive = new DrivetrainRefactored();
     m_robotContainer = new RobotContainer();
 
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
@@ -58,17 +59,21 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     CommandScheduler.getInstance().enable();
+
+    RobotContainer.m_robotDrive.leftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    RobotContainer.m_robotDrive.leftSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    RobotContainer.m_robotDrive.rightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+    RobotContainer.m_robotDrive.rightSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
   }
 
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Left Ticks: ", m_robotDrive.getLeftEncoder());
-    SmartDashboard.putNumber("Right Ticks: ", m_robotDrive.getRightEncoder());
-    SmartDashboard.putNumber("Right Distance: ", m_robotDrive.getRightDistance());
-    SmartDashboard.putNumber("Left Distance: ", m_robotDrive.getLeftDistance());
-    SmartDashboard.putNumber("Drive Distance: ", m_robotDrive.getAverageDistance());
-    SmartDashboard.putNumber("Gyro angle: ", m_robotDrive.m_gyro.getAngle());
-
+    SmartDashboard.putNumber("Left Ticks: ", RobotContainer.m_robotDrive.getLeftEncoder());
+    SmartDashboard.putNumber("Right Ticks: ", RobotContainer.m_robotDrive.getRightEncoder());
+    SmartDashboard.putNumber("Right Distance: ", RobotContainer.m_robotDrive.getRightDistance());
+    SmartDashboard.putNumber("Left Distance: ", RobotContainer.m_robotDrive.getLeftDistance());
+    SmartDashboard.putNumber("Drive Distance: ", RobotContainer.m_robotDrive.getAverageDistance());
+    SmartDashboard.putNumber("Gyro angle: ", RobotContainer.m_robotDrive.m_gyro.getAngle());
 
     CommandScheduler.getInstance().run();
   }
@@ -76,6 +81,9 @@ public class Robot extends TimedRobot {
    /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
    @Override
    public void autonomousInit() {
+     //todo clean up
+    //RobotContainer.m_robotDrive.resetOdometry(RobotContainer.m_robotDrive.getPose());
+     
      m_autonomousCommand = m_robotContainer.getAutonomousCommand();
  
      /*
@@ -104,12 +112,16 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_robotDrive, new DifferentialDriveWithJoysticks());
   }
 
   @Override
   public void teleopPeriodic() {
     // globalDriveState.update++;
-    CommandScheduler.getInstance().setDefaultCommand(m_robotDrive, new DifferentialDriveWithJoysticks());
+    //CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_robotDrive, new DifferentialDriveWithJoysticks());
+
+    CommandScheduler.getInstance().run();
   }
 
   @Override

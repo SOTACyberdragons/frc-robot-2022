@@ -29,7 +29,7 @@ import java.util.List;
 
 public class RobotContainer {
 
-    private final DrivetrainRefactored m_robotDrive = new DrivetrainRefactored();
+    public static DrivetrainRefactored m_robotDrive = new DrivetrainRefactored();
 
     /*
      * Uncomment for Joystick Control
@@ -89,7 +89,7 @@ public class RobotContainer {
      */
 
     // Adding XBox Controller Support
-    public static XboxController m_controller = new XboxController(0);
+    public static XboxController m_controller = new XboxController(3);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
 
