@@ -7,10 +7,20 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -74,7 +84,11 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Distance: ", RobotContainer.m_robotDrive.getLeftDistance());
     SmartDashboard.putNumber("Drive Distance: ", RobotContainer.m_robotDrive.getAverageDistance());
     SmartDashboard.putNumber("Gyro angle: ", RobotContainer.m_robotDrive.m_gyro.getAngle());
-
+    SmartDashboard.putData("field: ", RobotContainer.m_robotDrive.m_field);
+    SmartDashboard.putNumber("x position: ", RobotContainer.m_robotDrive.getPose().getX());
+    SmartDashboard.putNumber("Y position: ", RobotContainer.m_robotDrive.getPose().getY());
+    SmartDashboard.putNumber("rotation degrees", RobotContainer.m_robotDrive.getHeading());
+    
     CommandScheduler.getInstance().run();
   }
 

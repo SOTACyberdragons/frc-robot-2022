@@ -4,6 +4,7 @@ package frc.robot;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 // import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 // Commands mapped to buttons
@@ -19,13 +20,19 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class RobotContainer {
 
@@ -144,17 +151,26 @@ public class RobotContainer {
                         // Apply the voltage constraint
                         .addConstraint(autoVoltageConstraint);
 
+        ArrayList<Translation2d> points = new ArrayList<Translation2d>();
+
         // An example trajectory to follow. All units in meters.
         Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
                 new Pose2d(0, 0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(1, 1), new Translation2d(2, 1)),
+                points,
                 // End 3 meters straight ahead of where we started, facing forward
                 new Pose2d(3, 0, new Rotation2d(0)),
                 // Pass config
                 config);
 
+        var table = NetworkTableInstance.getDefault().getTable("troubleshooting");
+        var leftMeasurement = table.getEntry("left_measurement");
+        var rightMeasurement = table.getEntry("right_measurement");
+
+        var leftController = new PIDController(Constants.kPDriveVel, 0.075, 0.125);
+        var rightController = new PIDController(Constants.kPDriveVel, 0.075, 0.125);
+        
         RamseteCommand ramseteCommand = new RamseteCommand(
                 exampleTrajectory,
                 m_robotDrive::getPose,
@@ -165,10 +181,16 @@ public class RobotContainer {
                         Constants.kaVoltSecondsSquaredPerMeter),
                 Constants.kDriveKinematics,
                 m_robotDrive::getWheelSpeeds,
-                new PIDController(Constants.kPDriveVel, 0, 0),
-                new PIDController(Constants.kPDriveVel, 0, 0),
+                leftController,
+                rightController,
                 // RamseteCommand passes volts to the callback
-                m_robotDrive::tankDriveVolts,
+                (leftVolts, rightVolts) -> {
+                    m_robotDrive.tankDriveVolts(leftVolts, rightVolts);
+            
+                    leftMeasurement.setNumber(leftVolts);
+            
+                    rightMeasurement.setNumber(rightVolts);
+                },
                 m_robotDrive);
 
         // Reset odometry to the starting pose of the trajectory.
