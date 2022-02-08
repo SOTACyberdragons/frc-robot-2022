@@ -262,14 +262,6 @@
 // 		return currentAngularRate;
 // 	}
 
-// 	public double getAngle() {
-// 		final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
-// 		final double[] xyz_dps = new double[3];
-// 		gyro.getRawGyro(xyz_dps);
-// 		final double currentAngle = gyro.getFusedHeading(fusionStatus);
-// 		return currentAngle;
-// 	}
-
 // 	public Rotation2d getHeading() {
 // 		final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
 // 		double angle = gyro.getFusedHeading(fusionStatus);

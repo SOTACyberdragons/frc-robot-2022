@@ -54,7 +54,7 @@ public class Constants {
 	public static final double kTrackwidthMeters = 0.64;
 	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
 			kTrackwidthMeters);
-	public static final double kMaxSpeedMetersPerSecond = 1;
+	public static final double kMaxSpeedMetersPerSecond = 3;
 	public static final double kMaxAccelerationMetersPerSecondSquared = 1;
 
 	public static final double kRamseteB = 2;
@@ -69,7 +69,7 @@ public class Constants {
 	// Updated drivetrain constants
 	public static final int kEncoderCPR = 2048;
     public static final double kWheelDiameterMeters = 0.152;
-	public static final double kGearRation = 7.75;
+	public static final double kGearRation = 7.95;
     public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR) / kGearRation;
 	
 	public static final double kPDriveVel = 8.5;

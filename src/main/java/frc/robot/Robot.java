@@ -83,11 +83,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Right Distance: ", RobotContainer.m_robotDrive.getRightDistance());
     SmartDashboard.putNumber("Left Distance: ", RobotContainer.m_robotDrive.getLeftDistance());
     SmartDashboard.putNumber("Drive Distance: ", RobotContainer.m_robotDrive.getAverageDistance());
-    SmartDashboard.putNumber("Gyro angle: ", RobotContainer.m_robotDrive.m_gyro.getAngle());
+    SmartDashboard.putNumber("Gyro angle: ", RobotContainer.m_robotDrive.getAngle());
     SmartDashboard.putData("field: ", RobotContainer.m_robotDrive.m_field);
     SmartDashboard.putNumber("x position: ", RobotContainer.m_robotDrive.getPose().getX());
     SmartDashboard.putNumber("Y position: ", RobotContainer.m_robotDrive.getPose().getY());
-    SmartDashboard.putNumber("rotation degrees", RobotContainer.m_robotDrive.getHeading());
     
     CommandScheduler.getInstance().run();
   }

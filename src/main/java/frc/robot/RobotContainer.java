@@ -170,7 +170,7 @@ public class RobotContainer {
 
         var leftController = new PIDController(Constants.kPDriveVel, 0.075, 0.125);
         var rightController = new PIDController(Constants.kPDriveVel, 0.075, 0.125);
-        
+
         RamseteCommand ramseteCommand = new RamseteCommand(
                 exampleTrajectory,
                 m_robotDrive::getPose,
@@ -186,9 +186,9 @@ public class RobotContainer {
                 // RamseteCommand passes volts to the callback
                 (leftVolts, rightVolts) -> {
                     m_robotDrive.tankDriveVolts(leftVolts, rightVolts);
-            
+
                     leftMeasurement.setNumber(leftVolts);
-            
+
                     rightMeasurement.setNumber(rightVolts);
                 },
                 m_robotDrive);
