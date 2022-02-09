@@ -40,7 +40,6 @@ public class DrivetrainRefactored extends SubsystemBase {
 
     // Create drive and odometry objects
     public DifferentialDriveOdometry m_odometry;
-    public Field2d m_field = new Field2d();
 
     private final DifferentialDrive m_drive;
 
@@ -135,12 +134,7 @@ public class DrivetrainRefactored extends SubsystemBase {
 
         m_odometry = new DifferentialDriveOdometry(getHeading());
         m_drive = new DifferentialDrive(leftMaster, rightMaster);
-
-        // SmartDashboard.putData("Field", m_field);
     }
-
-    NetworkTableEntry m_xEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("X");
-    NetworkTableEntry m_yEntry = NetworkTableInstance.getDefault().getTable("troubleshooting").getEntry("Y");
 
     @Override
     public void periodic() {
@@ -149,10 +143,9 @@ public class DrivetrainRefactored extends SubsystemBase {
 
         // Update the odometry in the periodic block
         m_odometry.update(getHeading(), getLeftDistance(), getRightDistance());
-
-        var translation = m_odometry.getPoseMeters().getTranslation();
-        m_xEntry.setNumber(translation.getX());
-        m_yEntry.setNumber(translation.getY());
+    
+        // SmartDashboard.putNumber("Left Motor", leftMaster.getMotorOutputVoltage());
+        // SmartDashboard.putNumber("Right Motor", rightMaster.getMotorOutputVoltage());
     }
 
     /**

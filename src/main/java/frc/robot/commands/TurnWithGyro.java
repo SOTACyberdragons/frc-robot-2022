@@ -39,7 +39,6 @@ public class TurnWithGyro extends CommandBase {
     targetHeading = startHeading + rotationAmount;
     m_pidController.setSetpoint(targetHeading);
     m_pidController.setTolerance(1, .5);
-    SmartDashboard.putNumber("Target heading: ", targetHeading);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,8 +46,6 @@ public class TurnWithGyro extends CommandBase {
   public void execute() {
     double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getAngle()) + kF), -0.4, 0.4);
     RobotContainer.m_robotDrive.m_drive(0, -pidOutput);
-    SmartDashboard.putNumber("PID Output: ", m_pidController.calculate(RobotContainer.m_robotDrive.getAngle()));    
-    SmartDashboard.putNumber("PID Clamped: ", pidOutput);
   }
 
   // Called once the command ends or is interrupted.

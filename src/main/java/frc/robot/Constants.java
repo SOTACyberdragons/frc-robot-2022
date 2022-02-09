@@ -72,7 +72,7 @@ public class Constants {
 	public static final double kGearRation = 7.95;
     public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR) / kGearRation;
 	
-	public static final double kPDriveVel = 8.5;
+	public static final double kPDriveVel = 0;
 
     public static int kTimeoutMs = 30;
 

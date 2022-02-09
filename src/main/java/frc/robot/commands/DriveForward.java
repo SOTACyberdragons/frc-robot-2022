@@ -39,7 +39,6 @@ public class DriveForward extends CommandBase {
     targetDistance = startingDistance + driveDistance;
     m_pidController.setSetpoint(targetDistance);
     m_pidController.setTolerance(.05, .05);
-    SmartDashboard.putNumber("Target distance: ", targetDistance);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,8 +46,6 @@ public class DriveForward extends CommandBase {
   public void execute() {
     double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance()) + kF), -0.5, 0.5);
     RobotContainer.m_robotDrive.m_drive(pidOutput, 0);
-    SmartDashboard.putNumber("PID Output: ", m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance()));    
-    SmartDashboard.putNumber("PID Clamped: ", pidOutput);
   }
 
   // Called once the command ends or is interrupted.

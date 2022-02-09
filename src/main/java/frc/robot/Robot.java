@@ -9,6 +9,7 @@ package frc.robot;
 
 import java.util.List;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -59,13 +60,14 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     RobotContainer.m_robotDrive.zeroHeading();
     RobotContainer.m_robotDrive.resetEncoders();
-    // m_robotDrive = new Drivetrain();
     
-    //RobotContainer.m_robotDrive = new DrivetrainRefactored();
     m_robotContainer = new RobotContainer();
+
+    // CameraServer.startAutomaticCapture();
 
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
+  
     SmartDashboard.putData("Auto choices", m_chooser);
 
     CommandScheduler.getInstance().enable();
@@ -78,15 +80,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Left Ticks: ", RobotContainer.m_robotDrive.getLeftEncoder());
-    SmartDashboard.putNumber("Right Ticks: ", RobotContainer.m_robotDrive.getRightEncoder());
-    SmartDashboard.putNumber("Right Distance: ", RobotContainer.m_robotDrive.getRightDistance());
-    SmartDashboard.putNumber("Left Distance: ", RobotContainer.m_robotDrive.getLeftDistance());
     SmartDashboard.putNumber("Drive Distance: ", RobotContainer.m_robotDrive.getAverageDistance());
-    SmartDashboard.putNumber("Gyro angle: ", RobotContainer.m_robotDrive.getAngle());
-    SmartDashboard.putData("field: ", RobotContainer.m_robotDrive.m_field);
-    SmartDashboard.putNumber("x position: ", RobotContainer.m_robotDrive.getPose().getX());
-    SmartDashboard.putNumber("Y position: ", RobotContainer.m_robotDrive.getPose().getY());
+    // SmartDashboard.putNumber("Gyro angle: ", RobotContainer.m_robotDrive.getAngle());
+    // SmartDashboard.putNumber("x position: ", RobotContainer.m_robotDrive.getPose().getX());
+    // SmartDashboard.putNumber("Y position: ", RobotContainer.m_robotDrive.getPose().getY());
     
     CommandScheduler.getInstance().run();
   }
