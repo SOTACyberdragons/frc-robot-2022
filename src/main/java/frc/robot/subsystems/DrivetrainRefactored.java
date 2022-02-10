@@ -4,112 +4,50 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
 import frc.robot.utils.TalonFXConfig;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DrivetrainRefactored extends SubsystemBase {
 
+    // Create Falcon 500 motor objects
     public WPI_TalonFX leftSlave, leftMaster, rightSlave, rightMaster;
-    public final boolean gyroReversed = true;
 
     // Falcon 500 faults objects
     private Faults faults = new Faults();
 
     // Instantiate the gyro
     public final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(RobotMap.PIGEON_IMU);
+    public final boolean gyroReversed = true;
 
-    // Create drive and odometry objects
-    public DifferentialDriveOdometry m_odometry;
-
+    // Create drive object
     private final DifferentialDrive m_drive;
+
+    // Odometry class for tracking robot pose
+    private final DifferentialDriveOdometry m_odometry;
 
     public DrivetrainRefactored() {
 
-        leftMaster = new WPI_TalonFX(RobotMap.LEFT_MASTER);
-        leftSlave = new WPI_TalonFX(RobotMap.LEFT_SLAVE);
-        rightMaster = new WPI_TalonFX(RobotMap.RIGHT_MASTER);
-        rightSlave = new WPI_TalonFX(RobotMap.RIGHT_SLAVE);
+        leftMaster = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_MASTER);
+        leftSlave = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_SLAVE);
+        rightMaster = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_MASTER);
+        rightSlave = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_SLAVE);
 
         leftMaster.configFactoryDefault();
         leftSlave.configFactoryDefault();
         rightMaster.configFactoryDefault();
         rightSlave.configFactoryDefault();
-
-        leftMaster.configClosedloopRamp(0.1);
-        leftSlave.configClosedloopRamp(0.1);
-        rightMaster.configClosedloopRamp(0.1);
-        rightSlave.configClosedloopRamp(0.1);
-
-        leftMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx,
-                Constants.kTimeoutMs);
-        leftSlave.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx,
-                Constants.kTimeoutMs);
-        rightMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx,
-                Constants.kTimeoutMs);
-        leftMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx,
-                Constants.kTimeoutMs);
-        leftMaster.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, Constants.kPIDLoopIdx,
-                Constants.kTimeoutMs);
-
-        leftMaster.configNeutralDeadband(0.001, Constants.kTimeoutMs);
-        leftSlave.configNeutralDeadband(0.001, Constants.kTimeoutMs);
-        rightMaster.configNeutralDeadband(0.001, Constants.kTimeoutMs);
-        leftMaster.configNeutralDeadband(0.001, Constants.kTimeoutMs);
-
-        leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-        leftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-        leftSlave.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-        leftSlave.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-        rightMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-        rightMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-        rightSlave.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-        rightSlave.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-
-        leftMaster.configNominalOutputForward(0, Constants.kTimeoutMs);
-        leftMaster.configNominalOutputReverse(0, Constants.kTimeoutMs);
-        leftMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
-        leftMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-        leftSlave.configNominalOutputForward(0, Constants.kTimeoutMs);
-        leftSlave.configNominalOutputReverse(0, Constants.kTimeoutMs);
-        leftSlave.configPeakOutputForward(1, Constants.kTimeoutMs);
-        leftSlave.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-        rightMaster.configNominalOutputForward(0, Constants.kTimeoutMs);
-        rightMaster.configNominalOutputReverse(0, Constants.kTimeoutMs);
-        rightMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
-        rightMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-        rightSlave.configNominalOutputForward(0, Constants.kTimeoutMs);
-        rightSlave.configNominalOutputReverse(0, Constants.kTimeoutMs);
-        rightSlave.configPeakOutputForward(1, Constants.kTimeoutMs);
-        rightSlave.configPeakOutputReverse(-1, Constants.kTimeoutMs);
-
-        leftMaster.configMotionCruiseVelocity(15000, Constants.kTimeoutMs);
-        leftMaster.configMotionAcceleration(6000, Constants.kTimeoutMs);
-        leftSlave.configMotionCruiseVelocity(15000, Constants.kTimeoutMs);
-        leftSlave.configMotionAcceleration(6000, Constants.kTimeoutMs);
-        rightMaster.configMotionCruiseVelocity(15000, Constants.kTimeoutMs);
-        rightMaster.configMotionAcceleration(6000, Constants.kTimeoutMs);
-        rightSlave.configMotionCruiseVelocity(15000, Constants.kTimeoutMs);
-        rightSlave.configMotionAcceleration(6000, Constants.kTimeoutMs);
 
         leftSlave.follow(leftMaster);
         rightSlave.follow(rightMaster);
@@ -118,11 +56,6 @@ public class DrivetrainRefactored extends SubsystemBase {
         leftSlave.setInverted(false);
         rightMaster.setInverted(true);
         rightSlave.setInverted(true);
-
-        leftMaster.setSafetyEnabled(false);
-        leftSlave.setSafetyEnabled(false);
-        rightMaster.setSafetyEnabled(false);
-        rightSlave.setSafetyEnabled(false);
 
         rightMaster.setSensorPhase(false);
         leftMaster.setSensorPhase(false);
@@ -139,13 +72,11 @@ public class DrivetrainRefactored extends SubsystemBase {
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
-        // m_odometry.update(getHeading(), getLeftDistance(), getRightDistance());
-
-        // Update the odometry in the periodic block
-        m_odometry.update(getHeading(), getLeftDistance(), getRightDistance());
-    
-        // SmartDashboard.putNumber("Left Motor", leftMaster.getMotorOutputVoltage());
-        // SmartDashboard.putNumber("Right Motor", rightMaster.getMotorOutputVoltage());
+        m_odometry.update(getHeading(), getLeftDistance(), getRightDistance()); // Working code
+     
+        // BAD CODE! DON'T DO THIS!
+        // m_odometry.update(
+        //    m_gyro.getRotation2d(), getLeftDistance(), getRightDistance());
     }
 
     /**
@@ -166,10 +97,6 @@ public class DrivetrainRefactored extends SubsystemBase {
         return new DifferentialDriveWheelSpeeds(
                 leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse,
                 rightMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
-
-        // ChassisSpeeds chassisSpeeds = new ChassisSpeeds(2, 0, 1);
-
-        // return Constants.kDriveKinematics.toWheelSpeeds(chassisSpeeds);
     }
 
     /**
@@ -271,22 +198,12 @@ public class DrivetrainRefactored extends SubsystemBase {
         m_gyro.reset();
     }
 
-    // public double getHeading() {
-    // double ypr[] = {0,0,0};
-    // m_gyro.getYawPitchRoll(ypr);
-    // return (Math.IEEEremainder(ypr[0], 360.0d) * -1.0d);
-    // }
-
     public Rotation2d getHeading() {
         final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
         double angle = m_gyro.getFusedHeading(fusionStatus);
         double newAngle = Math.IEEEremainder(angle, 360) * (gyroReversed ? -1.0 : 1.0);
         return Rotation2d.fromDegrees(newAngle);
     }
-
-    // public double getAngle() {
-    // return m_gyro.getAngle();
-    // }
 
     public double getAngle() {
         final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();

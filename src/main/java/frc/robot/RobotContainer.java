@@ -96,45 +96,8 @@ public class RobotContainer {
      * }
      */
 
-    public Trajectory trajectory()
-    {
-        // Create a voltage constraint to ensure we don't accelerate too fast
-        var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-                new SimpleMotorFeedforward(
-                        Constants.ksVolts,
-                        Constants.kvVoltSecondsPerMeter,
-                        Constants.kaVoltSecondsSquaredPerMeter),
-                Constants.kDriveKinematics, 10);
-
-        // Create config for trajectory
-        TrajectoryConfig config = new TrajectoryConfig(
-                Constants.kMaxSpeedMetersPerSecond,
-                Constants.kMaxAccelerationMetersPerSecondSquared)
-                        // Add kinematics to ensure max speed is actually obeyed
-                        .setKinematics(Constants.kDriveKinematics)
-                        // Apply the voltage constraint
-                        .addConstraint(autoVoltageConstraint);
-
-        ArrayList<Translation2d> points = new ArrayList<Translation2d>();
-        // points.add(new Translation2d(1, 1));
-        // points.add(new Translation2d(2, -1));
-
-        // An example trajectory to follow. All units in meters.
-        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the +X direction
-                new Pose2d(0, 0, new Rotation2d(0)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                points,
-                // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(3, 0, new Rotation2d(0)),
-                // Pass config
-                config);
-
-        return trajectory;
-    }
-
     // Adding XBox Controller Support
-    public static XboxController m_controller = new XboxController(3);
+    public static XboxController m_controller = new XboxController(0);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
 
@@ -162,8 +125,8 @@ public class RobotContainer {
         // buttonA.whenPressed(new RamseteTest());
         buttonA.whenPressed(new DriveForward(3));
         // buttonB.whenPressed(new TurnWithGyro(90))
-        //ExecuteTrajectory trajectory = new ExecuteTrajectory(this.trajectory());
-        //buttonA.whenPressed(trajectory.pathCommand());
+        // ExecuteTrajectory trajectory = new ExecuteTrajectory(this.trajectory());
+        // buttonA.whenPressed(trajectory.pathCommand());
     }
 
     public RobotContainer() {
@@ -191,35 +154,16 @@ public class RobotContainer {
                         // Apply the voltage constraint
                         .addConstraint(autoVoltageConstraint);
 
-        ArrayList<Translation2d> points = new ArrayList<Translation2d>();
-        //points.add(new Translation2d(1, 1));
-        //points.add(new Translation2d(2, -1));
-
         // An example trajectory to follow. All units in meters.
         Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
                 new Pose2d(0, 0, new Rotation2d(0)),
                 // Pass through these two interior waypoints, making an 's' curve path
-                points,
+                List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
                 // End 3 meters straight ahead of where we started, facing forward
                 new Pose2d(3, 0, new Rotation2d(0)),
                 // Pass config
                 config);
-
-        var table = NetworkTableInstance.getDefault().getTable("troubleshooting");
-        var leftVoltMeasure = table.getEntry("left volts");
-        var rightVoltMeasure = table.getEntry("right volts");
-
-        var robotX = table.getEntry("X");
-        var robotY = table.getEntry("Y");
-
-        var leftSpeed = table.getEntry("left meters per second");
-        var rightSpeed = table.getEntry("right meters per second");
-
-        var leftController = new PIDController(Constants.kPDriveVel, 0.25, .1);
-        var rightController = new PIDController(Constants.kPDriveVel, 0.25, .1);
-
-        var translation = RobotContainer.m_robotDrive.m_odometry.getPoseMeters().getTranslation();
 
         RamseteCommand ramseteCommand = new RamseteCommand(
                 exampleTrajectory,
@@ -231,20 +175,10 @@ public class RobotContainer {
                         Constants.kaVoltSecondsSquaredPerMeter),
                 Constants.kDriveKinematics,
                 m_robotDrive::getWheelSpeeds,
-                leftController,
-                rightController,
+                new PIDController(Constants.kPDriveVel, 0, 0),
+                new PIDController(Constants.kPDriveVel, 0, 0),
                 // RamseteCommand passes volts to the callback
-                (leftVolts, rightVolts) -> {
-                    m_robotDrive.tankDriveVolts(leftVolts, rightVolts);
-                    leftVoltMeasure.setNumber(leftVolts);
-                    rightVoltMeasure.setNumber(rightVolts);
-                    
-                    robotX.setNumber(translation.getX());
-                    robotY.setNumber(translation.getY());
-
-                    leftSpeed.setNumber(m_robotDrive.getWheelSpeeds().leftMetersPerSecond);
-                    rightSpeed.setNumber(m_robotDrive.getWheelSpeeds().rightMetersPerSecond);
-                },
+                m_robotDrive::tankDriveVolts,
                 m_robotDrive);
 
         // Reset odometry to the starting pose of the trajectory.

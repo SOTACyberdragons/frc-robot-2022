@@ -31,7 +31,7 @@ public class Constants {
 	public static final int TALON_MAX_OUTPUT = 1023;
 	public static final int VERSA_ENCODER_TPR = 4096;
 	public static final int MAG_ENCODER_TPR = 4096;
-	
+
 	/**
 	 * Roborio
 	 */
@@ -48,34 +48,36 @@ public class Constants {
 	};
 
 	// values from profiler
-	public static final double ksVolts = 2; //0.589151 initially
-	public static final double kvVoltSecondsPerMeter = 1.7954;
-	public static final double kaVoltSecondsSquaredPerMeter = 0.11108;
+	public static final double ksVolts = 0.43389; // 0.589151 initially
+	public static final double kvVoltSecondsPerMeter = 5.9696; // 5.9696 initially
+	public static final double kaVoltSecondsSquaredPerMeter = 0.40192; // 0.11108 initially
 	public static final double kTrackwidthMeters = 0.64;
 	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
 			kTrackwidthMeters);
-	public static final double kMaxSpeedMetersPerSecond = 3;
-	public static final double kMaxAccelerationMetersPerSecondSquared = 1;
 
-	public static final double kRamseteB = 2;
+	// Ramsete constants - TUNE THESE IF THE ROBOTS MOVES TOO QUICKLY!
+	public static final double kMaxSpeedMetersPerSecond = 0.93088; // initially 3
+	public static final double kMaxAccelerationMetersPerSecondSquared = 0.37894; // initially 3
+
+	public static final double kRamseteB = 2; // initially 2
 	public static final double kRamseteZeta = 0.7;
 
 	public static final double kDistancePerPulse = 2048;
 
 	// XBox Controller Drivetrain Constants
-	public static final double kMaxDriveSpeed = .5;
-  	public static final double kMaxTurnSpeed = .5; 
+	public static final double kMaxDriveSpeed = .7;
+	public static final double kMaxTurnSpeed = .7;
 
 	// Updated drivetrain constants
 	public static final int kEncoderCPR = 2048;
-    public static final double kWheelDiameterMeters = 0.152;
+	public static final double kWheelDiameterMeters = 0.152;
 	public static final double kGearRation = 7.95;
-    public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR) / kGearRation;
-	
-	public static final double kPDriveVel = 0;
+	public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR)
+			/ kGearRation;
 
-    public static int kTimeoutMs = 30;
+	public static final double kPDriveVel = 0.0039019;
 
-    public static int kPIDLoopIdx = 0;
+	public static int kTimeoutMs = 30;
+	public static int kPIDLoopIdx = 0;
 
 }
