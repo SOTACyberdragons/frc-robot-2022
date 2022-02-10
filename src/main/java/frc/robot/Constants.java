@@ -55,7 +55,7 @@ public class Constants {
 	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
 			kTrackwidthMeters);
 
-	// Ramsete constants - TUNE THESE IF THE ROBOTS MOVES TOO QUICKLY!
+	// Ramsete constants - TUNE THESE IF THE ROBOT MOVES TOO QUICKLY!
 	public static final double kMaxSpeedMetersPerSecond = 0.93088; // initially 3
 	public static final double kMaxAccelerationMetersPerSecondSquared = 0.37894; // initially 3
 

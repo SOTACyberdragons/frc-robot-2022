@@ -1,6 +1,6 @@
 package frc.robot;
 
-// For Copntrollers
+// For Controllers
 import edu.wpi.first.math.filter.SlewRateLimiter;
 // import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -124,7 +124,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // buttonA.whenPressed(new RamseteTest());
         buttonA.whenPressed(new DriveForward(3));
-        // buttonB.whenPressed(new TurnWithGyro(90))
+        buttonB.whenPressed(new TurnWithGyro(90));
         // ExecuteTrajectory trajectory = new ExecuteTrajectory(this.trajectory());
         // buttonA.whenPressed(trajectory.pathCommand());
     }
