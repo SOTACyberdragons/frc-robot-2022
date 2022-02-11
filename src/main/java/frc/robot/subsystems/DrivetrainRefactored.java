@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -40,6 +41,9 @@ public class DrivetrainRefactored extends SubsystemBase {
     // Wheel Speed containers
     public static double m_leftWheelSpeed;
     public static double m_rightWheelSpeed;
+
+    // Field2d object for Smartdashboard display
+    private Field2d m_field = new Field2d();
 
     public DrivetrainRefactored() {
 
@@ -71,6 +75,9 @@ public class DrivetrainRefactored extends SubsystemBase {
 
         m_odometry = new DifferentialDriveOdometry(getHeading());
         m_drive = new DifferentialDrive(leftMaster, rightMaster);
+
+        // Populate field position in Smartdashboard
+        SmartDashboard.putData("Field", m_field);
     }
 
     @Override
@@ -82,14 +89,15 @@ public class DrivetrainRefactored extends SubsystemBase {
         SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Robot Y", getPose().getTranslation().getY());
         SmartDashboard.putNumber("Robot Heading", getPose().getRotation().getDegrees());
-
         SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
-     
-        // BAD CODE! DON'T DO THIS!
+
+        // Update field position
+        m_field.setRobotPose(m_odometry.getPoseMeters());
+
+        // BAD CODE! DON'T DO THIS! EVER!
         // m_odometry.update(
         //    m_gyro.getRotation2d(), getLeftDistance(), getRightDistance());
     }
-
     /**
      * Returns the currently-estimated pose of the robot.
      *
