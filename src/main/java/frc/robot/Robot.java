@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   // public static Drivetrain m_robotDrive;
-  //public static DrivetrainRefactored m_robotDrive;
+  // public static DrivetrainRefactored m_robotDrive;
   public static RobotContainer m_robotContainer;
   public static ShooterTest m_shooterTest;
 
@@ -60,18 +60,19 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     RobotContainer.m_robotDrive.zeroHeading();
     RobotContainer.m_robotDrive.resetEncoders();
-    
+
     m_robotContainer = new RobotContainer();
 
     // CameraServer.startAutomaticCapture();
 
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
-  
+
     SmartDashboard.putData("Auto choices", m_chooser);
 
     CommandScheduler.getInstance().enable();
 
+    // Reset the Falcon encoders
     RobotContainer.m_robotDrive.leftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
     RobotContainer.m_robotDrive.leftSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
     RobotContainer.m_robotDrive.rightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
@@ -80,38 +81,36 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Drive Distance: ", RobotContainer.m_robotDrive.getAverageDistance());
-    // SmartDashboard.putNumber("Gyro angle: ", RobotContainer.m_robotDrive.getAngle());
-    // SmartDashboard.putNumber("x position: ", RobotContainer.m_robotDrive.getPose().getX());
-    // SmartDashboard.putNumber("Y position: ", RobotContainer.m_robotDrive.getPose().getY());
-    
     CommandScheduler.getInstance().run();
   }
 
-   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-   @Override
-   public void autonomousInit() {
-     //todo clean up
-    //RobotContainer.m_robotDrive.resetOdometry(RobotContainer.m_robotDrive.getPose());
-     
-     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
- 
-     /*
-      * String autoSelected = SmartDashboard.getString("Auto Selector",
-      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-      * = new MyAutoCommand(); break; case "Default Auto": default:
-      * autonomousCommand = new ExampleCommand(); break; }
-      */
- 
-     // schedule the autonomous command (example)
-     if (m_autonomousCommand != null) {
-       m_autonomousCommand.schedule();
-     }
-   }
+  /**
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
+   */
+  @Override
+  public void autonomousInit() {
+    // todo clean up
+    // RobotContainer.m_robotDrive.resetOdometry(RobotContainer.m_robotDrive.getPose());
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    /*
+     * String autoSelected = SmartDashboard.getString("Auto Selector",
+     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+     * = new MyAutoCommand(); break; case "Default Auto": default:
+     * autonomousCommand = new ExampleCommand(); break; }
+     */
+
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
+    }
+  }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
   public void teleopInit() {
@@ -128,9 +127,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // globalDriveState.update++;
-    //CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_robotDrive, new DifferentialDriveWithJoysticks());
-
     CommandScheduler.getInstance().run();
   }
 
@@ -138,6 +134,7 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    CommandScheduler.getInstance().enable();
   }
 
   /**
@@ -145,6 +142,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
 }

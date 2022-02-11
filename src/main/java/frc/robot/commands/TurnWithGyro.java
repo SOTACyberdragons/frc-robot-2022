@@ -37,7 +37,7 @@ public class TurnWithGyro extends CommandBase {
     startHeading = RobotContainer.m_robotDrive.getAngle();
     targetHeading = startHeading + rotationAmount;
     m_pidController.setSetpoint(targetHeading);
-    m_pidController.setTolerance(1, .5);
+    m_pidController.setTolerance(.5, .5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -37,6 +37,10 @@ public class DrivetrainRefactored extends SubsystemBase {
     // Odometry class for tracking robot pose
     private final DifferentialDriveOdometry m_odometry;
 
+    // Wheel Speed containers
+    public static double m_leftWheelSpeed;
+    public static double m_rightWheelSpeed;
+
     public DrivetrainRefactored() {
 
         leftMaster = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_MASTER);
@@ -73,6 +77,13 @@ public class DrivetrainRefactored extends SubsystemBase {
     public void periodic() {
         // Update the odometry in the periodic block
         m_odometry.update(getHeading(), getLeftDistance(), getRightDistance()); // Working code
+
+        // Smart Dashboard display
+        SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());
+        SmartDashboard.putNumber("Robot Y", getPose().getTranslation().getY());
+        SmartDashboard.putNumber("Robot Heading", getPose().getRotation().getDegrees());
+
+        SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
      
         // BAD CODE! DON'T DO THIS!
         // m_odometry.update(

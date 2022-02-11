@@ -35,5 +35,8 @@
   "NetworkTables Settings": {
     "mode": "Client",
     "serverTeam": "5700"
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

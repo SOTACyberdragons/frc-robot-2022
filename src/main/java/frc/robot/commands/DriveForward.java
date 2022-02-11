@@ -20,7 +20,7 @@ public class DriveForward extends CommandBase {
   private static final double kP = .5; // Power
   private static final double kI = .0075; // Ease in sensitivity
   private static final double kD = .125; // Smoothing
-  private static final double kF = .2;
+  private static final double kF = .2; // Feed forward
   
   public PIDController m_pidController = new PIDController(kP, kI, kD);
 
