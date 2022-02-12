@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ShootTest;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.TurnWithGyro;
-import frc.robot.ramsete.ExecuteTrajectory;
+import frc.robot.ramsete.CustomRamsete;
 import frc.robot.subsystems.DrivetrainRefactored;
 
 // For Ramsete functions
@@ -38,6 +38,8 @@ import java.util.function.Supplier;
 public class RobotContainer {
 
     public static DrivetrainRefactored m_robotDrive = new DrivetrainRefactored();
+
+    public static CustomRamsete loadedPath;
 
     /*
      * Uncomment for Joystick Control
@@ -96,8 +98,10 @@ public class RobotContainer {
      * }
      */
 
+    
+
     // Adding XBox Controller Support
-    public static XboxController m_controller = new XboxController(0);
+    public static XboxController m_controller = new XboxController(3);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
 
@@ -121,12 +125,46 @@ public class RobotContainer {
 
     // public static DrivetrainRefactored m_drive = new DrivetrainRefactored();
 
+    public Trajectory snakePath()
+    {
+        Trajectory trajectory;
+
+        var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+                new SimpleMotorFeedforward(
+                        Constants.ksVolts,
+                        Constants.kvVoltSecondsPerMeter,
+                        Constants.kaVoltSecondsSquaredPerMeter),
+                Constants.kDriveKinematics, 10);
+
+        // Create config for trajectory
+        TrajectoryConfig config = new TrajectoryConfig(
+                Constants.kMaxSpeedMetersPerSecond,
+                Constants.kMaxAccelerationMetersPerSecondSquared)
+                        // Add kinematics to ensure max speed is actually obeyed
+                        .setKinematics(Constants.kDriveKinematics)
+                        // Apply the voltage constraint
+                        .addConstraint(autoVoltageConstraint);
+
+        // An example trajectory to follow. All units in meters.
+        trajectory = TrajectoryGenerator.generateTrajectory(
+                // Start at the origin facing the +X direction
+                new Pose2d(0, 0, new Rotation2d(0)),
+                // Pass through these two interior waypoints, making an 's' curve path
+                List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+                // End 3 meters straight ahead of where we started, facing forward
+                new Pose2d(3, 0, new Rotation2d(0)),
+                // Pass config
+                config);
+
+        return trajectory;
+    }
+
     private void configureButtonBindings() {
         // buttonA.whenPressed(new RamseteTest());
-        buttonA.whenPressed(new DriveForward(3));
+        //buttonA.whenPressed(new DriveForward(3));
         buttonB.whenPressed(new TurnWithGyro(90));
-        // ExecuteTrajectory trajectory = new ExecuteTrajectory(this.trajectory());
-        // buttonA.whenPressed(trajectory.pathCommand());
+        
+        buttonA.whenPressed(loadedPath);
     }
 
     public RobotContainer() {

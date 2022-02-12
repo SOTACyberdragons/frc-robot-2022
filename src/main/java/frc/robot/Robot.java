@@ -7,18 +7,24 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -27,6 +33,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DifferentialDriveWithJoysticks;
+import frc.robot.ramsete.CustomRamsete;
 // import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainRefactored;
 import frc.robot.subsystems.ShooterTest;
@@ -60,6 +67,24 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     RobotContainer.m_robotDrive.zeroHeading();
     RobotContainer.m_robotDrive.resetEncoders();
+
+    String trajectoryJSON = "C:/Users/SOTAC\robotics_projects/robot_2022/frc-robot-2022/PathWeaver/output/firstPath.wpilib.json";
+    Trajectory trajectory = new Trajectory();
+
+    boolean validTrajectory = false;
+
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+
+      validTrajectory = true;
+   } catch (IOException ex) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+   }
+
+   if (validTrajectory) {
+      RobotContainer.loadedPath = new CustomRamsete(trajectory);
+   }
 
     m_robotContainer = new RobotContainer();
 
