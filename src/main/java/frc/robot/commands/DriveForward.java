@@ -4,12 +4,15 @@
 
 package frc.robot.commands;
 
+import java.io.PipedOutputStream;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 public class DriveForward extends CommandBase {
   public static double driveDistance;
@@ -45,11 +48,15 @@ public class DriveForward extends CommandBase {
   public void execute() {
     double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance()) + kF), -0.5, 0.5);
     RobotContainer.m_robotDrive.m_drive(pidOutput, 0);
+    RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 1 - (m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance())));
+    RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.25);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);
+    RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
   }
 
   // Returns true when the command should end.
