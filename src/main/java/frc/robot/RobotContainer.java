@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.commands.LoadTrajectory;
 import frc.robot.commands.SnakePath;
 import frc.robot.subsystems.DrivetrainRefactored;
 
@@ -37,15 +36,16 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        buttonA.whenPressed(LoadTrajectory.getLoadedTrajectory("Paths/testPath.wpilib.Json"));
-        buttonB.whenPressed(SnakePath.ramsetePath());
+        buttonB.whenPressed(new SnakePath());
     }
 
     public RobotContainer() {
         configureButtonBindings();
     }
 
+    SnakePath autonomousCommand = new SnakePath();
+
     public Command getAutonomousCommand() {
-        return SnakePath.ramsetePath();
+        return autonomousCommand;
     }
 }
