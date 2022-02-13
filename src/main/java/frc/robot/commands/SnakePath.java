@@ -13,12 +13,29 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.constraint.*;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
-public class SnakePath {
-    public static RamseteCommand ramsetePath()
+public class SnakePath extends RamseteCommand {
+    public SnakePath()
+    {
+        super(trajectory(), RobotContainer.m_robotDrive::getPose,
+        new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+        new SimpleMotorFeedforward(
+                Constants.ksVolts,
+                Constants.kvVoltSecondsPerMeter,
+                Constants.kaVoltSecondsSquaredPerMeter),
+        Constants.kDriveKinematics,
+        RobotContainer.m_robotDrive::getWheelSpeeds,
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        new PIDController(Constants.kPDriveVel, 0, 0),
+        RobotContainer.m_robotDrive::tankDriveVolts,
+        RobotContainer.m_robotDrive);
+
+        this.andThen(() -> RobotContainer.m_robotDrive.tankDriveVolts(0, 0));
+    }       
+
+    public static Trajectory trajectory()
     {
         Trajectory trajectory;
 
@@ -44,24 +61,7 @@ public class SnakePath {
                 List.of(new Translation2d(robotX + 1, robotY + 1), new Translation2d(robotX + 2, robotY - 1)),
                 new Pose2d(robotX + 3, robotY, new Rotation2d(0)),
                 config);
-
-                RamseteCommand ramseteCommand = new RamseteCommand(
-                    trajectory,
-                    RobotContainer.m_robotDrive::getPose,
-                    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
-                    new SimpleMotorFeedforward(
-                            Constants.ksVolts,
-                            Constants.kvVoltSecondsPerMeter,
-                            Constants.kaVoltSecondsSquaredPerMeter),
-                    Constants.kDriveKinematics,
-                    RobotContainer.m_robotDrive::getWheelSpeeds,
-                    new PIDController(Constants.kPDriveVel, 0, 0),
-                    new PIDController(Constants.kPDriveVel, 0, 0),
-                    RobotContainer.m_robotDrive::tankDriveVolts,
-                    RobotContainer.m_robotDrive);
-    
-            ramseteCommand.andThen(() -> RobotContainer.m_robotDrive.tankDriveVolts(0, 0));
-
-            return ramseteCommand;
+        
+        return trajectory;
     }
 }
