@@ -1,0 +1,67 @@
+package frc.robot.commands;
+
+import java.util.List;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.math.trajectory.constraint.*;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
+
+public class SnakePath {
+    public static RamseteCommand ramsetePath()
+    {
+        Trajectory trajectory;
+
+        TrajectoryConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+                new SimpleMotorFeedforward(
+                        Constants.ksVolts,
+                        Constants.kvVoltSecondsPerMeter,
+                        Constants.kaVoltSecondsSquaredPerMeter),
+                Constants.kDriveKinematics, 10);
+
+        // Create config for trajectory
+        TrajectoryConfig config = new TrajectoryConfig(
+                Constants.kMaxSpeedMetersPerSecond,
+                Constants.kMaxAccelerationMetersPerSecondSquared)
+                        .setKinematics(Constants.kDriveKinematics)
+                        .addConstraint(autoVoltageConstraint);
+        
+        double robotX = RobotContainer.m_robotDrive.getPose().getX();
+        double robotY = RobotContainer.m_robotDrive.getPose().getY();
+
+        trajectory = TrajectoryGenerator.generateTrajectory(
+                new Pose2d(robotX, robotY, new Rotation2d(0)),
+                List.of(new Translation2d(robotX + 1, robotY + 1), new Translation2d(robotX + 2, robotY - 1)),
+                new Pose2d(robotX + 3, robotY, new Rotation2d(0)),
+                config);
+
+                RamseteCommand ramseteCommand = new RamseteCommand(
+                    trajectory,
+                    RobotContainer.m_robotDrive::getPose,
+                    new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+                    new SimpleMotorFeedforward(
+                            Constants.ksVolts,
+                            Constants.kvVoltSecondsPerMeter,
+                            Constants.kaVoltSecondsSquaredPerMeter),
+                    Constants.kDriveKinematics,
+                    RobotContainer.m_robotDrive::getWheelSpeeds,
+                    new PIDController(Constants.kPDriveVel, 0, 0),
+                    new PIDController(Constants.kPDriveVel, 0, 0),
+                    RobotContainer.m_robotDrive::tankDriveVolts,
+                    RobotContainer.m_robotDrive);
+    
+            ramseteCommand.andThen(() -> RobotContainer.m_robotDrive.tankDriveVolts(0, 0));
+
+            return ramseteCommand;
+    }
+}
