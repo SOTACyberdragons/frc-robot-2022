@@ -36,7 +36,7 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        buttonB.whenPressed(new SnakePath());
+        buttonA.whenPressed(new SnakePath());
     }
 
     public RobotContainer() {
