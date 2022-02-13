@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 // Commands mapped to buttons
 import frc.robot.commands.ShootTest;
 import frc.robot.commands.DriveForward;
+import frc.robot.commands.FollowTrajectory;
 import frc.robot.commands.TurnWithGyro;
-import frc.robot.ramsete.CustomRamsete;
 import frc.robot.subsystems.DrivetrainRefactored;
 
 // For Ramsete functions
@@ -39,8 +39,22 @@ public class RobotContainer {
 
     public static DrivetrainRefactored m_robotDrive = new DrivetrainRefactored();
 
-    public static CustomRamsete loadedPath;
+    Trajectory custom = GetLoadedTrajectory.getLoadedTrajectory("paths/testPath.wpilib.json");
 
+    RamseteCommand customPath = new RamseteCommand(custom,
+            m_robotDrive::getPose,
+            new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
+            new SimpleMotorFeedforward(
+                    Constants.ksVolts,
+                    Constants.kvVoltSecondsPerMeter,
+                    Constants.kaVoltSecondsSquaredPerMeter),
+            Constants.kDriveKinematics,
+            m_robotDrive::getWheelSpeeds,
+            new PIDController(Constants.kPDriveVel, 0, 0),
+            new PIDController(Constants.kPDriveVel, 0, 0),
+            // RamseteCommand passes volts to the callback
+            m_robotDrive::tankDriveVolts,
+            m_robotDrive);
     /*
      * Uncomment for Joystick Control
      * 
@@ -98,8 +112,6 @@ public class RobotContainer {
      * }
      */
 
-    
-
     // Adding XBox Controller Support
     public static XboxController m_controller = new XboxController(3);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
@@ -125,8 +137,7 @@ public class RobotContainer {
 
     // public static DrivetrainRefactored m_drive = new DrivetrainRefactored();
 
-    public Trajectory snakePath()
-    {
+    public Trajectory snakePath() {
         Trajectory trajectory;
 
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
@@ -161,10 +172,10 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         // buttonA.whenPressed(new RamseteTest());
-        //buttonA.whenPressed(new DriveForward(3));
+        // buttonA.whenPressed(new DriveForward(3));
         buttonB.whenPressed(new TurnWithGyro(90));
-        
-        buttonA.whenPressed(loadedPath);
+
+        buttonA.whenPressed(customPath);
     }
 
     public RobotContainer() {

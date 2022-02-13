@@ -33,7 +33,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DifferentialDriveWithJoysticks;
-import frc.robot.ramsete.CustomRamsete;
 // import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.DrivetrainRefactored;
 import frc.robot.subsystems.ShooterTest;
@@ -68,23 +67,23 @@ public class Robot extends TimedRobot {
     RobotContainer.m_robotDrive.zeroHeading();
     RobotContainer.m_robotDrive.resetEncoders();
 
-    String trajectoryJSON = "C:/Users/SOTAC\robotics_projects/robot_2022/frc-robot-2022/PathWeaver/output/firstPath.wpilib.json";
-    Trajectory trajectory = new Trajectory();
+    RobotContainer.m_robotDrive.resetOdometry(RobotContainer.m_robotDrive.getPose());
+  //   Trajectory trajectory = new Trajectory();
 
-    boolean validTrajectory = false;
+  //   boolean validTrajectory = false;
 
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  //   try {
+  //     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+  //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
 
-      validTrajectory = true;
-   } catch (IOException ex) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-   }
+  //     validTrajectory = true;
+  //  } catch (IOException ex) {
+  //     DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+  //  }
 
-   if (validTrajectory) {
-      RobotContainer.loadedPath = new CustomRamsete(trajectory);
-   }
+  //  if (validTrajectory) {
+  //     RobotContainer.loadedPath = new CustomRamsete(trajectory);
+  //  }
 
     m_robotContainer = new RobotContainer();
 
@@ -143,16 +142,19 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.cancel();
+    // }
+
+    RobotContainer.m_robotDrive.zeroHeading();
+    RobotContainer.m_robotDrive.resetEncoders();
 
     CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_robotDrive, new DifferentialDriveWithJoysticks());
   }
 
   @Override
   public void teleopPeriodic() {
-    CommandScheduler.getInstance().run();
+    //CommandScheduler.getInstance().run();
   }
 
   @Override
