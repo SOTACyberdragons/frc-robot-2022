@@ -18,7 +18,7 @@ public class TurnWithGyro extends CommandBase {
 
   // PID Constansts
   private static final double kP = .02; // Power
-  private static final double kI = .0075; // Ease in sensitivity
+  private static final double kI = .01; // Ease in sensitivity
   private static final double kD = 0; // Smoothing
   private static final double kF = 0;
 
@@ -34,17 +34,23 @@ public class TurnWithGyro extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startHeading = RobotContainer.m_robotDrive.getAngle();
-    targetHeading = startHeading + rotationAmount;
+    startHeading = RobotContainer.m_robotDrive.getPose().getRotation().getDegrees();
+
+    // targetHeading = startHeading + rotationAmount;
+    targetHeading = Math.IEEEremainder(startHeading + rotationAmount, 360) * (true ? -1.0 : 1.0);
+
+    SmartDashboard.putNumber("Start Heading", startHeading);
+    SmartDashboard.putNumber("Target Heading", targetHeading);
+
     m_pidController.setSetpoint(targetHeading);
-    m_pidController.setTolerance(.5, .5);
+    m_pidController.setTolerance(1, 1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getAngle()) + kF), -0.4, 0.4);
-    RobotContainer.m_robotDrive.m_drive(0, -pidOutput);
+    double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getPose().getRotation().getDegrees()) + kF), -0.4, 0.4);
+    RobotContainer.m_robotDrive.m_drive(0, pidOutput);
   }
 
   // Called once the command ends or is interrupted.

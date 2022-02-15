@@ -30,7 +30,7 @@ public class DrivetrainRefactored extends SubsystemBase {
 
     // Instantiate the gyro
     public final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(RobotMap.PIGEON_IMU);
-    public final boolean gyroReversed = true;
+    public final boolean gyroReversed = true; // Was true
 
     // Create drive object
     private final DifferentialDrive m_drive;
@@ -89,6 +89,7 @@ public class DrivetrainRefactored extends SubsystemBase {
         SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Robot Y", getPose().getTranslation().getY());
         SmartDashboard.putNumber("Robot Heading", getPose().getRotation().getDegrees());
+        SmartDashboard.putNumber("Robot Angle", getAngle());
         SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
 
         // Update field position

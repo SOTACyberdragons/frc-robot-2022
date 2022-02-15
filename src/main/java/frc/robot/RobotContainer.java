@@ -4,8 +4,9 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import frc.robot.commands.DriveForward;
 import frc.robot.commands.SnakePath;
+import frc.robot.commands.TurnWithGyro;
 import frc.robot.subsystems.DrivetrainRefactored;
 
 
@@ -16,6 +17,7 @@ public class RobotContainer {
     public static XboxController m_controller = new XboxController(3);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
+    final JoystickButton buttonX = new JoystickButton(m_controller, 3);
 
     // Adding slew value for the XBox Controller joysticks
     public static SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
@@ -36,7 +38,9 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        buttonA.whenPressed(new SnakePath());
+        buttonA.whenPressed(new DriveForward(3));
+        buttonB.whenPressed(new TurnWithGyro(-90));
+        buttonX.whenPressed(new SnakePath());
     }
 
     public RobotContainer() {
