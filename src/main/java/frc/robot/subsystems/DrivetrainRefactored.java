@@ -129,6 +129,7 @@ public class DrivetrainRefactored extends SubsystemBase {
         return (60 / ((2 * Math.PI) * Constants.kWheelRadiusMeters)) * (leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
     }
 
+
     /**
      * Resets the odometry to the specified pose.
      *
@@ -139,6 +140,9 @@ public class DrivetrainRefactored extends SubsystemBase {
         m_odometry.resetPosition(pose, getHeading());
     }
 
+    public void resetOdometry() { 
+        resetOdometry(getPose());
+    }
     /**
      * Drives the robot using arcade controls.
      *
