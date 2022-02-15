@@ -11,7 +11,7 @@ import frc.robot.subsystems.DrivetrainRefactored;
 import frc.robot.subsystems.FalconShooter;
 
 public class RobotContainer {
-    
+
     public static DrivetrainRefactored m_robotDrive = new DrivetrainRefactored();
     private final FalconShooter m_shooter = new FalconShooter();
 
@@ -21,6 +21,8 @@ public class RobotContainer {
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
     final JoystickButton buttonX = new JoystickButton(m_controller, 3);
     final JoystickButton buttonY = new JoystickButton(m_controller, 4);
+
+    // Falcon shooter test functions
 
     // Adding slew value for the XBox Controller joysticks
     public static SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
@@ -40,10 +42,28 @@ public class RobotContainer {
         return -m_rotLimiter.calculate(m_controller.getRightX() * Constants.kMaxTurnSpeed);
     }
 
+    public static double getXBoxPOV() {
+        return m_controller.getPOV();
+    }
+
     private void configureButtonBindings() {
         buttonA.whenPressed(new DriveForward(3));
         buttonB.whenPressed(new TurnWithGyro(-90));
         buttonX.whenPressed(new SnakePath());
+
+        // DPad Controls to tune the Falcon Shooter
+        double dPad = getXBoxPOV();
+
+        if (dPad == 0) { // DPAD UP button is pressed
+            m_shooter.setVelocity(m_shooter.getVelocity() + 50, m_shooter.getFeedforward());
+        } else if (dPad == 180) { // DPAD DOWN button is pressed
+            m_shooter.setVelocity(m_shooter.getVelocity() - 50, m_shooter.getFeedforward());
+        } else if (dPad == 90) {
+            m_shooter.setFeedforward(m_shooter.getFeedforward() + 0.10);
+        } else if (dPad == 270 ) {
+            m_shooter.setFeedforward(m_shooter.getFeedforward() - 0.10);
+        }
+
     }
 
     public RobotContainer() {
