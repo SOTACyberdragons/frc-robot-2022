@@ -82,6 +82,7 @@ public class FalconShooter extends SubsystemBase {
      */
     public final static int REMOTE_0 = 0;
     public final static int REMOTE_1 = 1;
+    
     /*
      * We allow either a 0 or 1 when selecting a PID Index, where 0 is primary and 1
      * is auxiliary
