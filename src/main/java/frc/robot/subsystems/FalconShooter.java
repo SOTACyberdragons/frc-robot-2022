@@ -23,7 +23,7 @@ public class FalconShooter extends SubsystemBase {
     WPI_TalonFX _leftMaster = new WPI_TalonFX(2, "rio");
     WPI_TalonFX _rightMaster = new WPI_TalonFX(1, "rio");
 
-    // TODO Clean these out
+    // @TODO Clean these out
     Joystick _gamepad = new Joystick(0);
 
     /** Latched values to detect on-press events for buttons and POV */
@@ -52,6 +52,8 @@ public class FalconShooter extends SubsystemBase {
      * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
      */
     public final static int kSensorUnitsPerRotation = 2048;
+    public static final int gearRatio = 1; //@TODO figure out what this is, how many times do the shooter rollers spin per motor shaft spin.
+    private double rotationsPerPulse = gearRatio / kSensorUnitsPerRotation;
 
     /**
      * Set to zero to skip waiting for confirmation.
@@ -233,7 +235,7 @@ public class FalconShooter extends SubsystemBase {
          */
         _rightMaster.set(TalonFXControlMode.Velocity, target_unitsPer100ms, DemandType.ArbitraryFeedForward,
                 feedFwdTerm);
-        _leftMaster.follow(_rightMaster);
+        _leftMaster.follow(_rightMaster);//this should be set in the constructor, and then you would only ever set one motor, you can call one main and the other follower -Maddy
 
         /* Uncomment to view RPM in Driver Station */
         double actual_RPM = (_rightMaster.getSelectedSensorVelocity() / (double) kSensorUnitsPerRotation * 600f);
@@ -243,10 +245,35 @@ public class FalconShooter extends SubsystemBase {
     }
 
     /* Zero all sensors on Talons */
-    void zeroSensors() {
+    public void zeroSensors() {
         _leftMaster.getSensorCollection().setIntegratedSensorPosition(0, kTimeoutMs);
         _rightMaster.getSensorCollection().setIntegratedSensorPosition(0, kTimeoutMs);
         System.out.println("[Integrated Sensors] All sensors are zeroed.\n");
+    }
+
+    
+    /**
+     * Sets both shooter motors to the target velocity in RPM
+     * https://docs.ctre-phoenix.com/en/stable/ch16_ClosedLoop.html#motion-magic-position-velocity-current-closed-loop-closed-loop
+     * 
+     * @param targetVelocity target velocity in RPM
+     */
+    public void setVelocity(double targetVelocity) {
+        double targetVelocity_rotationsPer100ms  = targetVelocity / 600;
+        double targetVelocitySensorUnits = targetVelocity_rotationsPer100ms /rotationsPerPulse;
+        _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits);
+        _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits);
+    }
+
+    /**
+     * Calcultates and returns average shooter velocity in RPM
+     * 
+     * @return average shooter velocity in RPM
+     */
+    public double getVelocity() {
+        double velocitySensorUnits = (_leftMaster.getSelectedSensorVelocity() + _rightMaster.getSelectedSensorVelocity()) / 2;
+        double velocityRPM = velocitySensorUnits * 600 * rotationsPerPulse; 
+        return velocityRPM;
     }
 
     /**
@@ -261,7 +288,7 @@ public class FalconShooter extends SubsystemBase {
      * @param masterInvertType Invert of the Master Talon
      * @param masterConfig     Configuration object to fill
      */
-    void setRobotDistanceConfigs(TalonFXInvertType masterInvertType, TalonFXConfiguration masterConfig) {
+    public void setRobotDistanceConfigs(TalonFXInvertType masterInvertType, TalonFXConfiguration masterConfig) {
         /**
          * Determine if we need a Sum or Difference.
          * 
@@ -327,7 +354,7 @@ public class FalconShooter extends SubsystemBase {
     }
 
     /** Deadband 5 percent, used on the gamepad (To be added to Framework?) */
-    double Deadband(double value) {
+    private double Deadband(double value) {
         /* Upper deadband */
         if (value >= +0.05)
             return value;
