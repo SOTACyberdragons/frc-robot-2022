@@ -71,8 +71,7 @@ public class FalconShooter extends SubsystemBase {
      * 
      * kP kI kD kF Iz PeakOut
      */
-    public final static Gains kGains_Distanc = new Gains(0.1, 0.0, 0.0, 0.0, 100, 0.50);
-    public final static Gains kGains_Turning = new Gains(0.10, 0.0, 0.0, 0.0, 200, 1.00);
+
     public final static Gains kGains_Velocit = new Gains(0.1, 0.001, 5, 1023.0 / 20660.0, 300, 1.00);
     public final static Gains kGains_MotProf = new Gains(1.0, 0.0, 0.0, 1023.0 / 20660.0, 400, 1.00);
 

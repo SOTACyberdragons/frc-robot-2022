@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveForward;
-import frc.robot.commands.SetRPM;
 import frc.robot.commands.SnakePath;
 import frc.robot.commands.TurnWithGyro;
 import frc.robot.subsystems.DrivetrainRefactored;
