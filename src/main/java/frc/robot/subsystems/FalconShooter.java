@@ -48,8 +48,7 @@ public class FalconShooter extends SubsystemBase {
      * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
      */
     public final static int kSensorUnitsPerRotation = 2048;
-    public static final int gearRatio = 1; // @TODO figure out what this is, how many times do the shooter rollers spin
-                                           // per motor shaft spin.
+    public static final int gearRatio = 1; // TODO figure out what this is, how many times do the shooter rollers spin per motor shaft spin.
     private double rotationsPerPulse = gearRatio / kSensorUnitsPerRotation;
 
     /**
