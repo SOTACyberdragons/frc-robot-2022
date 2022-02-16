@@ -57,10 +57,19 @@ public class SnakePath extends RamseteCommand {
         double robotY = RobotContainer.m_robotDrive.getPose().getY();
 
         trajectory = TrajectoryGenerator.generateTrajectory(
-                new Pose2d(robotX, robotY, new Rotation2d(0)),
-                List.of(new Translation2d(robotX + 1, robotY + 1), new Translation2d(robotX + 2, robotY - 1)),
-                new Pose2d(robotX + 3, robotY, new Rotation2d(0)),
+                // Start at the origin facing the +X direction
+                new Pose2d(0, 0, new Rotation2d(0)),
+                // Pass through these two interior waypoints, making an 's' curve path
+                List.of(new Translation2d(1, 1)),
+                // End 3 meters straight ahead of where we started, facing forward
+                new Pose2d(2, 0, new Rotation2d(0)),
+                // Pass config
                 config);
+
+                // new Pose2d(robotX, robotY, new Rotation2d(0)),
+                // List.of(new Translation2d(robotX + 1, robotY + 1), new Translation2d(robotX + 2, robotY - 1)),
+                // new Pose2d(robotX + 3, robotY, new Rotation2d(0)),
+                // config);
         
         return trajectory;
     }

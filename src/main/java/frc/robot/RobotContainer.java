@@ -16,10 +16,10 @@ import frc.robot.subsystems.FalconShooter;
 public class RobotContainer {
     
     public static DrivetrainRefactored m_robotDrive = new DrivetrainRefactored();
-    private final FalconShooter m_shooter = new FalconShooter();
+    // private final FalconShooter m_shooter = new FalconShooter();
 
     // Adding XBox Controller Support
-    public static XboxController m_controller = new XboxController(3);
+    public static XboxController m_controller = new XboxController(0);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
     final JoystickButton buttonX = new JoystickButton(m_controller, 3);
@@ -55,6 +55,7 @@ public class RobotContainer {
     SnakePath autonomousCommand = new SnakePath();
 
     public Command getAutonomousCommand() {
+        System.out.println("Starting auto");
         return new CommandGroupTest(this);
     }
 }

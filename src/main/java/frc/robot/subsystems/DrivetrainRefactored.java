@@ -18,13 +18,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.commands.SnakePath;
 import frc.robot.utils.TalonFXConfig;
 
 public class DrivetrainRefactored extends SubsystemBase {
-
-    /**
-     *
-     */
 
     // Create Falcon 500 motor objects
     public WPI_TalonFX leftSlave, leftMaster, rightSlave, rightMaster;
@@ -87,23 +84,22 @@ public class DrivetrainRefactored extends SubsystemBase {
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
-        m_odometry.update(getHeading(), getLeftDistance(), getRightDistance()); // Working code
+        m_odometry.update(getHeading(), getLeftDistance(), getRightDistance()); // Working code);
 
         // Smart Dashboard display
         SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Robot Y", getPose().getTranslation().getY());
-        SmartDashboard.putNumber("Robot Heading", getPose().getRotation().getDegrees());
-        SmartDashboard.putNumber("real heading", getHeading().getDegrees());
+        SmartDashboard.putNumber("Robot Heading", getHeading().getDegrees());
         SmartDashboard.putNumber("Robot Rotation", getRotation());
         SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
         SmartDashboard.putNumber("Wheel RPM: ", getWheelRPM());
                
         // Update field position
         m_field.setRobotPose(m_odometry.getPoseMeters());
+        m_field.getObject("traj").setTrajectory(SnakePath.trajectory());
 
         // BAD CODE! DON'T DO THIS! EVER!
-        // m_odometry.update(
-        // m_gyro.getRotation2d(), getLeftDistance(), getRightDistance());
+        // m_odometry.update(m_gyro.getRotation2d(), getLeftDistance(), getRightDistance());
     }
 
     /**
@@ -165,7 +161,7 @@ public class DrivetrainRefactored extends SubsystemBase {
         m_drive.feed();
     }
 
-    /** Resets the drive encoders to currently read a position of 0. */
+    /** Resets the drive  encoders to currently read a position of 0. */
     public void resetEncoders() {
         leftMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
         rightMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
@@ -241,7 +237,7 @@ public class DrivetrainRefactored extends SubsystemBase {
 
     public double getRotation() {
         final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
-        return m_gyro.getFusedHeading(fusionStatus)  * (gyroReversed ? -1.0 : 1.0);
+        return m_gyro.getFusedHeading(fusionStatus);
         // final double[] xyz_dps = new double[3];
         // m_gyro.getRawGyro(xyz_dps);
         // final double currentAngle = m_gyro.getFusedHeading(fusionStatus);

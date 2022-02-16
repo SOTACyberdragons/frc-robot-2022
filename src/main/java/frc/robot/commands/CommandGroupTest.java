@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class CommandGroupTest extends SequentialCommandGroup {
 
-
     private static final String FIRST_PATH =
             "PathWeaver/output/firstPath.wpilib.json";
 
