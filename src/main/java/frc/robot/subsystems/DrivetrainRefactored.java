@@ -185,6 +185,7 @@ public class DrivetrainRefactored extends SubsystemBase {
         return rightMaster.getSelectedSensorPosition(0);
     }
 
+    // is the robot's left encoder out of phase
     public boolean leftEncoderOutOfPhase() {
         return faults.SensorOutOfPhase;
     }
