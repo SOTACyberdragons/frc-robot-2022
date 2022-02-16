@@ -34,7 +34,7 @@ public class DrivetrainRefactored extends SubsystemBase {
 
     // Instantiate the gyro
     public final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(RobotMap.PIGEON_IMU);
-    public final boolean gyroReversed = false; // Was true
+    public final boolean gyroReversed = true; // Was true
 
     // Create drive object
     private final DifferentialDrive m_drive;
@@ -93,6 +93,7 @@ public class DrivetrainRefactored extends SubsystemBase {
         SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Robot Y", getPose().getTranslation().getY());
         SmartDashboard.putNumber("Robot Heading", getPose().getRotation().getDegrees());
+        SmartDashboard.putNumber("real heading", getHeading().getDegrees());
         SmartDashboard.putNumber("Robot Rotation", getRotation());
         SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
         SmartDashboard.putNumber("Wheel RPM: ", getWheelRPM());
@@ -121,14 +122,13 @@ public class DrivetrainRefactored extends SubsystemBase {
      */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-                leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse,
-                rightMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
+            leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse,
+            rightMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
     }
 
     public double getWheelRPM() {
         return (60 / ((2 * Math.PI) * Constants.kWheelRadiusMeters)) * (leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
     }
-
 
     /**
      * Resets the odometry to the specified pose.
@@ -241,7 +241,7 @@ public class DrivetrainRefactored extends SubsystemBase {
 
     public double getRotation() {
         final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
-        return m_gyro.getFusedHeading(fusionStatus);
+        return m_gyro.getFusedHeading(fusionStatus)  * (gyroReversed ? -1.0 : 1.0);
         // final double[] xyz_dps = new double[3];
         // m_gyro.getRawGyro(xyz_dps);
         // final double currentAngle = m_gyro.getFusedHeading(fusionStatus);
@@ -260,5 +260,4 @@ public class DrivetrainRefactored extends SubsystemBase {
     public void m_drive(final double xSpeed, final double zRotation) {
         m_drive.arcadeDrive(xSpeed, zRotation, true);
     }
-
 }

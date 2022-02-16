@@ -239,7 +239,7 @@ public class FalconShooter extends SubsystemBase {
 
         /* Uncomment to view RPM in Driver Station */
         double actual_RPM = (_rightMaster.getSelectedSensorVelocity() / (double) kSensorUnitsPerRotation * 600f);
-        System.out.println("Vel[RPM]: " + actual_RPM + " Pos: " + _rightMaster.getSelectedSensorPosition());
+        // System.out.println("Vel[RPM]: " + actual_RPM + " Pos: " + _rightMaster.getSelectedSensorPosition());
 
         _firstCall = false;
     }

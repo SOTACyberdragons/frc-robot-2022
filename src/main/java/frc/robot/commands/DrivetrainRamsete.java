@@ -39,7 +39,6 @@ public class DrivetrainRamsete extends RamseteCommand {
                 drivetrain::tankDriveVolts,
                 drivetrain);
 
-
         this.resetPosition = true;
         this.trajectory = trajectory;
         this.drivetrain = drivetrain;

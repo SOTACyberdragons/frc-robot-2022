@@ -4,7 +4,9 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.CommandGroupTest;
 import frc.robot.commands.DriveForward;
+import frc.robot.commands.DrivetrainRamsete;
 import frc.robot.commands.SetRPM;
 import frc.robot.commands.SnakePath;
 import frc.robot.commands.TurnWithGyro;
@@ -17,7 +19,7 @@ public class RobotContainer {
     private final FalconShooter m_shooter = new FalconShooter();
 
     // Adding XBox Controller Support
-    public static XboxController m_controller = new XboxController(0);
+    public static XboxController m_controller = new XboxController(3);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
     final JoystickButton buttonX = new JoystickButton(m_controller, 3);
@@ -44,7 +46,6 @@ public class RobotContainer {
     private void configureButtonBindings() {
         buttonA.whenPressed(new DriveForward(3));
         buttonB.whenPressed(new TurnWithGyro(-90));
-        buttonX.whenPressed(new SnakePath());
     }
 
     public RobotContainer() {
@@ -54,6 +55,6 @@ public class RobotContainer {
     SnakePath autonomousCommand = new SnakePath();
 
     public Command getAutonomousCommand() {
-        return autonomousCommand;
+        return new CommandGroupTest(this);
     }
 }
