@@ -55,7 +55,6 @@ public class RobotContainer {
     SnakePath autonomousCommand = new SnakePath();
 
     public Command getAutonomousCommand() {
-        System.out.println("Starting auto");
         return new CommandGroupTest(this);
     }
 }

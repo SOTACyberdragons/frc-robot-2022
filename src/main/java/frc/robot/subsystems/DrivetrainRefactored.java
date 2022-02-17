@@ -93,13 +93,16 @@ public class DrivetrainRefactored extends SubsystemBase {
         SmartDashboard.putNumber("Robot Rotation", getRotation());
         SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
         SmartDashboard.putNumber("Wheel RPM: ", getWheelRPM());
-               
+        SmartDashboard.putNumber("Left Encoder: ", getLeftEncoder());
+        SmartDashboard.putNumber("Right Encoder: ", getRightEncoder());
+
         // Update field position
         m_field.setRobotPose(m_odometry.getPoseMeters());
         m_field.getObject("traj").setTrajectory(SnakePath.trajectory());
 
         // BAD CODE! DON'T DO THIS! EVER!
-        // m_odometry.update(m_gyro.getRotation2d(), getLeftDistance(), getRightDistance());
+        // m_odometry.update(m_gyro.getRotation2d(), getLeftDistance(),
+        // getRightDistance());
     }
 
     /**
@@ -118,12 +121,13 @@ public class DrivetrainRefactored extends SubsystemBase {
      */
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
         return new DifferentialDriveWheelSpeeds(
-            leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse,
-            rightMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
+                leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse,
+                rightMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
     }
 
     public double getWheelRPM() {
-        return (60 / ((2 * Math.PI) * Constants.kWheelRadiusMeters)) * (leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
+        return (60 / ((2 * Math.PI) * Constants.kWheelRadiusMeters))
+                * (leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
     }
 
     /**
@@ -136,9 +140,10 @@ public class DrivetrainRefactored extends SubsystemBase {
         m_odometry.resetPosition(pose, getHeading());
     }
 
-    public void resetOdometry() { 
+    public void resetOdometry() {
         resetOdometry(getPose());
     }
+
     /**
      * Drives the robot using arcade controls.
      *
@@ -161,7 +166,7 @@ public class DrivetrainRefactored extends SubsystemBase {
         m_drive.feed();
     }
 
-    /** Resets the drive  encoders to currently read a position of 0. */
+    /** Resets the drive encoders to currently read a position of 0. */
     public void resetEncoders() {
         leftMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
         rightMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
@@ -238,10 +243,6 @@ public class DrivetrainRefactored extends SubsystemBase {
     public double getRotation() {
         final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
         return m_gyro.getFusedHeading(fusionStatus);
-        // final double[] xyz_dps = new double[3];
-        // m_gyro.getRawGyro(xyz_dps);
-        // final double currentAngle = m_gyro.getFusedHeading(fusionStatus);
-        // return Math.IEEEremainder(currentAngle, 360) * (gyroReversed ? -1.0 : 1.0);
     }
 
     /**
@@ -250,7 +251,10 @@ public class DrivetrainRefactored extends SubsystemBase {
      * @return The turn rate of the robot, in degrees per second
      */
     public double getTurnRate() {
-        return -m_gyro.getRate();
+        double[] xyz_dps = new double[3];
+        m_gyro.getRawGyro(xyz_dps);
+        double currentAngularRate = xyz_dps[2];
+        return currentAngularRate;
     }
 
     public void m_drive(final double xSpeed, final double zRotation) {
