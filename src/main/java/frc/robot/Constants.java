@@ -3,9 +3,13 @@ package frc.robot;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 // import edu.wpi.first.wpilibj.DigitalInput;
 // import edu.wpi.first.wpilibj.DigitalSource;
+import edu.wpi.first.wpilibj.Filesystem;
+import java.nio.file.Path;
+
 
 public class Constants {
 
+	public static Path DEPLOY_DIRECTORY = Filesystem.getDeployDirectory().toPath();
 	/**
 	 * Which PID slot to pull gains from. Starting 2018, you can choose from
 	 * 0,1,2 or 3. Only the first two (0,1) are visible in web-based

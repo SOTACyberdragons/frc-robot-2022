@@ -18,13 +18,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
+import frc.robot.commands.SnakePath;
 import frc.robot.utils.TalonFXConfig;
 
 public class DrivetrainRefactored extends SubsystemBase {
-
-    /**
-     *
-     */
 
     // Create Falcon 500 motor objects
     public WPI_TalonFX leftSlave, leftMaster, rightSlave, rightMaster;
@@ -34,7 +31,7 @@ public class DrivetrainRefactored extends SubsystemBase {
 
     // Instantiate the gyro
     public final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(RobotMap.PIGEON_IMU);
-    public final boolean gyroReversed = false; // Was true
+    public final boolean gyroReversed = true; // Was true
 
     // Create drive object
     private final DifferentialDrive m_drive;
@@ -87,22 +84,25 @@ public class DrivetrainRefactored extends SubsystemBase {
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
-        m_odometry.update(getHeading(), getLeftDistance(), getRightDistance()); // Working code
+        m_odometry.update(getHeading(), getLeftDistance(), getRightDistance()); // Working code);
 
         // Smart Dashboard display
         SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());
         SmartDashboard.putNumber("Robot Y", getPose().getTranslation().getY());
-        SmartDashboard.putNumber("Robot Heading", getPose().getRotation().getDegrees());
+        SmartDashboard.putNumber("Robot Heading", getHeading().getDegrees());
         SmartDashboard.putNumber("Robot Rotation", getRotation());
         SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
         SmartDashboard.putNumber("Wheel RPM: ", getWheelRPM());
-               
+        SmartDashboard.putNumber("Left Encoder: ", getLeftEncoder());
+        SmartDashboard.putNumber("Right Encoder: ", getRightEncoder());
+
         // Update field position
         m_field.setRobotPose(m_odometry.getPoseMeters());
+        m_field.getObject("traj").setTrajectory(SnakePath.trajectory());
 
         // BAD CODE! DON'T DO THIS! EVER!
-        // m_odometry.update(
-        // m_gyro.getRotation2d(), getLeftDistance(), getRightDistance());
+        // m_odometry.update(m_gyro.getRotation2d(), getLeftDistance(),
+        // getRightDistance());
     }
 
     /**
@@ -126,7 +126,8 @@ public class DrivetrainRefactored extends SubsystemBase {
     }
 
     public double getWheelRPM() {
-        return (60 / ((2 * Math.PI) * Constants.kWheelRadiusMeters)) * (leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
+        return (60 / ((2 * Math.PI) * Constants.kWheelRadiusMeters))
+                * (leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
     }
 
     /**
@@ -137,6 +138,10 @@ public class DrivetrainRefactored extends SubsystemBase {
     public void resetOdometry(Pose2d pose) {
         resetEncoders();
         m_odometry.resetPosition(pose, getHeading());
+    }
+
+    public void resetOdometry() {
+        resetOdometry(getPose());
     }
 
     /**
@@ -239,10 +244,6 @@ public class DrivetrainRefactored extends SubsystemBase {
     public double getRotation() {
         final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
         return m_gyro.getFusedHeading(fusionStatus);
-        // final double[] xyz_dps = new double[3];
-        // m_gyro.getRawGyro(xyz_dps);
-        // final double currentAngle = m_gyro.getFusedHeading(fusionStatus);
-        // return Math.IEEEremainder(currentAngle, 360) * (gyroReversed ? -1.0 : 1.0);
     }
 
     /**
@@ -251,11 +252,13 @@ public class DrivetrainRefactored extends SubsystemBase {
      * @return The turn rate of the robot, in degrees per second
      */
     public double getTurnRate() {
-        return -m_gyro.getRate();
+        double[] xyz_dps = new double[3];
+        m_gyro.getRawGyro(xyz_dps);
+        double currentAngularRate = xyz_dps[2];
+        return currentAngularRate;
     }
 
     public void m_drive(final double xSpeed, final double zRotation) {
         m_drive.arcadeDrive(xSpeed, zRotation, true);
     }
-
 }

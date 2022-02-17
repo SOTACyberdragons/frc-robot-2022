@@ -4,6 +4,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.CommandGroupTest;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.SnakePath;
 import frc.robot.commands.TurnWithGyro;
@@ -73,6 +74,6 @@ public class RobotContainer {
     SnakePath autonomousCommand = new SnakePath();
 
     public Command getAutonomousCommand() {
-        return autonomousCommand;
+        return new CommandGroupTest(this);
     }
 }
