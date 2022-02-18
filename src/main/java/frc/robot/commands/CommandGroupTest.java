@@ -5,11 +5,9 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotContainer;
-import frc.robot.Robot;
-
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.RobotContainer;
 
 public class CommandGroupTest extends SequentialCommandGroup {
 

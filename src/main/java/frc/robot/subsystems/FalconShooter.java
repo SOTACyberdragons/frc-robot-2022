@@ -1,3 +1,35 @@
+//                                                 @                             
+//                                                  &@@                           
+//                          * .                    * @@@                          
+//                           * (@   ,                 @@@@                        
+//                               @@@*       /          @@@@                       
+//                                @@@@@@    @@(     ,* ,@@@@@                     
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
+//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
+//                ***   @@@@@@@@@@@  ,****@@@,                                    
+//                 *      @@@@@@@@@@.  *****@@                                    
+//                          @@@@@@@@@#   ***%@                                    
+//                           ,@@@@@@@@@    ***@,  /                               
+//                              @@@@@@@@@(    ***   //////*.     */               
+//                                 //@@@@@@%/      *    ///////                   
+//                                 @    //////////                                
+//                                   @@**                                         
+//                                       @*****                                   
+//                                             *                                  
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -35,7 +67,7 @@ public class FalconShooter extends SubsystemBase {
     boolean _firstCall = false;
     boolean _state = false;
 
-    //** Initial motor states */
+    // ** Initial motor states */
     double feedForwardTerm = 0; // Percentage added to the close loop output
     // double starting_RPM = 500;
 
@@ -45,9 +77,10 @@ public class FalconShooter extends SubsystemBase {
      * 
      * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
      */
-    public final static int kSensorUnitsPerRotation = 2048;
-    public static final int gearRatio = 1; // TODO figure out what this is, how many times do the shooter rollers spin per motor shaft spin.
-    private double rotationsPerPulse = gearRatio / kSensorUnitsPerRotation;
+    public static final int kSensorUnitsPerRotation = 2048;
+    public static final int gearRatio = 1; // TODO figure out what this is, how many times do the shooter rollers spin
+                                           // per motor shaft spin.
+    public final static double rotationsPerPulse = (gearRatio / kSensorUnitsPerRotation);
 
     /**
      * Set to zero to skip waiting for confirmation.
@@ -69,7 +102,6 @@ public class FalconShooter extends SubsystemBase {
      * 
      * kP kI kD kF Iz PeakOut
      */
-
     public final static Gains kGains_Velocit = new Gains(0.1, 0.001, 5, 1023.0 / 20660.0, 300, 1.00);
     public final static Gains kGains_MotProf = new Gains(1.0, 0.0, 0.0, 1023.0 / 20660.0, 400, 1.00);
 
@@ -87,6 +119,7 @@ public class FalconShooter extends SubsystemBase {
      */
     public final static int PID_PRIMARY = 0;
     public final static int PID_TURN = 1;
+
     /*
      * Firmware currently supports slots [0, 3] and can be used for either PID Set
      */
@@ -102,6 +135,7 @@ public class FalconShooter extends SubsystemBase {
     public final static int kSlot_MotProf = SLOT_3;
 
     public FalconShooter() {
+
         /* Disable all motors */
         _rightMaster.set(TalonFXControlMode.PercentOutput, 0);
         _leftMaster.set(TalonFXControlMode.PercentOutput, 0);
@@ -125,10 +159,6 @@ public class FalconShooter extends SubsystemBase {
          */
         _leftMaster.setSensorPhase(true);
         _rightMaster.setSensorPhase(true);
-
-        /** Feedback Sensor Configuration */
-
-        /** Distance Configs */
 
         /* Configure the left Talon's selected sensor as integrated sensor */
         _leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
@@ -195,11 +225,12 @@ public class FalconShooter extends SubsystemBase {
         _rightMaster.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, kTimeoutMs);
         _leftMaster.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, kTimeoutMs);
 
-        _rightMaster.follow(_leftMaster);
+        _leftMaster.follow(_rightMaster);
 
         /* Initialize */
         _firstCall = true;
         _state = false;
+
         zeroSensors();
     }
 
@@ -212,15 +243,12 @@ public class FalconShooter extends SubsystemBase {
 
             /* Determine which slot affects which PID */
             _rightMaster.selectProfileSlot(kSlot_Velocit, PID_PRIMARY);
-
-            // Start the motors
-            // setVelocity(starting_RPM, feedForwardTerm);
         }
 
-        /* Uncomment to view RPM in Driver Station */
-        // System.out.println("Vel[RPM]: " + getVelocity() + " Pos: " + _rightMaster.getSelectedSensorPosition());
-
         _firstCall = false;
+
+        SmartDashboard.putNumber("Shooter Velocity: ", getVelocity());
+        SmartDashboard.putNumber("Feedforward: ", getFeedforward()); 
     }
 
     /* Zero all sensors on Talons */
@@ -237,7 +265,7 @@ public class FalconShooter extends SubsystemBase {
 
     // sets the robot's feed forward
     public void setFeedforward(double targetFeedforward) {
-        feedForwardTerm =  targetFeedforward;
+        feedForwardTerm = targetFeedforward;
         setVelocity(getVelocity(), feedForwardTerm);
     }
 
@@ -260,13 +288,12 @@ public class FalconShooter extends SubsystemBase {
      * @param targetVelocity target velocity in RPM
      */
     public void setVelocity(double targetVelocity, double targetFeedForward) {
-        System.out.println("Set velocty called");
         double targetVelocity_rotationsPer100ms = targetVelocity / 600;
         double targetVelocitySensorUnits = targetVelocity_rotationsPer100ms / rotationsPerPulse;
         _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
-        targetFeedForward);
+                targetFeedForward);
         _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
-        targetFeedForward);
+                targetFeedForward);
     }
 
     /**
