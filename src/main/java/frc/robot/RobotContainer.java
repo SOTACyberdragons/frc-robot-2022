@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CommandGroupTest;
 import frc.robot.commands.DriveForward;
+import frc.robot.commands.ShootWithFalcon;
 import frc.robot.commands.SnakePath;
 import frc.robot.commands.TurnWithGyro;
 import frc.robot.subsystems.DrivetrainRefactored;
@@ -14,20 +15,20 @@ import frc.robot.subsystems.FalconShooter;
 public class RobotContainer {
 
     public static DrivetrainRefactored m_robotDrive = new DrivetrainRefactored();
-    private final FalconShooter m_shooter = new FalconShooter();
+    // rivate final FalconShooter m_shooter = new FalconShooter();
 
     // Adding XBox Controller Support
-    public static XboxController m_controller = new XboxController(0);
+    public static XboxController m_controller = new XboxController(3);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
     final JoystickButton buttonX = new JoystickButton(m_controller, 3);
     final JoystickButton buttonY = new JoystickButton(m_controller, 4);
 
-    // Falcon shooter test functions
-
     // Adding slew value for the XBox Controller joysticks
     public static SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
     public static SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
+
+    public static double motorPower = 0.5;
 
     // Return XBox left stick for throttle control
     public static double getXBoxThrottle() {
@@ -52,18 +53,18 @@ public class RobotContainer {
         buttonB.whenPressed(new TurnWithGyro(-90));
         buttonX.whenPressed(new SnakePath());
 
-        // DPad Controls to tune the Falcon Shooter
-        double dPad = getXBoxPOV();
+        // This sets the shooter speed, max is 1
+        buttonY.whenHeld(new ShootWithFalcon(.7));
 
-        if (dPad == 0) { // DPAD UP button is pressed
-            m_shooter.setVelocity(m_shooter.getVelocity() + 50, m_shooter.getFeedforward());
-        } else if (dPad == 180) { // DPAD DOWN button is pressed
-            m_shooter.setVelocity(m_shooter.getVelocity() - 50, m_shooter.getFeedforward());
-        } else if (dPad == 90) {
-            m_shooter.setFeedforward(m_shooter.getFeedforward() + 0.10);
-        } else if (dPad == 270 ) {
-            m_shooter.setFeedforward(m_shooter.getFeedforward() - 0.10);
-        }
+        // DPad Controls to tune the Falcon Shooter
+        // double dPad = getXBoxPOV();
+
+        // if (dPad == 0) { // DPAD UP button is pressed
+        //     System.out.println("Up");
+        //     if (motorPower + .1 < 1) {motorPower = motorPower + 0.1;};
+        // } else if (dPad == 180) { // DPAD DOWN button is pressed
+        //     if (motorPower - .1 > 0) {motorPower = motorPower - 0.1;};
+        // }
 
     }
 
