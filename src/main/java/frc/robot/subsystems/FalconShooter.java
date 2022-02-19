@@ -51,6 +51,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Gains;
 
 public class FalconShooter extends SubsystemBase {
+    
     /** Hardware */
     public WPI_TalonFX _leftMaster = new WPI_TalonFX(4, "rio");
     public WPI_TalonFX _rightMaster = new WPI_TalonFX(5, "rio");
