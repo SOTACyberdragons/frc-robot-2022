@@ -277,7 +277,7 @@ public class FalconShooter extends SubsystemBase {
     public double getVelocity() {
         double velocitySensorUnits = (_leftMaster.getSelectedSensorVelocity()
                 + _rightMaster.getSelectedSensorVelocity()) / 2;
-        double velocityRPM = velocitySensorUnits * 600 * rotationsPerPulse;
+        double velocityRPM = velocitySensorUnits * 600 * (gearRatio / kSensorUnitsPerRotation);
         return velocityRPM;
     }
 
@@ -288,12 +288,11 @@ public class FalconShooter extends SubsystemBase {
      * @param targetVelocity target velocity in RPM
      */
     public void setVelocity(double targetVelocity, double targetFeedForward) {
+        System.out.println("Set velocity called.\n");
         double targetVelocity_rotationsPer100ms = targetVelocity / 600;
-        double targetVelocitySensorUnits = targetVelocity_rotationsPer100ms / rotationsPerPulse;
-        _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
-                targetFeedForward);
-        _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
-                targetFeedForward);
+        double targetVelocitySensorUnits = targetVelocity_rotationsPer100ms / (gearRatio / kSensorUnitsPerRotation);
+        _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,targetFeedForward);
+        _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward, targetFeedForward);
     }
 
     /**

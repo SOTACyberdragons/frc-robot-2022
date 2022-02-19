@@ -1,39 +1,3 @@
-//                                                 @                             
-//                                                  &@@                           
-//                          * .                    * @@@                          
-//                           * (@   ,                 @@@@                        
-//                               @@@*       /          @@@@                       
-//                                @@@@@@    @@(     ,* ,@@@@@                     
-//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
-//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
-//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
-//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
-//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
-//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
-//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
-//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
-//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
-//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
-//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
-//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
-//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
-//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
-//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
-//                ***   @@@@@@@@@@@  ,****@@@,                                    
-//                 *      @@@@@@@@@@.  *****@@                                    
-//                          @@@@@@@@@#   ***%@                                    
-//                           ,@@@@@@@@@    ***@,  /                               
-//                              @@@@@@@@@(    ***   //////*.     */               
-//                                 //@@@@@@%/      *    ///////                   
-//                                 @    //////////                                
-//                                   @@**                                         
-//                                       @*****                                   
-//                                             *                                  
-
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -46,11 +10,12 @@ import frc.robot.commands.ShootWithFalcon;
 import frc.robot.commands.SnakePath;
 import frc.robot.commands.TurnWithGyro;
 import frc.robot.subsystems.DrivetrainRefactored;
+import frc.robot.subsystems.FalconShooter;
 
 public class RobotContainer {
 
     public static DrivetrainRefactored m_robotDrive = new DrivetrainRefactored();
-    // rivate final FalconShooter m_shooter = new FalconShooter();
+    public static FalconShooter m_shooter = new FalconShooter();
 
     // Adding XBox Controller Support
     public static XboxController m_controller = new XboxController(3);
@@ -76,7 +41,11 @@ public class RobotContainer {
     public static double getXBoxRotation() {
         // return -m_rotLimiter.calculate(m_controller.getRightX()) *
         // Constants.kMaxAngularSpeed;
-        return -m_rotLimiter.calculate(m_controller.getRightX() * Constants.kMaxTurnSpeed);
+        return m_rotLimiter.calculate(m_controller.getRightX() * Constants.kMaxTurnSpeed);
+    }
+
+    public static double getXBoxPOV() {
+        return m_controller.getPOV();
     }
 
     private void configureButtonBindings() {
@@ -86,6 +55,16 @@ public class RobotContainer {
 
         // This sets the shooter speed, max is 1
         buttonY.whenHeld(new ShootWithFalcon(.7));
+
+        // DPad Controls to tune the Falcon Shooter
+        // double dPad = getXBoxPOV();
+
+        // if (dPad == 0) { // DPAD UP button is pressed
+        //     System.out.println("Up");
+        //     if (motorPower + .1 < 1) {motorPower = motorPower + 0.1;};
+        // } else if (dPad == 180) { // DPAD DOWN button is pressed
+        //     if (motorPower - .1 > 0) {motorPower = motorPower - 0.1;};
+        // }
 
     }
 
