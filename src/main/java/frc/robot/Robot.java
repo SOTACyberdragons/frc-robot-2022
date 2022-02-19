@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.vision.*;
 
 import frc.robot.commands.DifferentialDriveWithJoysticks;
+import frc.robot.grip.CustomPipeline;
 import frc.robot.grip.GripPipeline;
 import frc.robot.subsystems.ShooterTest;
 
@@ -22,9 +23,11 @@ public class Robot extends TimedRobot {
 
     private final Object imgLock = new Object();
 
+    private final UsbCamera camera = CameraServer.startAutomaticCapture();
+
     @Override
     public void robotInit() {
-
+       
         RobotContainer.m_robotDrive.zeroHeading();
         RobotContainer.m_robotDrive.resetEncoders();
 
