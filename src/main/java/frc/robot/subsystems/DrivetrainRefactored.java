@@ -150,6 +150,17 @@ public class DrivetrainRefactored extends SubsystemBase {
         return m_odometry.getPoseMeters();
     }
 
+    public void setCustomPose(double angle, double x, double y)
+    {
+        m_odometry.update(Rotation2d.fromDegrees(angle), x, y);
+
+        Rotation2d rotation = new Rotation2d(45);
+        
+        Pose2d pose = new Pose2d(x, y, rotation);
+
+        m_odometry.resetPosition(pose, rotation);
+    }
+
     /**
      * Returns the current wheel speeds of the robot.
      *

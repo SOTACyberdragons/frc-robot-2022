@@ -36,6 +36,8 @@
 
 package frc.robot.subsystems;
 
+import java.lang.reflect.Field;
+
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
@@ -46,8 +48,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.utils.Gains;
 
 public class FalconShooter extends SubsystemBase {
@@ -78,8 +82,8 @@ public class FalconShooter extends SubsystemBase {
      * 
      * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
      */
-    public static final int kSensorUnitsPerRotation = 2048;
-    public static final int gearRatio = 1; // TODO figure out what this is, how many times do the shooter rollers spin
+    public static final double kSensorUnitsPerRotation = 2048;
+    public static final double gearRatio = 1; // TODO figure out what this is, how many times do the shooter rollers spin
                                            // per motor shaft spin.
     public final static double rotationsPerPulse = (gearRatio / kSensorUnitsPerRotation);
 
@@ -136,10 +140,12 @@ public class FalconShooter extends SubsystemBase {
     public final static int kSlot_MotProf = SLOT_3;
 
     public FalconShooter() {
-
+        
+        
         /* Disable all motors */
         _rightMaster.set(TalonFXControlMode.PercentOutput, 0);
         _leftMaster.set(TalonFXControlMode.PercentOutput, 0);
+
 
         /* Set neutral modes */
         _leftMaster.setNeutralMode(NeutralMode.Brake);
@@ -158,8 +164,9 @@ public class FalconShooter extends SubsystemBase {
          * https://phoenix-documentation.readthedocs.io/en/latest/ch14_MCSensor.html#
          * sensor-phase
          */
-        _leftMaster.setSensorPhase(true);
-        _rightMaster.setSensorPhase(true);
+
+        _leftMaster.setSensorPhase(false);
+        _rightMaster.setSensorPhase(false);
 
         /* Configure the left Talon's selected sensor as integrated sensor */
         _leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
@@ -278,8 +285,9 @@ public class FalconShooter extends SubsystemBase {
     public double getVelocity() {
         double velocitySensorUnits = (_leftMaster.getSelectedSensorVelocity()
                 + _rightMaster.getSelectedSensorVelocity()) / 2;
-        double velocityRPM = velocitySensorUnits * 600 * (gearRatio / kSensorUnitsPerRotation);
-        return velocityRPM;
+        return velocitySensorUnits * 600 * (gearRatio / kSensorUnitsPerRotation);
+        //return (velocitySensorUnits / 600) / (gearRatio / kSensorUnitsPerRotation);
+        
     }
 
     /**
@@ -289,11 +297,12 @@ public class FalconShooter extends SubsystemBase {
      * @param targetVelocity target velocity in RPM
      */
     public void setVelocity(double targetVelocity, double targetFeedForward) {
-        System.out.println("Set velocity called.\n");
         double targetVelocity_rotationsPer100ms = targetVelocity / 600;
         double targetVelocitySensorUnits = targetVelocity_rotationsPer100ms / (gearRatio / kSensorUnitsPerRotation);
+
         _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,targetFeedForward);
         _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward, targetFeedForward);
+
     }
 
     /**

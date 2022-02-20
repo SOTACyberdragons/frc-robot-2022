@@ -54,9 +54,7 @@ public class RobotContainer {
         buttonX.whenPressed(new SnakePath());
 
         // This sets the shooter speed, max is 1
-        buttonY.whenHeld(new ShootWithFalcon(.7));
-
-        // DPad Controls to tune the Falcon Shooter
+        buttonY.whenHeld(new ShootWithFalcon(.55));      // DPad Controls to tune the Falcon Shooter
         // double dPad = getXBoxPOV();
 
         // if (dPad == 0) { // DPAD UP button is pressed

@@ -51,16 +51,13 @@ public class ShootWithFalcon extends CommandBase {
     public ShootWithFalcon(double targetPower) {
         motorPower = targetPower;
 
-        // Use addRequirements() here to declare subsystem dependencies
-        // addRequirements(m_shooter);
+        addRequirements(m_shooter);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        // RobotContainer.m_shooter.setVelocity(500, .1);
-        RobotContainer.m_shooter._rightMaster.set(TalonFXControlMode.PercentOutput, motorPower);
-        RobotContainer.m_shooter._leftMaster.set(TalonFXControlMode.PercentOutput, motorPower);
+        RobotContainer.m_shooter.setVelocity(700, 0.15);        
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -86,7 +83,6 @@ public class ShootWithFalcon extends CommandBase {
                 RobotContainer.m_shooter._rightMaster.set(TalonFXControlMode.PercentOutput, motorPower);
                 RobotContainer.m_shooter._leftMaster.set(TalonFXControlMode.PercentOutput, motorPower);
             }
-            ;
         }
     }
 

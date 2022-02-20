@@ -18,13 +18,15 @@ public class CustomPipeline extends GripPipeline {
 
     private VisionThread visionThread;
 
+    private final Object imgLock = new Object();
+
+    private double centerX = 0.0;
+
     public CustomPipeline()
     {
         camera.setResolution(RobotMap.IMG_WIDTH, RobotMap.IMG_HEIGHT);
 
-        CustomListenerHeir listener = new CustomListenerHeir();
-
-        VisionRunner<GripPipeline> runner = new VisionRunner<GripPipeline>(camera, new GripPipeline(), listener);
+        VisionRunner<GripPipeline> runner = new VisionRunner<GripPipeline>(camera, new GripPipeline(), new CustomListenerHeir());
 
         visionThread = new VisionThread(runner);
 

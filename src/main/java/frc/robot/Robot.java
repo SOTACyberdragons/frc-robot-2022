@@ -4,6 +4,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.vision.*;
@@ -19,15 +20,9 @@ public class Robot extends TimedRobot {
     public static RobotContainer m_robotContainer;
     public static ShooterTest m_shooterTest;
 
-    private VisionThread visionThread;
-
-    private final Object imgLock = new Object();
-
-    private final UsbCamera camera = CameraServer.startAutomaticCapture();
-
     @Override
     public void robotInit() {
-       
+
         RobotContainer.m_robotDrive.zeroHeading();
         RobotContainer.m_robotDrive.resetEncoders();
 
@@ -35,6 +30,7 @@ public class Robot extends TimedRobot {
 
         m_robotContainer = new RobotContainer();
 
+        CommandScheduler.getInstance();
         CommandScheduler.getInstance().enable();
 
         // Reset the Falcon encoders
@@ -57,7 +53,9 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
         CommandScheduler.getInstance().enable();
 
-        RobotContainer.m_robotDrive.zeroHeading();
+        // RobotContainer.m_robotDrive.zeroHeading();
+        // RobotContainer.m_robotDrive.resetOdometry();
+        // RobotContainer.m_robotDrive.setCustomPose(45, 7.3, 1.95);
 
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 

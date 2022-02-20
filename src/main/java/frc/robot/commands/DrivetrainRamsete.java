@@ -18,7 +18,7 @@ public class DrivetrainRamsete extends RamseteCommand {
 
     private boolean resetPosition;
     private Trajectory trajectory;
-    private  DrivetrainRefactored drivetrain;
+    private DrivetrainRefactored drivetrain;
 
     public DrivetrainRamsete(DrivetrainRefactored drivetrain, Trajectory trajectory) {
         super(
@@ -26,9 +26,9 @@ public class DrivetrainRamsete extends RamseteCommand {
                 drivetrain::getPose,
                 new RamseteController(),
                 new SimpleMotorFeedforward(
-                    Constants.ksVolts,
-                    Constants.kvVoltSecondsPerMeter,
-                    Constants.kaVoltSecondsSquaredPerMeter),
+                        Constants.ksVolts,
+                        Constants.kvVoltSecondsPerMeter,
+                        Constants.kaVoltSecondsSquaredPerMeter),
                 Constants.kDriveKinematics,
                 drivetrain::getWheelSpeeds,
                 new PIDController(Constants.kPDriveVel, 0, 0),
@@ -36,7 +36,7 @@ public class DrivetrainRamsete extends RamseteCommand {
                 drivetrain::tankDriveVolts,
                 drivetrain);
 
-        this.resetPosition = true;
+        this.resetPosition = false;
         this.trajectory = trajectory;
         this.drivetrain = drivetrain;
     }
@@ -69,4 +69,4 @@ public class DrivetrainRamsete extends RamseteCommand {
             drivetrain.resetOdometry(trajectory.getInitialPose());
         }
     }
- }
+}
