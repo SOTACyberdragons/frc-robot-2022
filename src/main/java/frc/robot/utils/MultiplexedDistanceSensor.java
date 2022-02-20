@@ -42,7 +42,7 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
- * This is a wrapper for the REV Color Sensor V3, allowing multiple ones to be
+ * This is a wrapper for the REV 2m Distance Sensor, allowing multiple ones to be
  * used on a multiplexer board (this was tested using the Adafruit TCA9548A).
  * 
  * This helper class was inspired by Team 4776. <b>Go S.C.O.T.S. Bots!</b>
