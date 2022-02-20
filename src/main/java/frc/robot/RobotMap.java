@@ -30,4 +30,8 @@ public class RobotMap {
 
 	//Pigeon IMU
 	public static final int PIGEON_IMU = 12;
+
+	//camera resolution
+	public static final int IMG_WIDTH = 320;
+    public static final int IMG_HEIGHT = 240;
 }
