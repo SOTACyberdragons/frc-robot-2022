@@ -1,6 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -9,6 +12,7 @@ import frc.robot.commands.DriveForward;
 import frc.robot.commands.ShootWithFalcon;
 import frc.robot.commands.SnakePath;
 import frc.robot.commands.TurnWithGyro;
+import frc.robot.grip.ImageProcessor;
 import frc.robot.subsystems.DrivetrainRefactored;
 import frc.robot.subsystems.FalconShooter;
 
@@ -17,7 +21,15 @@ public class RobotContainer {
     public static DrivetrainRefactored m_robotDrive = new DrivetrainRefactored();
     public static FalconShooter m_shooter = new FalconShooter();
 
-    // Adding XBox Controller Support
+    public static ImageProcessor imgProcessor = new ImageProcessor();
+
+    private static NetworkTable ballData = NetworkTableInstance.getDefault().getTable("Ball Data");
+
+    public static NetworkTableEntry ballDistance = ballData.getEntry("Ball Distance");
+
+    public static NetworkTableEntry ballCenter = ballData.getEntry("ball center");
+    
+    // Adding XBox Controller Supports
     public static XboxController m_controller = new XboxController(3);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
