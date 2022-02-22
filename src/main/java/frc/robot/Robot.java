@@ -10,11 +10,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.vision.*;
 
 import frc.robot.commands.DifferentialDriveWithJoysticks;
-import frc.robot.grip.CustomPipeline;
-import frc.robot.grip.GripPipeline;
+import frc.robot.grip.ImageProcessor;
 import frc.robot.subsystems.ShooterTest;
 import frc.robot.utils.MultiplexedDistanceSensor;
 
@@ -24,18 +22,21 @@ public class Robot extends TimedRobot {
     public static RobotContainer m_robotContainer;
     public static ShooterTest m_shooterTest;
 
+    public static ImageProcessor imgProcessor = new ImageProcessor();
+
     public static MultiplexedDistanceSensor m_leftSensor;
     public static MultiplexedDistanceSensor m_rightSensor;
 
     @Override
     public void robotInit() {
-
         RobotContainer.m_robotDrive.zeroHeading();
         RobotContainer.m_robotDrive.resetEncoders();
 
         RobotContainer.m_robotDrive.resetOdometry(RobotContainer.m_robotDrive.getPose());
 
         m_robotContainer = new RobotContainer();
+
+        // imgProcessor.execute();
 
         CommandScheduler.getInstance();
         CommandScheduler.getInstance().enable();
@@ -52,8 +53,8 @@ public class Robot extends TimedRobot {
         m_leftSensor = new MultiplexedDistanceSensor(I2C.Port.kOnboard, 7);
         m_rightSensor = new MultiplexedDistanceSensor(I2C.Port.kOnboard, 6);
 
-        m_leftSensor.setAutomaticMode(true);
-        m_rightSensor.setAutomaticMode(true);
+        // m_leftSensor.setAutomaticMode(true);
+        // m_rightSensor.setAutomaticMode(true);
         m_leftSensor.setDistanceUnits(Unit.kMillimeters);
         m_rightSensor.setDistanceUnits(Unit.kMillimeters);
     }
