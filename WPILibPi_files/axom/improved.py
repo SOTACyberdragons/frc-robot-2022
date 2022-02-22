@@ -153,6 +153,7 @@ class Tester:
             # output
             boxes, class_ids, scores, x_scale, y_scale = self.get_output(scale)
 
+            # find the color of the recognized object
             for i in range(len(boxes)):
                 if scores[i] > 0.5:
                     ymin, xmin, ymax, xmax = boxes[i]
@@ -178,8 +179,8 @@ class Tester:
                         print(xmin, xmax, ymin, ymax)
                         continue
 
-                    # Values are in BGR - Tweak these!
-                    red = [70,  66, 152]
+                    # TODO Values are in BGR - Tweak these!
+                    red = [70, 66, 152]
                     redtolerance = [32, 32, 64]
                     blue = [.8, 0,  0]
                     bluetolerance = [.2, .2, .2]
