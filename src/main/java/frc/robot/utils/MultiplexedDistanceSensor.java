@@ -60,7 +60,7 @@ public class MultiplexedDistanceSensor {
     // The actual sensor. All of the methods call this sensor to get the data.
     private Rev2mDistanceSensor sensor;
 
-    // What port on the multiplexer the color sensor is plugged into.
+    // What port on the multiplexer the distance sensor is plugged into.
     private final int port;
 
     public enum Unit {
@@ -72,10 +72,10 @@ public class MultiplexedDistanceSensor {
     }
 
     /**
-     * Create a multiplexed color sensor.
+     * Create a multiplexed distance sensor.
      * 
      * @param i2cPort - What port the multiplexer is plugged into.
-     * @param port    - What port the color sensor is plugged into the multiplexer
+     * @param port    - What port the distance sensor is plugged into the multiplexer
      *                <br>
      *                (commonly labeled SC3 and SD3 on the PCB, where 3 is the
      *                port)</br>
@@ -91,7 +91,7 @@ public class MultiplexedDistanceSensor {
 
     /**
      * Helper method. This just sets the multiplexer to the correct port before
-     * using the color sensor.
+     * using the distance sensor.
      */
     private void setChannel() {
         multiplexer.write(kMultiplexerAddress, 1 << port);
