@@ -36,8 +36,6 @@
 
 package frc.robot.subsystems;
 
-import java.lang.reflect.Field;
-
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
@@ -48,10 +46,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.utils.Gains;
 
 public class FalconShooter extends SubsystemBase {
@@ -83,8 +79,7 @@ public class FalconShooter extends SubsystemBase {
      * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
      */
     public static final double kSensorUnitsPerRotation = 2048;
-    public static final double gearRatio = 1; // TODO figure out what this is, how many times do the shooter rollers spin
-                                           // per motor shaft spin.
+    public static final double gearRatio = 1; // TODO figure out what this is
     public final static double rotationsPerPulse = (gearRatio / kSensorUnitsPerRotation);
 
     /**

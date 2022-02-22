@@ -42,7 +42,8 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 import edu.wpi.first.wpilibj.I2C;
 
 /**
- * This is a wrapper for the REV 2m Distance Sensor, allowing multiple ones to be
+ * This is a wrapper for the REV 2m Distance Sensor, allowing multiple ones to
+ * be
  * used on a multiplexer board (this was tested using the Adafruit TCA9548A).
  * 
  * This helper class was inspired by Team 4776. <b>Go S.C.O.T.S. Bots!</b>
@@ -75,7 +76,8 @@ public class MultiplexedDistanceSensor {
      * Create a multiplexed distance sensor.
      * 
      * @param i2cPort - What port the multiplexer is plugged into.
-     * @param port    - What port the distance sensor is plugged into the multiplexer
+     * @param port    - What port the distance sensor is plugged into the
+     *                multiplexer
      *                <br>
      *                (commonly labeled SC3 and SD3 on the PCB, where 3 is the
      *                port)</br>
@@ -98,7 +100,7 @@ public class MultiplexedDistanceSensor {
     }
 
     /*-----------------------------------------------------------------------*/
-    /* Below are all of the methods used for the distance sensor. */
+    /* Below are all of the methods used for the distance sensor.            */
     /* All this does is set the channel, then run the command on the sensor. */
     /*-----------------------------------------------------------------------*/
 
