@@ -257,9 +257,9 @@ public class Drivetrain extends SubsystemBase {
     }
 
     // FIXME Test this function
-    public void setDistance(final double distanceIn) {
-        final double distanceTicks = distanceIn / Constants.kEncoderDistancePerPulse;
-        final double totalDistance = (getLeftEncoder() + getRightEncoder()) / 2 + distanceTicks;
+    public void setDistance(final double distance) {
+        final double distanceTicks = distance / Constants.kEncoderDistancePerPulse;
+        final double totalDistance = ((getLeftEncoder() + getRightEncoder()) / 2) + distanceTicks;
         final double angle = getRotation();
         rightMaster.set(ControlMode.MotionMagic, totalDistance, DemandType.AuxPID, angle);
     }
