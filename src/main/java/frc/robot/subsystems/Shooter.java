@@ -79,7 +79,7 @@ public class Shooter extends SubsystemBase {
      * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
      */
     public static final double kSensorUnitsPerRotation = 2048;
-    public static final double gearRatio = 1; // TODO figure out what this is
+    public static final double gearRatio = 1; // TODO Defines shooter gear reduction
     public final static double rotationsPerPulse = (gearRatio / kSensorUnitsPerRotation);
 
     /**
@@ -276,28 +276,25 @@ public class Shooter extends SubsystemBase {
      * @return average shooter velocity in RPM
      */
     public double getVelocity() {
-        double velocitySensorUnits = (_leftMaster.getSelectedSensorVelocity()
-                + _rightMaster.getSelectedSensorVelocity()) / 2;
-        return velocitySensorUnits * 600 * (gearRatio / kSensorUnitsPerRotation);
-        // return (velocitySensorUnits / 600) / (gearRatio / kSensorUnitsPerRotation);
-
+        double vel_RotPerSec = (double) ((_leftMaster.getSelectedSensorVelocity()
+                + _rightMaster.getSelectedSensorVelocity()) / 2) / kSensorUnitsPerRotation * 10; 
+        double vel_RotPerMin = vel_RotPerSec * 60.0;
+        return vel_RotPerMin;
     }
 
     /**
      * Sets both shooter motors to the target velocity in RPM
      * https://docs.ctre-phoenix.com/en/stable/ch16_ClosedLoop.html#motion-magic-position-velocity-current-closed-loop-closed-loop
      * 
-     * @param targetVelocity target velocity in RPM
+     * @param targetVelocityRPM target velocity in RPM
      */
-    public void setVelocity(double targetVelocity, double targetFeedForward) {
-        double targetVelocity_rotationsPer100ms = targetVelocity / 600;
-        double targetVelocitySensorUnits = targetVelocity_rotationsPer100ms / (gearRatio / kSensorUnitsPerRotation);
-
+    public void setVelocity(double targetVelocityRPM, double targetFeedForward) {
+        double targetVelocityRPS = targetVelocityRPM / 60;
+        double targetVelocitySensorUnits = targetVelocityRPS * (kSensorUnitsPerRotation * 10);
         _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
                 targetFeedForward);
         _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
                 targetFeedForward);
-
     }
 
     /**

@@ -1,3 +1,39 @@
+//                                                 @                              
+//                                                  &@@                           
+//                          * .                    * @@@                          
+//                           * (@   ,                 @@@@                        
+//                               @@@*       /          @@@@                       
+//                                @@@@@@    @@(     ,* ,@@@@@                     
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
+//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
+//                ***   @@@@@@@@@@@  ,****@@@,                                    
+//                 *      @@@@@@@@@@.  *****@@                                    
+//                          @@@@@@@@@#   ***%@                                    
+//                           ,@@@@@@@@@    ***@,  /                               
+//                              @@@@@@@@@(    ***   //////*.     */               
+//                                 //@@@@@@%/      *    ///////                   
+//                                 @    //////////                                
+//                                   @@**                                         
+//                                       @*****                                   
+//                                             *                                  
+
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -11,6 +47,7 @@ import frc.robot.commands.CommandGroupExample;
 import frc.robot.commands.DriveForward;
 import frc.robot.commands.RamseteTest;
 import frc.robot.commands.ShootCargo;
+import frc.robot.commands.SpinIntake;
 import frc.robot.commands.TurnWithGyro;
 import frc.robot.grip.ImageProcessor;
 import frc.robot.subsystems.Drivetrain;
@@ -61,13 +98,14 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        buttonA.whenPressed(new DriveForward(3));
-        buttonB.whenPressed(new TurnWithGyro(-90));
-        buttonX.whenPressed(new RamseteTest());
-
+        // Test commands
+        // buttonA.whenPressed(new DriveForward(3));
+        // buttonB.whenPressed(new TurnWithGyro(-90)); // TODO Fix me!
+        // buttonX.whenPressed(new RamseteTest());
+        
+        buttonA.whenHeld(new SpinIntake(.5));
         // This sets the shooter speed in RPM. Don't overdo it
-        buttonY.whenHeld(new ShootCargo(700, .15)); // DPad Controls to tune the Falcon Shoote
-
+        buttonY.whenHeld(new ShootCargo(100, .15));
     }
 
     public RobotContainer() {
