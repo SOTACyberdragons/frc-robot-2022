@@ -26,10 +26,10 @@ public class RobotMap {
 	public static final int DOUBLE_SOLENOID_ONE = 7;
 
 	//DIO 
-	public static final int STOP_SIGN = 0;
+	public static final int FEEDER_BREAKBEAM = 0;
 
 	//Pigeon IMU
-	public static final int PIGEON_IMU = 12;
+	public static final int PIGEON_IMU = 14;
 
 	//camera resolution
 	public static final int IMG_WIDTH = 320;

@@ -1,3 +1,40 @@
+
+//                                                 @                             
+//                                                  &@@                           
+//                          * .                    * @@@                          
+//                           * (@   ,                 @@@@                        
+//                               @@@*       /          @@@@                       
+//                                @@@@@@    @@(     ,* ,@@@@@                     
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
+//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
+//                ***   @@@@@@@@@@@  ,****@@@,                                    
+//                 *      @@@@@@@@@@.  *****@@                                    
+//                          @@@@@@@@@#   ***%@                                    
+//                           ,@@@@@@@@@    ***@,  /                               
+//                              @@@@@@@@@(    ***   //////*.     */               
+//                                 //@@@@@@%/      *    ///////                   
+//                                 @    //////////                                
+//                                   @@**                                         
+//                                       @*****                                   
+//                                             *                                  
+
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 /************************ PROJECT DORCAS ************************/
 /* Copyright (c) 2022 StuyPulse Robotics. All rights reserved.  */
 /* This work is licensed under the terms of the MIT license.    */
@@ -11,16 +48,16 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.Constants;
-import frc.robot.subsystems.DrivetrainRefactored;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.TrajectoryLoader;
 
 public class DrivetrainRamsete extends RamseteCommand {
 
     private boolean resetPosition;
     private Trajectory trajectory;
-    private DrivetrainRefactored drivetrain;
+    private Drivetrain drivetrain;
 
-    public DrivetrainRamsete(DrivetrainRefactored drivetrain, Trajectory trajectory) {
+    public DrivetrainRamsete(Drivetrain drivetrain, Trajectory trajectory) {
         super(
                 trajectory,
                 drivetrain::getPose,
@@ -41,11 +78,11 @@ public class DrivetrainRamsete extends RamseteCommand {
         this.drivetrain = drivetrain;
     }
 
-    public DrivetrainRamsete(DrivetrainRefactored drivetrain, String path) {
+    public DrivetrainRamsete(Drivetrain drivetrain, String path) {
         this(drivetrain, TrajectoryLoader.getTrajectory(path));
     }
 
-    public DrivetrainRamsete(DrivetrainRefactored drivetrain, String... paths) {
+    public DrivetrainRamsete(Drivetrain drivetrain, String... paths) {
         this(drivetrain, TrajectoryLoader.getTrajectory(paths));
     }
 

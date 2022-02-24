@@ -1,31 +1,65 @@
+//                                                 @                             
+//                                                  &@@                           
+//                          * .                    * @@@                          
+//                           * (@   ,                 @@@@                        
+//                               @@@*       /          @@@@                       
+//                                @@@@@@    @@(     ,* ,@@@@@                     
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
+//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
+//                ***   @@@@@@@@@@@  ,****@@@,                                    
+//                 *      @@@@@@@@@@.  *****@@                                    
+//                          @@@@@@@@@#   ***%@                                    
+//                           ,@@@@@@@@@    ***@,  /                               
+//                              @@@@@@@@@(    ***   //////*.     */               
+//                                 //@@@@@@%/      *    ///////                   
+//                                 @    //////////                                
+//                                   @@**                                         
+//                                       @*****                                   
+//                                             *                                  
+
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot;
 
-import com.revrobotics.Rev2mDistanceSensor.Unit;
-
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.vision.VisionThread;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
 import frc.robot.commands.DifferentialDriveWithJoysticks;
 import frc.robot.grip.ImageProcessor;
-import frc.robot.subsystems.ShooterTest;
-import frc.robot.utils.MultiplexedDistanceSensor;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Feeder;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.TalonExample;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
     public static RobotContainer m_robotContainer;
-    public static ShooterTest m_shooterTest;
+    public static Intake m_intake;
+    public static Feeder m_feeder;
+    public static Shooter m_shooter;
+    public static TalonExample m_shooterTest;
 
     public static ImageProcessor imgProcessor = new ImageProcessor();
 
-    public static MultiplexedDistanceSensor m_leftSensor;
-    public static MultiplexedDistanceSensor m_rightSensor;
+    // TODO Old REV sensor code. Doesn't work. Replace with PWF Sensor code
+    // public static MultiplexedDistanceSensor m_leftSensor;
+    // public static MultiplexedDistanceSensor m_rightSensor;
 
     @Override
     public void robotInit() {
@@ -35,8 +69,6 @@ public class Robot extends TimedRobot {
         RobotContainer.m_robotDrive.resetOdometry(RobotContainer.m_robotDrive.getPose());
 
         m_robotContainer = new RobotContainer();
-
-        // imgProcessor.execute();
 
         CommandScheduler.getInstance();
         CommandScheduler.getInstance().enable();
@@ -50,20 +82,21 @@ public class Robot extends TimedRobot {
         RobotContainer.m_robotDrive.rightSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
                 Constants.kTimeoutMs);
 
-        m_leftSensor = new MultiplexedDistanceSensor(I2C.Port.kOnboard, 7);
-        m_rightSensor = new MultiplexedDistanceSensor(I2C.Port.kOnboard, 6);
-
+        // TODO Old REV sensor code. Doesn't work. Replace with PWF Sensor code
+        // m_leftSensor = new MultiplexedDistanceSensor(I2C.Port.kOnboard, 7);
+        // m_rightSensor = new MultiplexedDistanceSensor(I2C.Port.kOnboard, 6);
         // m_leftSensor.setAutomaticMode(true);
         // m_rightSensor.setAutomaticMode(true);
-        m_leftSensor.setDistanceUnits(Unit.kMillimeters);
-        m_rightSensor.setDistanceUnits(Unit.kMillimeters);
+        // m_leftSensor.setDistanceUnits(Unit.kMillimeters);
+        // m_rightSensor.setDistanceUnits(Unit.kMillimeters);
     }
 
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-        SmartDashboard.putNumber("Left Range", m_leftSensor.getRange());
-        SmartDashboard.putNumber("Right Range", m_rightSensor.getRange());
+        // TODO Old REV sensor code. Doesn't work. Replace with PWF Sensor code
+        // SmartDashboard.putNumber("Left Range", m_leftSensor.getRange());
+        // SmartDashboard.putNumber("Right Range", m_rightSensor.getRange());
     }
 
     @Override

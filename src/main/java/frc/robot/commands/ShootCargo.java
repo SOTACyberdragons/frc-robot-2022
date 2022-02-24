@@ -39,58 +39,47 @@ package frc.robot.commands;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.FalconShooter;
+import frc.robot.Robot;
 
-public class ShootWithFalcon extends CommandBase {
-    public static double motorPower;
-
-    FalconShooter m_shooter = new FalconShooter();
+public class ShootCargo extends CommandBase {
+    public static double motorRPM;
+    public static double motorFF;
 
     /** Creates a new ShootWithFalcon. */
-    public ShootWithFalcon(double targetPower) {
-        motorPower = targetPower;
-
-        addRequirements(m_shooter);
+    public ShootCargo(double targetRPM, double targetFF) {
+        motorRPM = targetRPM;
+        motorFF = targetFF;
+        addRequirements(Robot.m_shooter, Robot.m_feeder);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.m_shooter.setVelocity(700, 0.15);        
+        Robot.m_shooter.setVelocity(motorRPM, 0.15);
+        Robot.m_feeder.feederOut();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        
+
         // DPad Controls to tune the Falcon Shooter
-        int dPad = RobotContainer.m_controller.getPOV();
-        System.out.println(motorPower);
-
-        // DPAD UP button is pressed
-        if (dPad == 0) { 
-            if (motorPower + .1 < 1) {
-                motorPower = motorPower + 0.1;
-                RobotContainer.m_shooter._rightMaster.set(TalonFXControlMode.PercentOutput, motorPower);
-                RobotContainer.m_shooter._leftMaster.set(TalonFXControlMode.PercentOutput, motorPower);
-            }
-            ;
-        // DPAD DOWN button is pressed
-        } else if (dPad == 180) { 
-            if (motorPower - .1 > 0) {
-                motorPower = motorPower - 0.1;
-                RobotContainer.m_shooter._rightMaster.set(TalonFXControlMode.PercentOutput, motorPower);
-                RobotContainer.m_shooter._leftMaster.set(TalonFXControlMode.PercentOutput, motorPower);
-            }
-        }
+        // int dPad = RobotContainer.m_controller.getPOV();
+        // if (dPad == 0) {
+        //     motorRPM = motorRPM + 100;
+        //     Robot.m_shooter.setVelocity(motorRPM, motorFF);
+        // } else if (dPad == 180) {
+        //     motorRPM = motorRPM + 100;
+        //     Robot.m_shooter.setVelocity(motorRPM, motorFF);
+        // }
+        
     }
-
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        m_shooter._rightMaster.set(TalonFXControlMode.PercentOutput, 0);
-        m_shooter._leftMaster.set(TalonFXControlMode.PercentOutput, 0);
+        Robot.m_shooter._rightMaster.set(TalonFXControlMode.PercentOutput, 0);
+        Robot.m_shooter._leftMaster.set(TalonFXControlMode.PercentOutput, 0);
+        Robot.m_feeder.feederStop();;
     }
 
     // Returns true when the command should end.

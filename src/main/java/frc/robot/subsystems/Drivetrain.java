@@ -1,346 +1,311 @@
+//                                                 @                             
+//                                                  &@@                           
+//                          * .                    * @@@                          
+//                           * (@   ,                 @@@@                        
+//                               @@@*       /          @@@@                       
+//                                @@@@@@    @@(     ,* ,@@@@@                     
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
+//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
+//                ***   @@@@@@@@@@@  ,****@@@,                                    
+//                 *      @@@@@@@@@@.  *****@@                                    
+//                          @@@@@@@@@#   ***%@                                    
+//                           ,@@@@@@@@@    ***@,  /                               
+//                              @@@@@@@@@(    ***   //////*.     */               
+//                                 //@@@@@@%/      *    ///////                   
+//                                 @    //////////                                
+//                                   @@**                                         
+//                                       @*****                                   
+//                                             *                                  
 
-// package frc.robot.subsystems;
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-// import com.ctre.phoenix.motorcontrol.ControlMode;
-// import com.ctre.phoenix.motorcontrol.DemandType;
-// import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-// import com.ctre.phoenix.motorcontrol.NeutralMode;
-// import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-// import com.ctre.phoenix.sensors.PigeonIMU;
-// import com.ctre.phoenix.sensors.WPI_PigeonIMU;
-// import com.fasterxml.jackson.databind.deser.impl.FailingDeserializer;
+package frc.robot.subsystems;
 
-// import com.ctre.phoenix.motorcontrol.Faults;
-// import com.ctre.phoenix.motorcontrol.InvertType;
-// import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-// import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.Faults;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 
-// import edu.wpi.first.hal.FRCNetComm.tResourceType;
-// import edu.wpi.first.wpilibj.Preferences;
-// import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-// import edu.wpi.first.math.geometry.Pose2d;
-// import edu.wpi.first.math.geometry.Rotation2d;
-// import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-// import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
-// import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-// import edu.wpi.first.math.util.Units;
-// import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import frc.robot.Constants;
-// import frc.robot.RobotMap;
-// import frc.robot.commands.DifferentialDriveWithJoysticks;
-// import frc.robot.oi.limelightvision.limelight.LimeLight;
-// import frc.robot.utils.TalonFXConfig;
-// import edu.wpi.first.wpilibj.MotorSafety;
-// import frc.robot.commands.DifferentialDriveWithJoysticks;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.RobotMap;
+import frc.robot.commands.RamseteTest;
+import frc.robot.utils.TalonFXConfig;
 
-// /**
-//  *
-//  */
-// public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends SubsystemBase {
 
-// 	public final static double WHEELBASE_WIDTH = 24.25;
-// 	public final static double WHEEL_DIAMETER = 6;
-// 	public final static double PULSE_PER_REVOLUTION = 2048; // from
-// 															// http://www.ctr-electronics.com/talon-fx.html#product_tabs_tech_specs
-// 	public final static double REDUCTION_TO_ENCODER_FAST = PULSE_PER_REVOLUTION * 7.95; // 11:42 24:50
-// 	public final static double REDUCTION_TO_ENCODER_SLOW = (2048 * 42 * 60) / (11 * 14); // 11:42 14:60
-// 	public final static double DISTANCE_PER_PULSE = (Math.PI * WHEEL_DIAMETER) / REDUCTION_TO_ENCODER_FAST;
-// 	public final static double DISTANCE_PER_PULSE_METERS = Units.inchesToMeters(DISTANCE_PER_PULSE);
-// 	public final static double MEETERS_PER_SECOND = 7.95 * 2 * Math.PI * Units.inchesToMeters(3) / 60;
-// 	public final static double MAX_SPEED = 110.0;
-// 	public static final double MAX_ACCEL = 1.0 / 0.0254; // 0.2g in in/s^2
-// 	public static final double MAX_JERK = 20 / 0.0254; // 30 / 0.0254; //from example code in Pathfinder
-// 	public final double encoderMaxSpeed = 33000;
-// 	public final double distanceBetweenWheels = 24;
+    // Create Falcon 500 motor objects
+    public WPI_TalonFX leftSlave, leftMaster, rightSlave, rightMaster;
 
-// 	public final boolean gyroReversed = false;
-// 	public WPI_TalonFX leftSlave, leftMaster, rightSlave, rightMaster;
+    // Falcon 500 faults objects
+    private Faults faults = new Faults();
 
-// 	private Faults faults = new Faults();
-// 	private final LimeLight limelight = new LimeLight();
+    // Instantiate the gyro
+    public final WPI_PigeonIMU m_gyro = new WPI_PigeonIMU(RobotMap.PIGEON_IMU);
+    public final boolean gyroReversed = false; // Was true
 
-// 	public final DifferentialDrive drive;
-// 	public final WPI_PigeonIMU gyro = new WPI_PigeonIMU(12);
+    // Create drive object
+    private final DifferentialDrive m_drive;
 
-// 	// private Preferences prefs;
+    // Odometry class for tracking robot pose
+    private final DifferentialDriveOdometry m_odometry;
 
-// 	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
-// 			Units.inchesToMeters(distanceBetweenWheels));
+    // Wheel Speed containers
+    public static double m_leftWheelSpeed;
+    public static double m_rightWheelSpeed;
 
-// 	public DifferentialDriveOdometry odometry;
+    // Field2d object for Smartdashboard display
+    private Field2d m_field = new Field2d();
 
-// 	public Drivetrain() {
-// 		// zeroEncoders();
+    public Drivetrain() {
 
-// 		leftMaster = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_MASTER);
-// 		leftSlave = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_SLAVE);
-// 		rightMaster = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_MASTER);
-// 		rightSlave = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_SLAVE);
+        leftMaster = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_MASTER);
+        leftSlave = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_SLAVE);
+        rightMaster = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_MASTER);
+        rightSlave = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_SLAVE);
 
-// 		leftMaster.configFactoryDefault();
-// 		leftSlave.configFactoryDefault();
-// 		rightMaster.configFactoryDefault();
-// 		rightSlave.configFactoryDefault();
+        leftMaster.configFactoryDefault();
+        leftSlave.configFactoryDefault();
+        rightMaster.configFactoryDefault();
+        rightSlave.configFactoryDefault();
 
-// 		leftSlave.follow(leftMaster);
-// 		rightSlave.follow(rightMaster);
+        leftSlave.follow(leftMaster);
+        rightSlave.follow(rightMaster);
 
-// 		leftMaster.setInverted(false);
-// 		leftSlave.setInverted(false);
-// 		rightMaster.setInverted(true);
-// 		rightSlave.setInverted(true);
+        rightMaster.setSensorPhase(false);
+        leftMaster.setSensorPhase(false);
 
-// 		rightMaster.setSensorPhase(false);
-// 		leftMaster.setSensorPhase(false);
+        rightMaster.setInverted(false);
+        rightSlave.setInverted(false);
+        leftMaster.setInverted(true);
+        leftSlave.setInverted(true);
 
-// 		rightMaster.setNeutralMode(NeutralMode.Coast);
-// 		rightSlave.setNeutralMode(NeutralMode.Coast);
-// 		leftMaster.setNeutralMode(NeutralMode.Coast);
-// 		leftSlave.setNeutralMode(NeutralMode.Coast);
+        rightMaster.setNeutralMode(NeutralMode.Coast);
+        rightSlave.setNeutralMode(NeutralMode.Coast);
+        leftMaster.setNeutralMode(NeutralMode.Coast);
+        leftSlave.setNeutralMode(NeutralMode.Coast);
 
-// 		odometry = new DifferentialDriveOdometry(getHeading());
-// 		drive = new DifferentialDrive(leftMaster, rightMaster);
-// 	}
+        m_odometry = new DifferentialDriveOdometry(getHeading());
+        m_drive = new DifferentialDrive(leftMaster, rightMaster);
 
-// 	public void initDriveTalonSRX(final WPI_TalonSRX talon) {
-// 		talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_LOOP_IDX,
-// 				Constants.TIMEOUT_MS);
+        // Populate field position in Smartdashboard
+        SmartDashboard.putData("Field", m_field);
+    }
 
-// 		/* Set relevant frame periods to be at least as fast as periodic rate */
-// 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.TIMEOUT_MS);
-// 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.TIMEOUT_MS);
+    @Override
+    public void periodic() {
+        // Update the odometry in the periodic block
+        m_odometry.update(getHeading(), getLeftDistance(), getRightDistance()); // Working code);
 
-// 		/* set the peak and nominal outputs */
-// 		talon.configNominalOutputForward(0, Constants.TIMEOUT_MS);
-// 		talon.configNominalOutputReverse(0, Constants.TIMEOUT_MS);
-// 		talon.configPeakOutputForward(1, Constants.TIMEOUT_MS);
-// 		talon.configPeakOutputReverse(-1, Constants.TIMEOUT_MS);
+        // Smart Dashboard display
+        SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());
+        SmartDashboard.putNumber("Robot Y", getPose().getTranslation().getY());
+        SmartDashboard.putNumber("Robot Heading", getHeading().getDegrees());
+        SmartDashboard.putNumber("Robot Rotation", getRotation());
+        SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
+        SmartDashboard.putNumber("Wheel RPM: ", getWheelRPM());
+        SmartDashboard.putNumber("Left Encoder: ", getLeftEncoder());
+        SmartDashboard.putNumber("Right Encoder: ", getRightEncoder());
 
-// 		/* set closed loop gains in slot 0 - see documentation */
-// 		// distance
-// 		talon.selectProfileSlot(Constants.SLOT_IDX, Constants.PID_LOOP_IDX);
-// 		talon.config_kP(0, 0.45, Constants.TIMEOUT_MS);
-// 		talon.config_kI(0, 0, Constants.TIMEOUT_MS);
-// 		talon.config_kD(0, 0.0, Constants.TIMEOUT_MS);
-// 		talon.config_kF(0, Constants.TALON_MAX_OUTPUT / encoderMaxSpeed, Constants.TIMEOUT_MS);
+        // Update field position
+        m_field.setRobotPose(m_odometry.getPoseMeters());
+        m_field.getObject("traj").setTrajectory(RamseteTest.trajectory());
 
-// 		// turning
-// 		talon.config_kP(1, 0.1, Constants.TIMEOUT_MS);
-// 		talon.config_kI(1, 0, Constants.TIMEOUT_MS);
-// 		talon.config_kD(1, 0, Constants.TIMEOUT_MS);
-// 		talon.config_kF(1, 0, Constants.TIMEOUT_MS);
+        // BAD CODE! DON'T DO THIS! EVER!
+        // m_odometry.update(m_gyro.getRotation2d(), getLeftDistance(),
+        // getRightDistance());
+    }
 
-// 		/* set acceleration and cruise velocity - see documentation */
-// 		talon.configMotionCruiseVelocity(25000, Constants.TIMEOUT_MS);
-// 		talon.configMotionAcceleration(20000, Constants.TIMEOUT_MS);
-// 	}
+    /**
+     * Returns the currently-estimated pose of the robot.
+     *
+     * @return The pose.
+     */
+    public Pose2d getPose() {
+        return m_odometry.getPoseMeters();
+    }
 
-// 	public boolean leftEncoderOutOfPhase() {
-// 		return faults.SensorOutOfPhase;
-// 	}
+    public void setCustomPose(double angle, double x, double y)
+    {
+        m_odometry.update(Rotation2d.fromDegrees(angle), x, y);
 
-// 	public void stop() {
-// 		drive.arcadeDrive(0, 0);
-// 	}
+        Rotation2d rotation = new Rotation2d(45);
+        
+        Pose2d pose = new Pose2d(x, y, rotation);
 
-// 	public void zeroEncoders() {
-// 		leftMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
-// 		rightMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
-// 	}
+        m_odometry.resetPosition(pose, rotation);
+    }
 
-// 	public double getLeftRawEncoderTicks() {
-// 		return leftMaster.getSelectedSensorPosition(0);
-// 	}
+    /**
+     * Returns the current wheel speeds of the robot.
+     *
+     * @return The current wheel speeds.
+     */
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+        return new DifferentialDriveWheelSpeeds(
+                leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse,
+                rightMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
+    }
 
-// 	public double getRightRawEncoderTicks() {
-// 		return rightMaster.getSelectedSensorPosition(0);
-// 	}
+    public double getWheelRPM() {
+        return (60 / ((2 * Math.PI) * Constants.kWheelRadiusMeters))
+                * (leftMaster.getSelectedSensorVelocity() * Constants.kEncoderDistancePerPulse);
+    }
 
-// 	public double getLeftEncoderMeters() {
-// 		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE_METERS;
-// 	}
+    /**
+     * Resets the odometry to the specified pose.
+     *
+     * @param pose The pose to which to set the odometry.
+     */
+    public void resetOdometry(Pose2d pose) {
+        resetEncoders();
+        m_odometry.resetPosition(pose, getHeading());
+    }
 
-// 	public double getRightEncoderMeters() {
-// 		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE_METERS;
-// 	}
+    public void resetOdometry() {
+        resetOdometry(getPose());
+    }
 
-// 	public double getLeftEncoderInches() {
-// 		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE;
-// 	}
+    /**
+     * Drives the robot using arcade controls.
+     *
+     * @param fwd the commanded forward movement
+     * @param rot the commanded rotation
+     */
+    public void arcadeDrive(double fwd, double rot) {
+        m_drive.arcadeDrive(fwd, rot);
+    }
 
-// 	public double getRightEncoderInches() {
-// 		return getRightRawEncoderTicks() * DISTANCE_PER_PULSE;
-// 	}
+    /**
+     * Controls the left and right sides of the drive directly with voltages.
+     *
+     * @param leftVolts  the commanded left output
+     * @param rightVolts the commanded right output
+     */
+    public void tankDriveVolts(double leftVolts, double rightVolts) {
+        leftMaster.setVoltage(leftVolts);
+        rightMaster.setVoltage(rightVolts);
+        m_drive.feed();
+    }
 
-// 	public double getLeftDistance() {
-// 		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE_METERS;
-// 	}
+    /** Resets the drive encoders to currently read a position of 0. */
+    public void resetEncoders() {
+        leftMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
+        rightMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
+    }
 
-// 	public double getRightDistance() {
-// 		return getRightRawEncoderTicks() * DISTANCE_PER_PULSE_METERS;
-// 	}
+    /**
+     * Gets the left drive encoder.
+     *
+     * @return the left drive encoder
+     */
+    public double getLeftEncoder() {
+        return leftMaster.getSelectedSensorPosition(0);
+    }
 
-// 	public double getAverageDistance() {
-// 		return (getRightDistance() + getLeftDistance()) / 2;
-// 	}
+    /**
+     * Gets the right drive encoder.
+     *
+     * @return the right drive encoder
+     */
+    public double getRightEncoder() {
+        return rightMaster.getSelectedSensorPosition(0);
+    }
 
-// 	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-// 		return new DifferentialDriveWheelSpeeds(
-// 				leftMaster.getActiveTrajectoryVelocity() * DISTANCE_PER_PULSE_METERS * 10,
-// 				rightMaster.getActiveTrajectoryVelocity() * DISTANCE_PER_PULSE_METERS * 10);
-// 	}
+    // is the robot's left encoder out of phase
+    public boolean leftEncoderOutOfPhase() {
+        return faults.SensorOutOfPhase;
+    }
 
-// 	/**
-// 	 * Resets the odometry to the specified pose.
-// 	 *
-// 	 * @param pose The pose to which to set the odometry.
-// 	 */
-// 	public void resetOdometry(Pose2d pose) {
-// 		zeroEncoders();
-// 		odometry.resetPosition(pose, getHeading());
-// 	}
+    public double getLeftDistance() {
+        return getLeftEncoder() * Constants.kEncoderDistancePerPulse;
+    }
 
-// 	/**
-// 	 * Controls the left and right sides of the drive directly with voltages.
-// 	 *
-// 	 * @param leftVolts  the commanded left output
-// 	 * @param rightVolts the commanded right output
-// 	 */
-// 	public void tankDriveVolts(double leftVolts, double rightVolts) {
-// 		leftMaster.setVoltage(leftVolts);
-// 		rightMaster.setVoltage(-rightVolts);
-// 		drive.feed();
-// 	}
+    public double getRightDistance() {
+        return getRightEncoder() * Constants.kEncoderDistancePerPulse;
+    }
 
-// 	/**
-// 	 * Drives the robot using arcade controls.
-// 	 *
-// 	 * @param fwd the commanded forward movement
-// 	 * @param rot the commanded rotation
-// 	 */
-// 	public void arcadeDrive(double fwd, double rot) {
-// 		drive.arcadeDrive(fwd, rot);
-// 	}
+    /**
+     * Gets the average distance of the two encoders.
+     *
+     * @return the average of the two encoder readings
+     */
+    public double getAverageDistance() {
+        return (getRightDistance() + getLeftDistance()) / 2;
+    }
 
-// 	/**
-// 	 * Returns the currently-estimated pose of the robot.
-// 	 *
-// 	 * @return The pose.
-// 	 */
-// 	public Pose2d getPose() {
-// 		return odometry.getPoseMeters();
-// 	}
+    public void setDistance(final double distanceIn) {
+        final double distanceTicks = distanceIn / Constants.kEncoderDistancePerPulse;
+        final double totalDistance = (getLeftEncoder() + getRightEncoder()) / 2 + distanceTicks;
+        final double angle = getRotation();
+        rightMaster.set(ControlMode.MotionMagic, totalDistance, DemandType.AuxPID, angle);
+    }
 
-// 	/**
-// 	 * Sets the max output of the drive. Useful for scaling the drive to drive more
-// 	 * slowly.
-// 	 *
-// 	 * @param maxOutput the maximum output to which the drive will be constrained
-// 	 */
-// 	public void setMaxOutput(double maxOutput) {
-// 		drive.setMaxOutput(maxOutput);
-// 	}
+    /**
+     * Sets the max output of the drive. Useful for scaling the drive to drive more
+     * slowly.
+     *
+     * @param maxOutput the maximum output to which the drive will be constrained
+     */
+    public void setMaxOutput(double maxOutput) {
+        m_drive.setMaxOutput(maxOutput);
+    }
 
-// 	/**
-// 	 * Zeroes the heading of the robot.
-// 	 */
-// 	public void zeroHeading() {
-// 		gyro.setFusedHeading(0);
-// 	}
+    /** Zeroes the heading of the robot. */
+    public void zeroHeading() {
+        m_gyro.reset();
+    }
 
-// 	/**
-// 	 * Returns the turn rate of the robot.
-// 	 *
-// 	 * @return The turn rate of the robot, in degrees per second
-// 	 */
-// 	public double getTurnRate() {
-// 		double[] xyz_dps = new double[3];
-// 		gyro.getRawGyro(xyz_dps);
-// 		double currentAngularRate = xyz_dps[2];
-// 		return currentAngularRate;
-// 	}
+    public Rotation2d getHeading() {
+        final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+        double angle = m_gyro.getFusedHeading(fusionStatus);
+        double newAngle = Math.IEEEremainder(angle, 360) * (gyroReversed ? -1.0 : 1.0);
+        return Rotation2d.fromDegrees(newAngle);
+    }
 
-// 	public Rotation2d getHeading() {
-// 		final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
-// 		double angle = gyro.getFusedHeading(fusionStatus);
-// 		double newAngle = Math.IEEEremainder(angle, 360) * (gyroReversed ? -1.0 : 1.0);
-// 		return Rotation2d.fromDegrees(newAngle);
-// 	}
+    public double getRotation() {
+        final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+        return m_gyro.getFusedHeading(fusionStatus);
+    }
 
-// 	public void resetSensors() {
-// 		leftMaster.setSelectedSensorPosition(0);
-// 		rightMaster.setSelectedSensorPosition(0);
-// 		gyro.setFusedHeading(0);
-// 	}
+    /**
+     * Returns the turn rate of the robot.
+     *
+     * @return The turn rate of the robot, in degrees per second
+     */
+    public double getTurnRate() {
+        double[] xyz_dps = new double[3];
+        m_gyro.getRawGyro(xyz_dps);
+        double currentAngularRate = xyz_dps[2];
+        return currentAngularRate;
+    }
 
-// 	public void drive(final double xSpeed, final double zRotation) {
-// 		drive.arcadeDrive(xSpeed, zRotation, true);
-// 	}
-
-// 	public void reverse(final double xSpeed, final double zRotation) {
-// 		drive.arcadeDrive(-xSpeed, zRotation);
-// 	}
-
-// 	public LimeLight getLimeLight() {
-// 		return limelight;
-// 	}
-
-// 	public void setDistance(final double distanceIn) {
-// 		final double distanceTicks = distanceIn / DISTANCE_PER_PULSE;
-// 		final double totalDistance = (getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2 + distanceTicks;
-// 		final double angle = getAngle();
-// 		rightMaster.set(ControlMode.MotionMagic, totalDistance, DemandType.AuxPID, angle);
-// 	}
-
-// 	public double getDistance() {
-// 		return ((getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2) * DISTANCE_PER_PULSE_METERS;
-// 	}
-
-// 	public double getRightDistanceInches() {
-// 		return getLeftRawEncoderTicks() * DISTANCE_PER_PULSE;
-// 	}
-
-// 	public double getLeftDistanceInches() {
-// 		return getRightRawEncoderTicks() * DISTANCE_PER_PULSE;
-// 	}
-
-// 	public void setAngle(final double angle) {
-// 		final double distance = (getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2;
-// 		final double totalAngle = angle + getAngle();
-// 		// rightMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID,
-// 		// totalAngle);
-// 		// leftMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID,
-// 		// -totalAngle);
-// 		// leftMaster.set(ControlMode.PercentOutput, distance,
-// 		// DemandType.ArbitraryFeedForward, totalAngle);
-// 		rightMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, -totalAngle);
-// 	}
-
-// 	// inches per second
-// 	public void setVelocity(final double leftSpeed, final double rightSpeed) {
-// 		double left, right;
-// 		if (leftSpeed > MAX_SPEED) {
-// 			left = MAX_SPEED;
-// 		} else {
-// 			left = leftSpeed;
-// 		}
-// 		if (rightSpeed > MAX_SPEED) {
-// 			right = MAX_JERK;
-// 		} else {
-// 			right = rightSpeed;
-// 		}
-// 		final double leftInPerSecToTicksPer100ms = left / DISTANCE_PER_PULSE / 10;
-// 		leftMaster.set(ControlMode.Velocity, leftInPerSecToTicksPer100ms);
-// 		final double rightInPerSecToTicksPer100ms = right / DISTANCE_PER_PULSE / 10;
-// 		leftMaster.set(ControlMode.Velocity, rightInPerSecToTicksPer100ms);
-// 	}
-
-// 	@Override
-// 	public void periodic() {
-// 		// Update the odometry in the periodic block
-// 		odometry.update(getHeading(), getLeftDistance(), getRightDistance());
-// 	}
-
-// }
+    public void m_drive(final double xSpeed, final double zRotation) {
+        m_drive.arcadeDrive(xSpeed, zRotation, true);
+    }
+}

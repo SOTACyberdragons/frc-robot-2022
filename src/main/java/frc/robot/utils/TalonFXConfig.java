@@ -7,23 +7,27 @@ import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
- /**
-  * BaseFXConfig Class
-  * 
-  * <p>All settings are from http://www.ctr-electronics.com/downloads/api/java/html/classcom_1_1ctre_1_1phoenix_1_1motorcontrol_1_1can_1_1_talon_f_x_configuration.html </p>
-  */
-public class TalonFXConfig extends TalonFXConfiguration{
 
-    public static WPI_TalonFX configureTalon(WPI_TalonFX talon){
+/**
+ * BaseFXConfig Class
+ * 
+ * <p>
+ * All settings are from
+ * http://www.ctr-electronics.com/downloads/api/java/html/classcom_1_1ctre_1_1phoenix_1_1motorcontrol_1_1can_1_1_talon_f_x_configuration.html
+ * </p>
+ */
+public class TalonFXConfig extends TalonFXConfiguration {
+
+    public static WPI_TalonFX configureTalon(WPI_TalonFX talon) {
         talon.configAllSettings(new TalonFXConfig());
         return talon;
     }
 
-    public static WPI_TalonFX generateDefaultTalon(int deviceID){
+    public static WPI_TalonFX generateDefaultTalon(int deviceID) {
         return configureTalon(new WPI_TalonFX(deviceID));
     }
 
-    public TalonFXConfig(){
+    public TalonFXConfig() {
         this.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
         this.initializationStrategy = SensorInitializationStrategy.BootToZero;
         this.integratedSensorOffsetDegrees = 0;
@@ -50,6 +54,5 @@ public class TalonFXConfig extends TalonFXConfiguration{
         this.reverseLimitSwitchSource = LimitSwitchSource.Deactivated;
         this.reverseSoftLimitEnable = false;
         this.softLimitDisableNeutralOnLOS = false;
-
-        }  
     }
+}

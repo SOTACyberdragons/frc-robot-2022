@@ -1,44 +1,78 @@
-// package frc.robot.commands;
+//                                                 @                             
+//                                                  &@@                           
+//                          * .                    * @@@                          
+//                           * (@   ,                 @@@@                        
+//                               @@@*       /          @@@@                       
+//                                @@@@@@    @@(     ,* ,@@@@@                     
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
+//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
+//                ***   @@@@@@@@@@@  ,****@@@,                                    
+//                 *      @@@@@@@@@@.  *****@@                                    
+//                          @@@@@@@@@#   ***%@                                    
+//                           ,@@@@@@@@@    ***@,  /                               
+//                              @@@@@@@@@(    ***   //////*.     */               
+//                                 //@@@@@@%/      *    ///////                   
+//                                 @    //////////                                
+//                                   @@**                                         
+//                                       @*****                                   
+//                                             *                                  
 
-// import frc.robot.Robot;
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-// import edu.wpi.first.wpilibj.command.Command;
-// import edu.wpi.first.wpilibj2.command.CommandBase;
+package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 
-// /**
-//  *
-//  */
-// public class SpinIntake extends CommandBase {
+public class SpinIntake extends CommandBase {
 
-//     double speed;
-//     public SpinIntake(double speed) {
-//         addRequirements(Robot.intake);
-//         speed = this.speed;
-//     }
+    double speed;
 
-//     // Called just before this Command runs the first time
-//     @Override
-//     public void initialize() {  
+    public SpinIntake(double speed) {
+        addRequirements(Robot.m_intake, Robot.m_feeder);
+        speed = this.speed;
+    }
 
-//     } 
+    // Called just before this Command runs the first time
+    @Override
+    public void initialize() { 
+        Robot.m_intake.startIntake(speed);	
+        Robot.m_feeder.feederIn();
+    } 
 
-//     // Called repeatedly when this Command is scheduled to run
-//     @Override
-//     public void execute() {
-//         Robot.intake.setIntakeSpeed(speed);	
+    // Called repeatedly when this Command is scheduled to run
+    @Override
+    public void execute() {
+        if (Robot.m_feeder.getBreakBeam()) {
+            Robot.m_feeder.feederStop();
+        } 
+    }
 
-//     }
+    // Make this return true when this Command no longer needs to run execute()
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 
-//     // Make this return true when this Command no longer needs to run execute()
-//     @Override
-//     public boolean isFinished() {
-//         return false;
-//     }
-
-//     // Called once after isFinished returns true
-//     @Override
-//     public void end(boolean interrupted) {
-//         Robot.intake.stopMoving();
-//     }
-// }
+    // Called once after isFinished returns true
+    @Override
+    public void end(boolean interrupted) {
+        Robot.m_intake.stopIntake();
+        Robot.m_feeder.feederStop();
+    }
+}

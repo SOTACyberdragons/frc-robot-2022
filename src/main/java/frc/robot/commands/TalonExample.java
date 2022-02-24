@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 
-public class ShootTest extends CommandBase {
+public class TalonExample extends CommandBase {
 
-    public ShootTest()
+    public TalonExample()
     {
         addRequirements(Robot.m_shooterTest);
     }

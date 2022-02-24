@@ -1,42 +1,70 @@
-// package frc.robot.subsystems;
+//                                                 @                             
+//                                                  &@@                           
+//                          * .                    * @@@                          
+//                           * (@   ,                 @@@@                        
+//                               @@@*       /          @@@@                       
+//                                @@@@@@    @@(     ,* ,@@@@@                     
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
+//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
+//                ***   @@@@@@@@@@@  ,****@@@,                                    
+//                 *      @@@@@@@@@@.  *****@@                                    
+//                          @@@@@@@@@#   ***%@                                    
+//                           ,@@@@@@@@@    ***@,  /                               
+//                              @@@@@@@@@(    ***   //////*.     */               
+//                                 //@@@@@@%/      *    ///////                   
+//                                 @    //////////                                
+//                                   @@**                                         
+//                                       @*****                                   
+//                                             *                                  
 
-// import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-// import edu.wpi.first.wpilibj.DoubleSolenoid;
-// import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-// import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import frc.robot.RobotMap;
+package frc.robot.subsystems;
 
-// public class Intake extends SubsystemBase {
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotMap;
 
-//     private WPI_TalonSRX intakeMotor;
-//     private DoubleSolenoid intakeSolenoid;
-//     private int intakeSpeed = 1;
+public class Intake extends SubsystemBase {
 
-//     public Intake() {
-//         DoubleSolenoid testSolenoid;
-       
-       
-//         intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
-//         intakeSolenoid = new DoubleSolenoid(null, RobotMap.DOUBLE_SOLENOID_ZERO,RobotMap.DOUBLE_SOLENOID_ONE);
+    private WPI_TalonSRX intakeMotor;
+    private DoubleSolenoid intakeSolenoid;
 
-//     }
+    public Intake() {
+        intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
+        // intakeSolenoid = new DoubleSolenoid(null, RobotMap.DOUBLE_SOLENOID_ZERO, RobotMap.DOUBLE_SOLENOID_ONE);
+    }
 
-//    public void setIntakeSpeed(double intakeSpeed) {
-//        intakeMotor.set(intakeSpeed);
+    public void startIntake(double intakeSpeed) {
+        intakeMotor.set(intakeSpeed);
+    }
 
-//    }
+    public void stopIntake() {
+        intakeMotor.set(0);
+    }
 
- 
-//     public void stopMoving(){
-//         intakeMotor.set(0);
-//     }
-
-//     public void moveIntake(String direction) {
-//         if(direction == "down") {
-//             intakeSolenoid.set(Value.kForward);
-//         } else if(direction == "up") {
-//             intakeSolenoid.set(Value.kReverse);
-//         }
-//     }
-// }
+    public void moveIntake(String direction) {
+        // if (direction == "down") {
+        //     intakeSolenoid.set(Value.kForward);
+        // } else if (direction == "up") {
+        //     intakeSolenoid.set(Value.kReverse);
+        // }
+    }
+}

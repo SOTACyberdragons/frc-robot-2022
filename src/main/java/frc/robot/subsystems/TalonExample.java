@@ -5,11 +5,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ShooterTest extends SubsystemBase {
+public class TalonExample extends SubsystemBase {
     private static TalonSRX leftMotor;
     private static TalonSRX rightMotor;
     
-    public ShooterTest()
+    public TalonExample()
     {
         leftMotor = new TalonSRX(10);
         rightMotor = new TalonSRX(11);
