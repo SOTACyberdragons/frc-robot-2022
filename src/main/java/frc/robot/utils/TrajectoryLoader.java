@@ -7,7 +7,6 @@ package frc.robot.utils;
 
 import frc.robot.Constants;
 
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
