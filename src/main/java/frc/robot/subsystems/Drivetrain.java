@@ -150,16 +150,13 @@ public class Drivetrain extends SubsystemBase {
         return m_odometry.getPoseMeters();
     }
 
-    public void setCustomPose(double angle, double x, double y)
-    {
-        m_odometry.update(Rotation2d.fromDegrees(angle), x, y);
-
-        Rotation2d rotation = new Rotation2d(45);
-        
-        Pose2d pose = new Pose2d(x, y, rotation);
-
-        m_odometry.resetPosition(pose, rotation);
-    }
+    // public void setCustomPose(double angle, double x, double y)
+    // {
+    //     m_odometry.update(Rotation2d.fromDegrees(angle), x, y);
+    //     Rotation2d rotation = new Rotation2d(45);
+    //     Pose2d pose = new Pose2d(x, y, rotation);
+    //     m_odometry.resetPosition(pose, rotation);
+    // }
 
     /**
      * Returns the current wheel speeds of the robot.
@@ -259,6 +256,7 @@ public class Drivetrain extends SubsystemBase {
         return (getRightDistance() + getLeftDistance()) / 2;
     }
 
+    // FIXME Test this function
     public void setDistance(final double distanceIn) {
         final double distanceTicks = distanceIn / Constants.kEncoderDistancePerPulse;
         final double totalDistance = (getLeftEncoder() + getRightEncoder()) / 2 + distanceTicks;
@@ -292,6 +290,19 @@ public class Drivetrain extends SubsystemBase {
         final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
         return m_gyro.getFusedHeading(fusionStatus);
     }
+
+     // FIXME Test this function
+	public void setAngle(final double angle) {
+		final double distance = (getLeftEncoder() + getRightEncoder()) / 2;
+		final double totalAngle = angle + getRotation();
+		// rightMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID,
+		// totalAngle);
+		// leftMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID,
+		// -totalAngle);
+		// leftMaster.set(ControlMode.PercentOutput, distance,
+		// DemandType.ArbitraryFeedForward, totalAngle);
+		rightMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, -totalAngle);
+	}
 
     /**
      * Returns the turn rate of the robot.

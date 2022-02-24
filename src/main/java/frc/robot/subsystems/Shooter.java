@@ -70,7 +70,6 @@ public class Shooter extends SubsystemBase {
 
     // ** Initial motor states */
     double feedForwardTerm = 0; // Percentage added to the close loop output
-    // double starting_RPM = 500;
 
     /**
      * How many sensor units per rotation.
@@ -79,8 +78,10 @@ public class Shooter extends SubsystemBase {
      * @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
      */
     public static final double kSensorUnitsPerRotation = 2048;
-    public static final double gearRatio = 1; // TODO Defines shooter gear reduction
-    public final static double rotationsPerPulse = (gearRatio / kSensorUnitsPerRotation);
+    // public static final double gearRatio = 1; // TODO Defines shooter gear
+    // reduction
+    // public final static double rotationsPerPulse = (gearRatio /
+    // kSensorUnitsPerRotation);
 
     /**
      * Set to zero to skip waiting for confirmation.
@@ -277,7 +278,7 @@ public class Shooter extends SubsystemBase {
      */
     public double getVelocity() {
         double vel_RotPerSec = (double) ((_leftMaster.getSelectedSensorVelocity()
-                + _rightMaster.getSelectedSensorVelocity()) / 2) / kSensorUnitsPerRotation * 10; 
+                + _rightMaster.getSelectedSensorVelocity()) / 2) / kSensorUnitsPerRotation * 10;
         double vel_RotPerMin = vel_RotPerSec * 60.0;
         return vel_RotPerMin;
     }
@@ -291,10 +292,11 @@ public class Shooter extends SubsystemBase {
     public void setVelocity(double targetVelocityRPM, double targetFeedForward) {
         double targetVelocityRPS = targetVelocityRPM / 60;
         double targetVelocitySensorUnits = targetVelocityRPS * (kSensorUnitsPerRotation * 10);
+        feedForwardTerm = targetFeedForward;
         _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
-                targetFeedForward);
+                feedForwardTerm);
         _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
-                targetFeedForward);
+                feedForwardTerm);
     }
 
     /**

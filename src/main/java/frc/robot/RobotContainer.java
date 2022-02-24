@@ -59,11 +59,8 @@ public class RobotContainer {
     public static Shooter m_shooter = new Shooter();
 
     public static ImageProcessor imgProcessor = new ImageProcessor();
-
     private static NetworkTable ballData = NetworkTableInstance.getDefault().getTable("Ball Data");
-
     public static NetworkTableEntry ballDistance = ballData.getEntry("Ball Distance");
-
     public static NetworkTableEntry ballCenter = ballData.getEntry("ball center");
 
     // Adding XBox Controller Supports
@@ -100,7 +97,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
-        // buttonB.whenPressed(new TurnWithGyro(-90)); // TODO Fix me!
+        // buttonB.whenPressed(new TurnWithGyro(-90));
         // buttonX.whenPressed(new RamseteTest());
         
         buttonA.whenHeld(new SpinIntake(.5));

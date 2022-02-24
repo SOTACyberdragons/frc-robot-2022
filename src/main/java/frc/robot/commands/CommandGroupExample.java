@@ -51,6 +51,7 @@ import frc.robot.RobotContainer;
 
 public class CommandGroupExample extends SequentialCommandGroup {
 
+    // FIXME Trajectory generation needs to be moved into the Robot init
     Trajectory blueRight1 = PathPlanner.loadPath("blueRight-1", Constants.kMaxSpeedMetersPerSecond,
             Constants.kMaxAccelerationMetersPerSecondSquared, true);
     Trajectory blueRight2 = PathPlanner.loadPath("blueRight-2", Constants.kMaxSpeedMetersPerSecond,
