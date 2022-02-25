@@ -92,7 +92,7 @@ public class RobotContainer {
         buttonA.whenHeld(new SpinIntake());
 
         // This sets the shooter speed in RPM. Don't overdo it
-        buttonY.whenHeld(new ShootCargo(300, 0));
+        buttonY.whenHeld(new ShootCargo(300, 0.15));
     }
 
     public RobotContainer() {

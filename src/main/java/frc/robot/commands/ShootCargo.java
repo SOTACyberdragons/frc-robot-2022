@@ -55,7 +55,7 @@ public class ShootCargo extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        Robot.m_shooter.setVelocity(motorRPM, 0.15);
+        Robot.m_shooter.setVelocity(motorRPM, motorFF);
         Robot.m_feeder.feederIn();
     }
 
@@ -74,6 +74,7 @@ public class ShootCargo extends CommandBase {
         // }
         
     }
+
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
