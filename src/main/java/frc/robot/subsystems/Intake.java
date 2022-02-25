@@ -36,6 +36,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -56,11 +57,11 @@ public class Intake extends SubsystemBase {
     }
 
     public void startIntake() {
-        intakeMotor.set(kInstakeSpeed);
+        intakeMotor.set(ControlMode.PercentOutput, kInstakeSpeed);
     }
 
     public void stopIntake() {
-        intakeMotor.set(0);
+        intakeMotor.set(ControlMode.PercentOutput, 0);
     }
 
     public void moveIntake(String direction) {

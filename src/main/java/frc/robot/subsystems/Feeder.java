@@ -37,6 +37,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -55,11 +56,11 @@ public class Feeder extends SubsystemBase {
     }
 
     public void feederIn() {
-        feederMotor.set(kFeederSpeed);
+        feederMotor.set(ControlMode.PercentOutput, kFeederSpeed);
     }
 
     public void feederOut() {
-        feederMotor.set(-kFeederSpeed);
+        feederMotor.set(ControlMode.PercentOutput, -kFeederSpeed);
     }
 
     public boolean getBreakBeam()
@@ -68,6 +69,6 @@ public class Feeder extends SubsystemBase {
     }
 
     public void feederStop() {
-        feederMotor.set(0);
+        feederMotor.set(ControlMode.PercentOutput, 0);
     }
 }
