@@ -128,17 +128,10 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Robot Heading", getHeading().getDegrees());
         SmartDashboard.putNumber("Robot Rotation", getRotation());
         SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
-        SmartDashboard.putNumber("Wheel RPM: ", getWheelRPM());
-        SmartDashboard.putNumber("Left Encoder: ", getLeftEncoder());
-        SmartDashboard.putNumber("Right Encoder: ", getRightEncoder());
 
         // Update field position
         m_field.setRobotPose(m_odometry.getPoseMeters());
         m_field.getObject("traj").setTrajectory(RamseteTest.trajectory());
-
-        // BAD CODE! DON'T DO THIS! EVER!
-        // m_odometry.update(m_gyro.getRotation2d(), getLeftDistance(),
-        // getRightDistance());
     }
 
     /**
@@ -149,14 +142,6 @@ public class Drivetrain extends SubsystemBase {
     public Pose2d getPose() {
         return m_odometry.getPoseMeters();
     }
-
-    // public void setCustomPose(double angle, double x, double y)
-    // {
-    //     m_odometry.update(Rotation2d.fromDegrees(angle), x, y);
-    //     Rotation2d rotation = new Rotation2d(45);
-    //     Pose2d pose = new Pose2d(x, y, rotation);
-    //     m_odometry.resetPosition(pose, rotation);
-    // }
 
     /**
      * Returns the current wheel speeds of the robot.

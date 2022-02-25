@@ -45,29 +45,26 @@ import frc.robot.RobotMap;
 public class Feeder extends SubsystemBase {
 
     private WPI_TalonSRX feederMotor;
-    private double feederSpeed = -0.5;
-    private DigitalInput breakBeamOne = new DigitalInput(1); // Break beam
-    private DigitalInput breakBeamZero = new DigitalInput(0);
+    private DigitalInput breakBeam = new DigitalInput(0); // Break beam
+
+    // Speed to run the feeder at
+    private double kFeederSpeed = -0.5;
     
     public Feeder() {
         feederMotor = new WPI_TalonSRX(RobotMap.FEEDER_MOTOR);
     }
 
     public void feederIn() {
-        feederMotor.set(feederSpeed);
+        feederMotor.set(kFeederSpeed);
     }
 
     public void feederOut() {
-        feederMotor.set(-feederSpeed);
+        feederMotor.set(-kFeederSpeed);
     }
 
-    public boolean getBreakBeamOne() {
-        return breakBeamOne.get();
-    }
-
-    public boolean getBreakBeamZero()
+    public boolean getBreakBeam()
     {
-        return breakBeamZero.get();
+        return breakBeam.get();
     }
 
     public void feederStop() {

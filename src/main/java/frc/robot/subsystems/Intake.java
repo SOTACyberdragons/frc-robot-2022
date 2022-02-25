@@ -37,23 +37,26 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
 public class Intake extends SubsystemBase {
 
-    public WPI_TalonSRX intakeMotor;
+    private WPI_TalonSRX intakeMotor;
     private DoubleSolenoid intakeSolenoid;
+
+    // Speed to run the feeder at
+    private double kInstakeSpeed = -0.5;
 
     public Intake() {
         intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
         // intakeSolenoid = new DoubleSolenoid(null, RobotMap.DOUBLE_SOLENOID_ZERO, RobotMap.DOUBLE_SOLENOID_ONE);
     }
 
-    public void startIntake(double intakeSpeed) {
-        intakeMotor.set(0.5);
+    public void startIntake() {
+        intakeMotor.set(kInstakeSpeed);
     }
 
     public void stopIntake() {

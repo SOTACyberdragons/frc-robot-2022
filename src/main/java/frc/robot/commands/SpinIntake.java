@@ -43,29 +43,23 @@ import frc.robot.Robot;
 
 public class SpinIntake extends CommandBase {
 
-    double speed;
-
     public SpinIntake(double speed) {
         // addRequirements(Robot.m_intake, Robot.m_feeder);
-        speed = this.speed;
     }
 
     // Called just before this Command runs the first time
     @Override
     public void initialize() { 
+        Robot.m_intake.startIntake();        
         Robot.m_feeder.feederIn();
     } 
 
     // Called repeatedly when this Command is scheduled to run
     @Override
-    public void execute() {
-
-        Robot.m_intake.intakeMotor.set(ControlMode.PercentOutput, -0.5);
-        
-        if (!Robot.m_feeder.getBreakBeamZero()) {
+    public void execute() {        
+        if (!Robot.m_feeder.getBreakBeam()) {
             Robot.m_feeder.feederStop();
         } 
-
     }
 
     // Make this return true when this Command no longer needs to run execute()
