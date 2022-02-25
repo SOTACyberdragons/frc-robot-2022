@@ -146,9 +146,9 @@ public class Shooter extends SubsystemBase {
         _rightMaster.setNeutralMode(NeutralMode.Brake);
 
         /* Configure output */
-        _leftMaster.setInverted(TalonFXInvertType.Clockwise);
-        _rightMaster.setInverted(TalonFXInvertType.CounterClockwise);
-
+         _leftMaster.setInverted(TalonFXInvertType.Clockwise);
+         _rightMaster.setInverted(TalonFXInvertType.CounterClockwise);
+        
         /*
          * Talon FX does not need sensor phase set for its integrated sensor
          * This is because it will always be correct if the selected feedback device is
@@ -277,10 +277,14 @@ public class Shooter extends SubsystemBase {
      * @return average shooter velocity in RPM
      */
     public double getVelocity() {
-        double vel_RotPerSec = (double) ((_leftMaster.getSelectedSensorVelocity()
+        double vel_RotPerSec = ((_leftMaster.getSelectedSensorVelocity()
                 + _rightMaster.getSelectedSensorVelocity()) / 2) / kSensorUnitsPerRotation * 10;
         double vel_RotPerMin = vel_RotPerSec * 60.0;
-        return vel_RotPerMin;
+
+        double ticks = _leftMaster.getSelectedSensorVelocity()+ _rightMaster.getSelectedSensorVelocity()/2;
+        double rps = ticks * 10;
+        double rpm = rps / 60;
+        return rpm;
     }
 
     /**
@@ -291,12 +295,19 @@ public class Shooter extends SubsystemBase {
      */
     public void setVelocity(double targetVelocityRPM, double targetFeedForward) {
         double targetVelocityRPS = targetVelocityRPM / 60;
-        double targetVelocitySensorUnits = targetVelocityRPS * (kSensorUnitsPerRotation * 10);
+        double targetVelocitySensorUnits = targetVelocityRPS * (kSensorUnitsPerRotation / 10);
         feedForwardTerm = targetFeedForward;
+
         _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
                 feedForwardTerm);
         _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
                 feedForwardTerm);
+        
+        for (int i = 0; i < 40; i++) {
+            System.out.println("rps " + targetVelocityRPS);
+            System.out.println("rpm " + targetVelocityRPM);
+            System.out.println("ticks" + targetVelocitySensorUnits);
+        }
     }
 
     /**

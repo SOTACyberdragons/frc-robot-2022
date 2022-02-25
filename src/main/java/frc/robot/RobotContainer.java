@@ -49,7 +49,6 @@ import frc.robot.commands.RamseteTest;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.TurnWithGyro;
-import frc.robot.grip.ImageProcessor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 
@@ -58,7 +57,6 @@ public class RobotContainer {
     public static Drivetrain m_robotDrive = new Drivetrain();
     public static Shooter m_shooter = new Shooter();
 
-    public static ImageProcessor imgProcessor = new ImageProcessor();
     private static NetworkTable ballData = NetworkTableInstance.getDefault().getTable("Ball Data");
     public static NetworkTableEntry ballDistance = ballData.getEntry("Ball Distance");
     public static NetworkTableEntry ballCenter = ballData.getEntry("ball center");
@@ -100,9 +98,9 @@ public class RobotContainer {
         // buttonB.whenPressed(new TurnWithGyro(-90));
         // buttonX.whenPressed(new RamseteTest());
         
-        buttonA.whenHeld(new SpinIntake(.5));
+        buttonA.whenHeld(new SpinIntake(1));
         // This sets the shooter speed in RPM. Don't overdo it
-        buttonY.whenHeld(new ShootCargo(100, .15));
+        buttonY.whenHeld(new ShootCargo(100, 0));
     }
 
     public RobotContainer() {

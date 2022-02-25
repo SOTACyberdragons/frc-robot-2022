@@ -44,7 +44,7 @@ import frc.robot.RobotMap;
 
 public class Intake extends SubsystemBase {
 
-    private WPI_TalonSRX intakeMotor;
+    public WPI_TalonSRX intakeMotor;
     private DoubleSolenoid intakeSolenoid;
 
     public Intake() {
@@ -53,7 +53,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void startIntake(double intakeSpeed) {
-        intakeMotor.set(intakeSpeed);
+        intakeMotor.set(0.5);
     }
 
     public void stopIntake() {

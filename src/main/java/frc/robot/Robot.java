@@ -40,7 +40,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DifferentialDriveWithJoysticks;
-import frc.robot.grip.ImageProcessor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Shooter;
@@ -50,12 +49,10 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
     public static RobotContainer m_robotContainer;
-    public static Intake m_intake;
-    public static Feeder m_feeder;
-    public static Shooter m_shooter;
-    public static TalonExample m_shooterTest;
-
-    public static ImageProcessor imgProcessor = new ImageProcessor();
+    public static Intake m_intake = new Intake();
+    public static Feeder m_feeder = new Feeder();
+    public static Shooter m_shooter = new Shooter();
+    public static TalonExample m_shooterTest = new TalonExample();
 
     // TODO Old REV sensor code. Doesn't work. Replace with PWF Sensor code
     // public static MultiplexedDistanceSensor m_leftSensor;

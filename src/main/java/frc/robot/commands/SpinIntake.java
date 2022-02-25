@@ -36,6 +36,8 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
@@ -44,23 +46,25 @@ public class SpinIntake extends CommandBase {
     double speed;
 
     public SpinIntake(double speed) {
-        addRequirements(Robot.m_intake, Robot.m_feeder);
+        // addRequirements(Robot.m_intake, Robot.m_feeder);
         speed = this.speed;
     }
 
     // Called just before this Command runs the first time
     @Override
     public void initialize() { 
-        Robot.m_intake.startIntake(speed);	
+        Robot.m_intake.intakeMotor.set(ControlMode.PercentOutput, -speed);
         Robot.m_feeder.feederIn();
     } 
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-        if (Robot.m_feeder.getBreakBeam()) {
+        
+        if (!Robot.m_feeder.getBreakBeamZero()) {
             Robot.m_feeder.feederStop();
         } 
+
     }
 
     // Make this return true when this Command no longer needs to run execute()

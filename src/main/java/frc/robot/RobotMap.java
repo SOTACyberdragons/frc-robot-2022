@@ -15,8 +15,8 @@ public class RobotMap {
 	public static final int RIGHT_SHOOTER_MOTOR = 5;
 
 	//robotintake
-	public static final int INTAKE_MOTOR = 9;
-	public static final int FEEDER_MOTOR = 8;
+	public static final int INTAKE_MOTOR = 6;
+	public static final int FEEDER_MOTOR = 7;
 
 	//hopper 
 	public static final int HOPPER_MOTOR = 6;
@@ -26,7 +26,7 @@ public class RobotMap {
 	public static final int DOUBLE_SOLENOID_ONE = 7;
 
 	//DIO 
-	public static final int FEEDER_BREAKBEAM = 0;
+	public static final int FEEDER_BREAKBEAM = 1;
 
 	//Pigeon IMU
 	public static final int PIGEON_IMU = 14;

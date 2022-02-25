@@ -56,7 +56,7 @@ public class ShootCargo extends CommandBase {
     @Override
     public void initialize() {
         Robot.m_shooter.setVelocity(motorRPM, 0.15);
-        Robot.m_feeder.feederOut();
+        Robot.m_feeder.feederIn();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
