@@ -277,13 +277,10 @@ public class Shooter extends SubsystemBase {
      * @return average shooter velocity in RPM
      */
     public double getVelocity() {
-        double vel_RotPerSec = ((_leftMaster.getSelectedSensorVelocity()
-                + _rightMaster.getSelectedSensorVelocity()) / 2) / kSensorUnitsPerRotation * 10;
-        double vel_RotPerMin = vel_RotPerSec * 60.0;
-
-        double ticks = _leftMaster.getSelectedSensorVelocity()+ _rightMaster.getSelectedSensorVelocity()/2;
-        double rps = ticks * 10;
-        double rpm = rps / 60;
+        double ticksPerSample = (_leftMaster.getSelectedSensorVelocity() + _rightMaster.getSelectedSensorVelocity()) /2;
+        double ticksPerSecond = ticksPerSample * 10;
+        double ticksPerMinute = ticksPerSecond * 60;
+        double rpm = ticksPerMinute / kSensorUnitsPerRotation;
         return rpm;
     }
 
@@ -302,12 +299,6 @@ public class Shooter extends SubsystemBase {
                 feedForwardTerm);
         _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
                 feedForwardTerm);
-        
-        for (int i = 0; i < 40; i++) {
-            System.out.println("rps " + targetVelocityRPS);
-            System.out.println("rpm " + targetVelocityRPM);
-            System.out.println("ticks" + targetVelocitySensorUnits);
-        }
     }
 
     /**
