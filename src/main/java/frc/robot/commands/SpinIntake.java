@@ -36,14 +36,12 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class SpinIntake extends CommandBase {
 
-    public SpinIntake(double speed) {
+    public SpinIntake() {
         // addRequirements(Robot.m_intake, Robot.m_feeder);
     }
 

@@ -37,18 +37,13 @@
 package frc.robot;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.CommandGroupExample;
-import frc.robot.commands.DriveForward;
 import frc.robot.commands.RamseteTest;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
-import frc.robot.commands.TurnWithGyro;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 
@@ -56,10 +51,6 @@ public class RobotContainer {
 
     public static Drivetrain m_robotDrive = new Drivetrain();
     public static Shooter m_shooter = new Shooter();
-
-    private static NetworkTable ballData = NetworkTableInstance.getDefault().getTable("Ball Data");
-    public static NetworkTableEntry ballDistance = ballData.getEntry("Ball Distance");
-    public static NetworkTableEntry ballCenter = ballData.getEntry("ball center");
 
     // Adding XBox Controller Supports
     public static XboxController m_controller = new XboxController(3);
@@ -98,7 +89,8 @@ public class RobotContainer {
         // buttonB.whenPressed(new TurnWithGyro(-90));
         // buttonX.whenPressed(new RamseteTest());
         
-        buttonA.whenHeld(new SpinIntake(.5));
+        buttonA.whenHeld(new SpinIntake());
+
         // This sets the shooter speed in RPM. Don't overdo it
         buttonY.whenHeld(new ShootCargo(300, 0));
     }
