@@ -53,13 +53,14 @@ public class SpinIntake extends CommandBase {
     // Called just before this Command runs the first time
     @Override
     public void initialize() { 
-        Robot.m_intake.intakeMotor.set(ControlMode.PercentOutput, -speed);
         Robot.m_feeder.feederIn();
     } 
 
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
+
+        Robot.m_intake.intakeMotor.set(ControlMode.PercentOutput, -0.5);
         
         if (!Robot.m_feeder.getBreakBeamZero()) {
             Robot.m_feeder.feederStop();

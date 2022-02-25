@@ -98,7 +98,7 @@ public class RobotContainer {
         // buttonB.whenPressed(new TurnWithGyro(-90));
         // buttonX.whenPressed(new RamseteTest());
         
-        buttonA.whenHeld(new SpinIntake(1));
+        buttonA.whenHeld(new SpinIntake(.5));
         // This sets the shooter speed in RPM. Don't overdo it
         buttonY.whenHeld(new ShootCargo(100, 0));
     }
