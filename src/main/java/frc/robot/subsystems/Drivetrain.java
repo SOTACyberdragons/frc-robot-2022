@@ -115,6 +115,7 @@ public class Drivetrain extends SubsystemBase {
 
         // Populate field position in Smartdashboard
         SmartDashboard.putData("Field", m_field);
+        System.out.println("Drive train created!");
     }
 
     @Override
@@ -128,6 +129,8 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Robot Heading", getHeading().getDegrees());
         SmartDashboard.putNumber("Robot Rotation", getRotation());
         SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
+        SmartDashboard.putNumber("Left Encoder: ", getLeftEncoder());
+        SmartDashboard.putNumber("Right Encoder: ", getRightEncoder());
 
         // Update field position
         m_field.setRobotPose(m_odometry.getPoseMeters());
@@ -197,6 +200,7 @@ public class Drivetrain extends SubsystemBase {
 
     /** Resets the drive encoders to currently read a position of 0. */
     public void resetEncoders() {
+        System.out.println("Encoders Reset!");
         leftMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
         rightMaster.setSelectedSensorPosition(0, Constants.PID_LOOP_IDX, Constants.TIMEOUT_MS);
     }

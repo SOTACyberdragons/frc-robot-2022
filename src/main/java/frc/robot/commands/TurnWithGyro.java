@@ -47,10 +47,12 @@ public class TurnWithGyro extends CommandBase {
     public static double targetHeading;
 
     // PID Constansts
-    private static final double kP = 0.025; // Power
+    private static final double kP = 0.0175; // Power
     private static final double kI = 0; // Ease in sensitivity
     private static final double kD = 0; // Smoothing
-    private static final double kF = 0;
+    private static final double kF = 0.25;
+
+    private static final double throttle = 0.5;
 
     public PIDController m_pidController = new PIDController(kP, kI, kD);
 
@@ -67,15 +69,15 @@ public class TurnWithGyro extends CommandBase {
         startHeading = RobotContainer.m_robotDrive.getRotation();
         targetHeading = startHeading + rotationAmount;
         m_pidController.setSetpoint(targetHeading);
-        m_pidController.setTolerance(10, 10);
+        m_pidController.setTolerance(5, 5);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getRotation() + kF)),
-                -0.4, 0.4);
-        RobotContainer.m_robotDrive.m_drive(0, pidOutput);
+                -throttle, throttle);
+        RobotContainer.m_robotDrive.m_drive(0, -pidOutput);
     }
 
     // Called once the command ends or is interrupted.

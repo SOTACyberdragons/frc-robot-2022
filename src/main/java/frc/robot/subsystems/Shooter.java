@@ -277,7 +277,7 @@ public class Shooter extends SubsystemBase {
      * @return average shooter velocity in RPM
      */
     public double getVelocity() {
-        double ticksPerSample = (_leftMaster.getSelectedSensorVelocity() + _rightMaster.getSelectedSensorVelocity()) /2;
+        double ticksPerSample = _rightMaster.getSelectedSensorVelocity();
         double ticksPerSecond = ticksPerSample * 10;
         double ticksPerMinute = ticksPerSecond * 60;
         double rpm = ticksPerMinute / kSensorUnitsPerRotation;

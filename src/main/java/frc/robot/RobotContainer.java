@@ -44,6 +44,7 @@ import frc.robot.commands.CommandGroupExample;
 import frc.robot.commands.RamseteTest;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
+import frc.robot.commands.TurnWithGyro;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 
@@ -86,13 +87,13 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
-        // buttonB.whenPressed(new TurnWithGyro(-90));
+        buttonB.whenPressed(new TurnWithGyro(-90));
         // buttonX.whenPressed(new RamseteTest());
         
         buttonA.whenHeld(new SpinIntake());
 
         // This sets the shooter speed in RPM. Don't overdo it
-        buttonY.whenHeld(new ShootCargo(300, 0.15));
+        buttonY.whenHeld(new ShootCargo(300, 0.25));
     }
 
     public RobotContainer() {

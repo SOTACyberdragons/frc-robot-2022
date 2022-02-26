@@ -56,12 +56,16 @@ public class ShootCargo extends CommandBase {
     @Override
     public void initialize() {
         Robot.m_shooter.setVelocity(motorRPM, motorFF);
-        Robot.m_feeder.feederIn();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        if (Robot.m_shooter.getVelocity() < (motorRPM *.95)) {
+            Robot.m_feeder.feederStop();
+        } else {
+            Robot.m_feeder.feederIn();
+        }
 
         // DPad Controls to tune the Falcon Shooter
         // int dPad = RobotContainer.m_controller.getPOV();
