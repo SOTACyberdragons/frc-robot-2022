@@ -47,31 +47,20 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.PathContainer;
 import frc.robot.RobotContainer;
 
 public class CommandGroupExample extends SequentialCommandGroup {
 
-    // FIXME Trajectory generation needs to be moved into the Robot init
-    Trajectory blueRight1 = PathPlanner.loadPath("blueRight-1", Constants.kMaxSpeedMetersPerSecond,
-            Constants.kMaxAccelerationMetersPerSecondSquared, true);
-    Trajectory blueRight2 = PathPlanner.loadPath("blueRight-2", Constants.kMaxSpeedMetersPerSecond,
-            Constants.kMaxAccelerationMetersPerSecondSquared);
-    Trajectory blueRight3 = PathPlanner.loadPath("blueRight-3", Constants.kMaxSpeedMetersPerSecond,
-            Constants.kMaxAccelerationMetersPerSecondSquared, true);
-    Trajectory blueRight4 = PathPlanner.loadPath("blueRight-4", Constants.kMaxSpeedMetersPerSecond,
-            Constants.kMaxAccelerationMetersPerSecondSquared);
-    Trajectory blueRight5 = PathPlanner.loadPath("blueRight-5", Constants.kMaxSpeedMetersPerSecond,
-            Constants.kMaxAccelerationMetersPerSecondSquared, true);
-
     public CommandGroupExample(RobotContainer robot) {
         // Starting up subsystems
 
-        RobotContainer.m_robotDrive.resetOdometry(blueRight1.getInitialPose());
+        RobotContainer.m_robotDrive.resetOdometry(PathContainer.path1.getInitialPose());
 
         addCommands(
-                new DrivetrainRamsete(RobotContainer.m_robotDrive, blueRight1),
+                PathContainer.blueRight1,
                 new WaitCommand(1),
-                new DrivetrainRamsete(RobotContainer.m_robotDrive, blueRight2),
+                PathContainer.blueRight2,
                 new WaitCommand(1),
                 new DrivetrainRamsete(RobotContainer.m_robotDrive, blueRight3),
                 new WaitCommand(1),
