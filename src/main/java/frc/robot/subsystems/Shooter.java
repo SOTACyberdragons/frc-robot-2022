@@ -146,9 +146,9 @@ public class Shooter extends SubsystemBase {
         _rightMaster.setNeutralMode(NeutralMode.Brake);
 
         /* Configure output */
-        _leftMaster.setInverted(TalonFXInvertType.Clockwise);
-        _rightMaster.setInverted(TalonFXInvertType.CounterClockwise);
-
+         _leftMaster.setInverted(TalonFXInvertType.Clockwise);
+         _rightMaster.setInverted(TalonFXInvertType.CounterClockwise);
+        
         /*
          * Talon FX does not need sensor phase set for its integrated sensor
          * This is because it will always be correct if the selected feedback device is
@@ -159,8 +159,8 @@ public class Shooter extends SubsystemBase {
          * sensor-phase
          */
 
-        // _leftMaster.setSensorPhase(false);
-        // _rightMaster.setSensorPhase(false);
+        _leftMaster.setSensorPhase(false);
+        _rightMaster.setSensorPhase(false);
 
         /* Configure the left Talon's selected sensor as integrated sensor */
         _leftConfig.primaryPID.selectedFeedbackSensor = TalonFXFeedbackDevice.IntegratedSensor.toFeedbackDevice();
@@ -227,11 +227,13 @@ public class Shooter extends SubsystemBase {
         _rightMaster.setStatusFramePeriod(StatusFrame.Status_13_Base_PIDF0, 20, kTimeoutMs);
         _leftMaster.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 5, kTimeoutMs);
 
+        _leftMaster.follow(_rightMaster);
+
         /* Initialize */
         _firstCall = true;
         _state = false;
 
-        // zeroSensors();
+        zeroSensors();
     }
 
     @Override
@@ -249,8 +251,6 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Shooter Velocity: ", getVelocity());
         SmartDashboard.putNumber("Feedforward: ", getFeedforward());
-        SmartDashboard.putNumber("Left Encoder: ", _leftMaster.getSelectedSensorPosition(0));
-        SmartDashboard.putNumber("Right Encoder: ", _rightMaster.getSelectedSensorPosition(0));
     }
 
     /* Zero all sensors on Talons */
@@ -277,7 +277,7 @@ public class Shooter extends SubsystemBase {
      * @return average shooter velocity in RPM
      */
     public double getVelocity() {
-        double ticksPerSample = _rightMaster.getSelectedSensorVelocity();
+        double ticksPerSample = _leftMaster.getSelectedSensorVelocity();
         double ticksPerSecond = ticksPerSample * 10;
         double ticksPerMinute = ticksPerSecond * 60;
         double rpm = ticksPerMinute / kSensorUnitsPerRotation;
@@ -295,9 +295,10 @@ public class Shooter extends SubsystemBase {
         double targetVelocitySensorUnits = targetVelocityRPS * (kSensorUnitsPerRotation / 10);
         feedForwardTerm = targetFeedForward;
 
+        _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
+                feedForwardTerm);
         _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
                 feedForwardTerm);
-        _leftMaster.follow(_rightMaster);
     }
 
     /**
