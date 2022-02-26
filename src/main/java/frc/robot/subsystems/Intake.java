@@ -49,7 +49,7 @@ public class Intake extends SubsystemBase {
     private DoubleSolenoid intakeSolenoid;
 
     // Speed to run the feeder at
-    private double kInstakeSpeed = -1.0;
+    private double kInstakeSpeed = -0.75;
 
     public Intake() {
         intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);

@@ -45,28 +45,42 @@ public class ShootCargo extends CommandBase {
     public static double motorRPM;
     public static double motorFF;
 
+    private double power;
+
     /** Creates a new ShootWithFalcon. */
-    public ShootCargo(double targetRPM, double targetFF) {
+    public ShootCargo(double targetRPM, double targetFF, double power) {
         motorRPM = targetRPM;
         motorFF = targetFF;
         addRequirements(Robot.m_shooter, Robot.m_feeder);
+
+        this.power = power;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        Robot.m_shooter.setVelocity(motorRPM, motorFF);
+        //Robot.m_shooter.setVelocity(motorRPM, motorFF);
+
+        Robot.m_shooter.setPower(power);
+
+        try {
+            Thread.sleep(700);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (Robot.m_shooter.getVelocity() < (motorRPM *.95)) {
-            Robot.m_feeder.feederStop();
-        } else {
-            Robot.m_feeder.feederIn();
-        }
+        // if (Robot.m_shooter.getVelocity() < (motorRPM *.95)) {
+        //     Robot.m_feeder.feederStop();
+        // } else {
+        //     Robot.m_feeder.feederIn();
+        // }
 
+        Robot.m_feeder.feederIn();
+        
         // DPad Controls to tune the Falcon Shooter
         // int dPad = RobotContainer.m_controller.getPOV();
         // if (dPad == 0) {

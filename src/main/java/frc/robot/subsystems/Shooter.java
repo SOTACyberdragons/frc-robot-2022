@@ -36,6 +36,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteSensorSource;
@@ -299,6 +300,12 @@ public class Shooter extends SubsystemBase {
                 feedForwardTerm);
         _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
                 feedForwardTerm);
+    }
+
+    public void setPower(double powerLevel)
+    {
+        _rightMaster.set(ControlMode.PercentOutput, powerLevel);
+        //_leftMaster.set(ControlMode.PercentOutput, powerLevel);
     }
 
     /**

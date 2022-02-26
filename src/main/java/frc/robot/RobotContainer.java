@@ -54,7 +54,7 @@ public class RobotContainer {
     public static Shooter m_shooter = new Shooter();
 
     // Adding XBox Controller Supports
-    public static XboxController m_controller = new XboxController(0);
+    public static XboxController m_controller = new XboxController(3);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
     final JoystickButton buttonX = new JoystickButton(m_controller, 3);
@@ -93,7 +93,7 @@ public class RobotContainer {
         buttonA.whenHeld(new SpinIntake());
 
         // This sets the shooter speed in RPM. Don't overdo it
-        buttonY.whenHeld(new ShootCargo(300, 0));
+        buttonY.whenHeld(new ShootCargo(1500, .15, 0.3));
     }
 
     public RobotContainer() {
