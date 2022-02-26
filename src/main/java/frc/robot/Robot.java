@@ -60,6 +60,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
+        System.out.println("Robot initialized!");
+
         RobotContainer.m_robotDrive.zeroHeading();
         RobotContainer.m_robotDrive.resetEncoders();
 
@@ -86,7 +88,6 @@ public class Robot extends TimedRobot {
         // m_rightSensor.setAutomaticMode(true);
         // m_leftSensor.setDistanceUnits(Unit.kMillimeters);
         // m_rightSensor.setDistanceUnits(Unit.kMillimeters);
-
     }
 
     @Override
@@ -115,6 +116,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
+        System.out.println("Teleop initialized!");
         CommandScheduler.getInstance().cancelAll();
         CommandScheduler.getInstance().enable();
 

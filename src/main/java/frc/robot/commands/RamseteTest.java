@@ -97,8 +97,6 @@ public class RamseteTest extends RamseteCommand {
                 // Pass config
                 config);
 
-        RobotContainer.m_robotDrive.resetOdometry(trajectory.getInitialPose());
-
         return trajectory;
     }
 }

@@ -40,54 +40,49 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
-public class DriveForward extends CommandBase {
-    public static double driveDistance;
-    public static double startingDistance;
-    public static double targetDistance;
+public class TurnAngle extends CommandBase {
+    public static double rotationAmount;
+    public static double startHeading;
+    public static double targetHeading;
 
     // PID Constansts
-    private static final double kP = .5; // Power
-    private static final double kI = .0075; // Ease in sensitivity
-    private static final double kD = .125; // Smoothing
-    private static final double kF = .2; // Feed forward
+    private static final double kP = 0.0175; // Power
+    private static final double kI = 0; // Ease in sensitivity
+    private static final double kD = 0; // Smoothing
+    private static final double kF = 0.25;
+
+    private static final double throttle = 0.5;
 
     public PIDController m_pidController = new PIDController(kP, kI, kD);
 
-    /** Creates a new DriveForward. */
-    public DriveForward(double distanceInMeters) {
+    /** Creates a new TurnWithGyro. */
+    public TurnAngle(double angleInput) {
         // Use addRequirements() here to declare subsystem dependencies.
-        driveDistance = distanceInMeters;
+        rotationAmount = angleInput;
         addRequirements(RobotContainer.m_robotDrive);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        startingDistance = RobotContainer.m_robotDrive.getAverageDistance();
-        targetDistance = startingDistance + driveDistance;
-        m_pidController.setSetpoint(targetDistance);
-        m_pidController.setTolerance(.05, .05);
+        startHeading = RobotContainer.m_robotDrive.getRotation();
+        targetHeading = startHeading + rotationAmount;
+        m_pidController.setSetpoint(targetHeading);
+        m_pidController.setTolerance(5, 5);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double pidOutput = MathUtil
-                .clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance()) + kF), -0.5, 0.5);
-        RobotContainer.m_robotDrive.m_drive(pidOutput, 0);
-        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble,
-                1 - (m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance())));
-        RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.25);
+        double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getRotation() + kF)),
+                -throttle, throttle);
+        RobotContainer.m_robotDrive.m_drive(0, -pidOutput);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.m_robotDrive.m_drive(0, 0);
-        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);
-        RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
     }
 
     // Returns true when the command should end.
