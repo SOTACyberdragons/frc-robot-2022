@@ -43,6 +43,7 @@ import frc.robot.commands.DifferentialDriveWithJoysticks;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SimpleShooter;
 import frc.robot.subsystems.TalonExample;
 
 public class Robot extends TimedRobot {
@@ -52,6 +53,7 @@ public class Robot extends TimedRobot {
     public static Intake m_intake = new Intake();
     public static Feeder m_feeder = new Feeder();
     public static Shooter m_shooter = new Shooter();
+    public static SimpleShooter m_simpleShooter = new SimpleShooter();
     public static TalonExample m_shooterTest = new TalonExample();
 
     // TODO Old REV sensor code. Doesn't work. Replace with PWF Sensor code
