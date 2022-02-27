@@ -36,11 +36,11 @@ public class SimpleShootCargo extends PIDCommand {
                 // The controller that the command will use
                 new PIDController(kP, kI, kD),
                 // Close loop on shooter velocity
-                m_shooter::getVelocity,
+                m_shooter::getRPM,
                 // This should return the setpoint
                 targetRPM,
                 // Pipe output to turn robot
-                output -> m_shooter.rightMotor.set(ControlMode.PercentOutput, output + feedforward.calculate(targetRPM)),
+                output ->  m_shooter.setPower(output + feedforward.calculate(targetRPM)),
                 // Require the shooter
                 m_shooter);
 
@@ -58,7 +58,7 @@ public class SimpleShootCargo extends PIDCommand {
 
     @Override
     public void end(boolean interrupted) {
-        Robot.m_simpleShooter.rightMotor.set(ControlMode.PercentOutput, 0);
+        Robot.m_simpleShooter.setPower(0);
     }
 
     // Returns true when the command should end.

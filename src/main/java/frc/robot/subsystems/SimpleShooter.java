@@ -4,13 +4,13 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.RobotMap;
 import frc.robot.utils.TalonFXConfig;
 
@@ -66,7 +66,7 @@ public class SimpleShooter extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        SmartDashboard.putNumber("Shooter Velocity: ", getVelocity());
+        SmartDashboard.putNumber("Shooter Velocity: ", getRPM());
     }
 
     /* Zero all sensors on Talons */
@@ -76,7 +76,11 @@ public class SimpleShooter extends SubsystemBase {
         System.out.println("[Integrated Sensors] All sensors are zeroed.\n");
     }
 
-    public double getVelocity() {
+    public void setPower(double powerLevel) {
+        rightMotor.set(ControlMode.PercentOutput, powerLevel);
+    }
+
+    public double getRPM() {
         double ticksPerSample = rightMotor.getSelectedSensorVelocity();
         double ticksPerSecond = ticksPerSample * 10;
         double ticksPerMinute = ticksPerSecond * 60;
