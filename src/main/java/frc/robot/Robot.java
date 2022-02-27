@@ -81,6 +81,9 @@ public class Robot extends TimedRobot {
         RobotContainer.m_robotDrive.rightSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
                 Constants.kTimeoutMs);
 
+        //initialize trajectories and ramsetes
+        PathContainer.initBlueRightPaths();
+
         // TODO Old REV sensor code. Doesn't work. Replace with PWF Sensor code
         // m_leftSensor = new MultiplexedDistanceSensor(I2C.Port.kOnboard, 7);
         // m_rightSensor = new MultiplexedDistanceSensor(I2C.Port.kOnboard, 6);
