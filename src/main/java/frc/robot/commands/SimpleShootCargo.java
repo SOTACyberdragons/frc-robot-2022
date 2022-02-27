@@ -22,6 +22,11 @@ public class SimpleShootCargo extends PIDCommand {
     private static double kV = 0;
     private static double kA = 0;
 
+    // Motor PID values
+    private static double kP = 0;
+    private static double kI = 0;
+    private static double kD = 0;
+
     private double velocityTolerance = 100;
     private static SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
 
@@ -29,7 +34,7 @@ public class SimpleShootCargo extends PIDCommand {
     public SimpleShootCargo(double targetRPM, SimpleShooter m_shooter) {
         super(
                 // The controller that the command will use
-                new PIDController(0, 0, 0),
+                new PIDController(kP, kI, kD),
                 // Close loop on shooter velocity
                 m_shooter::getVelocity,
                 // This should return the setpoint

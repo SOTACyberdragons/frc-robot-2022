@@ -77,7 +77,7 @@ public class SimpleShooter extends SubsystemBase {
     }
 
     public double getVelocity() {
-        double ticksPerSample = leftMotor.getSelectedSensorVelocity();
+        double ticksPerSample = rightMotor.getSelectedSensorVelocity();
         double ticksPerSecond = ticksPerSample * 10;
         double ticksPerMinute = ticksPerSecond * 60;
         double rpm = ticksPerMinute / kSensorUnitsPerRotation;
