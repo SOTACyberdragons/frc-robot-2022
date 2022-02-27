@@ -47,6 +47,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Gains;
@@ -147,9 +148,9 @@ public class Shooter extends SubsystemBase {
         _rightMaster.setNeutralMode(NeutralMode.Brake);
 
         /* Configure output */
-         _leftMaster.setInverted(TalonFXInvertType.Clockwise);
-         _rightMaster.setInverted(TalonFXInvertType.CounterClockwise);
-        
+        _leftMaster.setInverted(TalonFXInvertType.Clockwise);
+        _rightMaster.setInverted(TalonFXInvertType.CounterClockwise);
+
         /*
          * Talon FX does not need sensor phase set for its integrated sensor
          * This is because it will always be correct if the selected feedback device is
@@ -248,6 +249,22 @@ public class Shooter extends SubsystemBase {
             _rightMaster.selectProfileSlot(kSlot_Velocit, PID_PRIMARY);
         }
 
+        /* Hardcoding the inputs */
+        double target_RPM = 200; // +- 2000 RPM
+        double target_unitsPer100ms = target_RPM * kSensorUnitsPerRotation / 600.0; // RPM -> Native units
+
+        /*
+         * Configured for Velocity Closed Loop on Integrated Sensors' Sum and Arbitrary
+         * FeedForward on joyX
+         */
+        _rightMaster.set(TalonFXControlMode.Velocity, target_unitsPer100ms, DemandType.ArbitraryFeedForward,
+                feedForwardTerm);
+        _leftMaster.follow(_rightMaster);
+
+        /* Uncomment to view RPM in Driver Station */
+        double actual_RPM = (_rightMaster.getSelectedSensorVelocity() / (double) kSensorUnitsPerRotation * 600f);
+        System.out.println("Vel[RPM]: " + actual_RPM + " Pos: " + _rightMaster.getSelectedSensorPosition());
+
         _firstCall = false;
 
         SmartDashboard.putNumber("Shooter Velocity: ", getVelocity());
@@ -296,16 +313,24 @@ public class Shooter extends SubsystemBase {
         double targetVelocitySensorUnits = targetVelocityRPS * (kSensorUnitsPerRotation / 10);
         feedForwardTerm = targetFeedForward;
 
-        _leftMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
-                feedForwardTerm);
         _rightMaster.set(TalonFXControlMode.Velocity, targetVelocitySensorUnits, DemandType.ArbitraryFeedForward,
                 feedForwardTerm);
+
+        // Try something like this below ...
+
+        // public void setClosedLoopVelocity(double velocityMetresPerSecond) {
+        //     falconMotor.set(
+        //         ControlMode.Velocity,
+        //         velocityMetresPerSecond * kRotationsPerMetre * 2048 * 0.1,
+        //         DemandType.ArbitraryFeedForward,
+        //         simpleMotorForward.calculate(velocityMetresPerSecond) / 12.0
+        //     );
+        // }        
+
     }
 
-    public void setPower(double powerLevel)
-    {
+    public void setPower(double powerLevel) {
         _rightMaster.set(ControlMode.PercentOutput, powerLevel);
-        //_leftMaster.set(ControlMode.PercentOutput, powerLevel);
     }
 
     /**
