@@ -130,6 +130,7 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
         SmartDashboard.putNumber("Left Encoder: ", getLeftEncoder());
         SmartDashboard.putNumber("Right Encoder: ", getRightEncoder());
+        SmartDashboard.putNumber("Heading double", getHeadingDouble());
 
         // Update field position
         m_field.setRobotPose(m_odometry.getPoseMeters());
@@ -271,6 +272,11 @@ public class Drivetrain extends SubsystemBase {
         double angle = m_gyro.getFusedHeading(fusionStatus);
         double newAngle = Math.IEEEremainder(angle, 360) * (gyroReversed ? -1.0 : 1.0);
         return Rotation2d.fromDegrees(newAngle);
+    }
+
+    public double getHeadingDouble()
+    {
+        return -Math.IEEEremainder(m_gyro.getAngle(), 360) * (gyroReversed ? -1.0 : 1.0);
     }
 
     public double getRotation() {

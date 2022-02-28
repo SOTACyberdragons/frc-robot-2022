@@ -40,10 +40,12 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.CommandGroupExample;
+import frc.robot.commands.AutoCommandGroup;
 import frc.robot.commands.RamseteTest;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
+import frc.robot.commands.TestTurnToAngle;
+import frc.robot.commands.TestTurnToAngleProfiled;
 import frc.robot.commands.TurnAngle;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
@@ -87,13 +89,16 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
-        buttonB.whenPressed(new TurnAngle(-90));
+        //buttonB.whenPressed(new TurnAngle(-90));
         // buttonX.whenPressed(new RamseteTest());
         
         buttonA.whenHeld(new SpinIntake());
 
         // This sets the shooter speed in RPM. Don't overdo it
         buttonY.whenHeld(new ShootCargo(1500, .15, 0.3));
+
+        buttonX.whenPressed(new TestTurnToAngle(30, RobotContainer.m_robotDrive));
+        buttonB.whenPressed(new TestTurnToAngleProfiled(30, RobotContainer.m_robotDrive));
     }
 
     public RobotContainer() {
@@ -103,6 +108,6 @@ public class RobotContainer {
     RamseteTest autonomousCommand = new RamseteTest();
 
     public Command getAutonomousCommand() {
-        return new CommandGroupExample(this);
+        return new AutoCommandGroup(this);
     }
 }

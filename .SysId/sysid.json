@@ -1,6 +1,6 @@
 {
   "SysId": {
-    "Analysis Type": "General Mechanism",
+    "Analysis Type": "Drivetrain",
     "AnalyzerJSONLocation": "D:\\home\\Downloads\\sysid_data20220128-161013.json",
     "NetworkTables Settings": {
       "serverTeam": "5700"
