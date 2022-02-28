@@ -46,7 +46,7 @@ public class SpinShooter extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double pidOutput = m_pidController.calculate(Robot.m_simpleShooter.getRPM() + feedForward.calculate(Robot.m_simpleShooter.getRPM()));
+        double pidOutput = m_pidController.calculate(Robot.m_simpleShooter.getRPM() + feedForward.calculate(shooterRPM));
         Robot.m_simpleShooter.setPower(pidOutput);
 
         if (m_pidController.atSetpoint()) {

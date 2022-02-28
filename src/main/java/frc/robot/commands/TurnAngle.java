@@ -38,6 +38,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
@@ -46,15 +50,24 @@ public class TurnAngle extends CommandBase {
     public static double startHeading;
     public static double targetHeading;
 
-    // PID Constansts
-    private static final double kP = 0.0175; // Power
-    private static final double kI = 0; // Ease in sensitivity
-    private static final double kD = 0; // Smoothing
-    private static final double kF = 0.25;
+    // Motor characterization
+    private static double kS = 1.0048;
+    private static double kV = 6.0896;
+    private static double kA = 0.17093;
 
-    private static final double throttle = 0.5;
+    // Motor PID values
+    private static double kP = 0.075749;
+    private static double kI = 0;
+    private static double kD = 0.0025432;
 
-    public PIDController m_pidController = new PIDController(kP, kI, kD);
+    // Trapezoid constraints 
+    // TODO I suspect these are too low.
+    private static double kMaxTurnSpeed = .5;
+    private static double kMaxAccelerationMetersPerSecondSquared = .25;
+
+    private static TrapezoidProfile.Constraints m_profile = new TrapezoidProfile.Constraints(kMaxTurnSpeed, kMaxAccelerationMetersPerSecondSquared);
+    private static ProfiledPIDController m_pidController = new ProfiledPIDController(kP, kI, kD, m_profile);
+    private static SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(kS, kV, kA);
 
     /** Creates a new TurnWithGyro. */
     public TurnAngle(double angleInput) {
@@ -68,21 +81,21 @@ public class TurnAngle extends CommandBase {
     public void initialize() {
         startHeading = RobotContainer.m_drive.getRotation();
         targetHeading = startHeading + rotationAmount;
-        m_pidController.setSetpoint(targetHeading);
-        m_pidController.setTolerance(5, 5);
+        m_pidController.setGoal(targetHeading);
+        m_pidController.setTolerance(5, 1);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_drive.getRotation() + kF)),
-                -throttle, throttle);
-        RobotContainer.m_drive.m_drive(0, -pidOutput);
+        double pidOutput = (m_pidController.calculate(RobotContainer.m_drive.getRotation() + feedForward.calculate(targetHeading)));
+        RobotContainer.m_drive.arcadeDrive(0, -pidOutput);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        RobotContainer.m_drive.arcadeDrive(0, 0);
     }
 
     // Returns true when the command should end.
