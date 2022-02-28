@@ -73,7 +73,7 @@ public class SimpleShooter extends SubsystemBase {
     public void zeroSensors() {
         leftMotor.getSensorCollection().setIntegratedSensorPosition(0, kTimeoutMs);
         rightMotor.getSensorCollection().setIntegratedSensorPosition(0, kTimeoutMs);
-        System.out.println("[Integrated Sensors] All sensors are zeroed.\n");
+        System.out.println("[Integrated Sensors] All sensors are zeroed.");
     }
 
     public void setPower(double powerLevel) {
