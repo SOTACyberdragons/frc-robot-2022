@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.SimpleShooter;
@@ -49,6 +50,9 @@ public class SpinShooter extends CommandBase {
         // double pidOutput = m_pidController.calculate(Robot.m_simpleShooter.getRPM() + feedForward.calculate(shooterRPM));
         double pidOutput = m_pidController.calculate(Robot.m_simpleShooter.getRPM(), shooterRPM) + feedForward.calculate(shooterRPM);
         Robot.m_simpleShooter.setPower(pidOutput);
+
+        SmartDashboard.putNumber("Shooter Velocity: ", Robot.m_simpleShooter.getRPM());
+        SmartDashboard.putNumber("Shooter Power:", pidOutput);
 
         if (m_pidController.atSetpoint()) {
             System.out.println("At set point!");
