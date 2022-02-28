@@ -41,7 +41,7 @@ public class SpinShooter extends CommandBase {
     @Override
     public void initialize() {
         m_pidController.setSetpoint(shooterRPM);
-        m_pidController.setTolerance(0, velocityTolerance);
+        m_pidController.setTolerance(velocityTolerance);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

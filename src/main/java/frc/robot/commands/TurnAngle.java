@@ -65,6 +65,7 @@ public class TurnAngle extends CommandBase {
     // TODO I suspect these are too low.
     private static double kMaxTurnSpeed = .5;
     private static double kMaxAccelerationMetersPerSecondSquared = .25;
+    private static double kTurnTolerance = 2;
 
     private static TrapezoidProfile.Constraints m_profile = new TrapezoidProfile.Constraints(kMaxTurnSpeed, kMaxAccelerationMetersPerSecondSquared);
     private static ProfiledPIDController m_pidController = new ProfiledPIDController(kP, kI, kD, m_profile);
@@ -85,7 +86,7 @@ public class TurnAngle extends CommandBase {
         m_pidController.setGoal(targetHeading);
 
         // Tolerance is position, velocity
-        m_pidController.setTolerance(5, 5);
+        m_pidController.setTolerance(kTurnTolerance);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
