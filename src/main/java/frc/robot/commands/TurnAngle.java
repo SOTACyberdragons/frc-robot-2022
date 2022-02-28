@@ -43,6 +43,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
@@ -96,6 +97,9 @@ public class TurnAngle extends CommandBase {
         RobotContainer.m_drive.arcadeDrive(0, -pidOutput);
         RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 1 - pidOutput);
         RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.25);
+
+        SmartDashboard.putNumber("Turn Power:", pidOutput);
+
     }
 
     // Called once the command ends or is interrupted.

@@ -6,9 +6,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.SimpleShooter;
 
 public class SpinShooter extends CommandBase {
@@ -51,10 +53,13 @@ public class SpinShooter extends CommandBase {
         double pidOutput = m_pidController.calculate(Robot.m_simpleShooter.getRPM(), shooterRPM) + feedForward.calculate(shooterRPM);
         Robot.m_simpleShooter.setPower(pidOutput);
 
+        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, pidOutput);
+
         SmartDashboard.putNumber("Shooter Velocity: ", Robot.m_simpleShooter.getRPM());
         SmartDashboard.putNumber("Shooter Power:", pidOutput);
 
         if (m_pidController.atSetpoint()) {
+            RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.5);
             System.out.println("At set point!");
         }
     }
@@ -63,6 +68,8 @@ public class SpinShooter extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         Robot.m_simpleShooter.setPower(0);
+        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);
+        RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
     }
 
     // Returns true when the command should end.
