@@ -50,7 +50,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
      */
     public DifferentialDriveWithJoysticks() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.m_robotDrive);
+        addRequirements(RobotContainer.m_drive);
     }
 
     // Called when the command is initially scheduled.
@@ -66,7 +66,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
         // Robot.m_robotDrive.drive(-RobotContainer.getLeftJoyY() * throttle,
         // RobotContainer.getRightJoyX());
 
-        RobotContainer.m_robotDrive.m_drive(RobotContainer.getXBoxThrottle(), RobotContainer.getXBoxRotation());
+        RobotContainer.m_drive.m_drive(RobotContainer.getXBoxThrottle(), RobotContainer.getXBoxRotation());
     }
 
     // Called once the command ends or is interrupted.

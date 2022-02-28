@@ -25,12 +25,11 @@ public class PathContainer {
         initRamsetes();
     }
 
-    private static void initRamsetes()
-    {
-        ram1 = new DrivetrainRamsete(RobotContainer.m_robotDrive, path1);
-        ram2 = new DrivetrainRamsete(RobotContainer.m_robotDrive, path2);
-        ram3 = new DrivetrainRamsete(RobotContainer.m_robotDrive, path3);
-        ram4 = new DrivetrainRamsete(RobotContainer.m_robotDrive, path4);
-        ram5 = new DrivetrainRamsete(RobotContainer.m_robotDrive, path5);
+    private static void initRamsetes() {
+        ram1 = new DrivetrainRamsete(RobotContainer.m_drive, path1);
+        ram2 = new DrivetrainRamsete(RobotContainer.m_drive, path2);
+        ram3 = new DrivetrainRamsete(RobotContainer.m_drive, path3);
+        ram4 = new DrivetrainRamsete(RobotContainer.m_drive, path4);
+        ram5 = new DrivetrainRamsete(RobotContainer.m_drive, path5);
     }
 }

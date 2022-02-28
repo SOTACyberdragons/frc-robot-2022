@@ -60,13 +60,13 @@ public class TurnAngle extends CommandBase {
     public TurnAngle(double angleInput) {
         // Use addRequirements() here to declare subsystem dependencies.
         rotationAmount = angleInput;
-        addRequirements(RobotContainer.m_robotDrive);
+        addRequirements(RobotContainer.m_drive);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        startHeading = RobotContainer.m_robotDrive.getRotation();
+        startHeading = RobotContainer.m_drive.getRotation();
         targetHeading = startHeading + rotationAmount;
         m_pidController.setSetpoint(targetHeading);
         m_pidController.setTolerance(5, 5);
@@ -75,9 +75,9 @@ public class TurnAngle extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getRotation() + kF)),
+        double pidOutput = MathUtil.clamp((m_pidController.calculate(RobotContainer.m_drive.getRotation() + kF)),
                 -throttle, throttle);
-        RobotContainer.m_robotDrive.m_drive(0, -pidOutput);
+        RobotContainer.m_drive.m_drive(0, -pidOutput);
     }
 
     // Called once the command ends or is interrupted.

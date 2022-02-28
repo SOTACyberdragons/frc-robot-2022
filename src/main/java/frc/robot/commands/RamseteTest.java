@@ -54,20 +54,20 @@ import frc.robot.RobotContainer;
 
 public class RamseteTest extends RamseteCommand {
     public RamseteTest() {
-        super(trajectory(), RobotContainer.m_robotDrive::getPose,
+        super(trajectory(), RobotContainer.m_drive::getPose,
                 new RamseteController(Constants.kRamseteB, Constants.kRamseteZeta),
                 new SimpleMotorFeedforward(
                         Constants.ksVolts,
                         Constants.kvVoltSecondsPerMeter,
                         Constants.kaVoltSecondsSquaredPerMeter),
                 Constants.kDriveKinematics,
-                RobotContainer.m_robotDrive::getWheelSpeeds,
+                RobotContainer.m_drive::getWheelSpeeds,
                 new PIDController(Constants.kPDriveVel, 0, 0),
                 new PIDController(Constants.kPDriveVel, 0, 0),
-                RobotContainer.m_robotDrive::tankDriveVolts,
-                RobotContainer.m_robotDrive);
+                RobotContainer.m_drive::tankDriveVolts,
+                RobotContainer.m_drive);
 
-        this.andThen(() -> RobotContainer.m_robotDrive.tankDriveVolts(0, 0));
+        this.andThen(() -> RobotContainer.m_drive.tankDriveVolts(0, 0));
     }
 
     public static Trajectory trajectory() {

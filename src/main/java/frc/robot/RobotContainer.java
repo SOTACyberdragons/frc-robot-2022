@@ -52,7 +52,7 @@ import frc.robot.subsystems.Shooter;
 
 public class RobotContainer {
 
-    public static Drivetrain m_robotDrive = new Drivetrain();
+    public static Drivetrain m_drive = new Drivetrain();
     public static Shooter m_shooter = new Shooter();
 
     // Adding XBox Controller Supports
@@ -89,16 +89,16 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
-        //buttonB.whenPressed(new TurnAngle(-90));
+        // buttonB.whenPressed(new TurnAngle(-90));
         // buttonX.whenPressed(new RamseteTest());
-        
+
         buttonA.whenHeld(new SpinIntake());
 
         // This sets the shooter speed in RPM. Don't overdo it
         buttonY.whenHeld(new ShootCargo(1500, .15, 0.3));
 
-        buttonX.whenPressed(new TestTurnToAngle(30, RobotContainer.m_robotDrive));
-        buttonB.whenPressed(new TestTurnToAngleProfiled(30, RobotContainer.m_robotDrive));
+        buttonX.whenPressed(new TestTurnToAngle(90, m_drive).withTimeout(5));
+        buttonB.whenPressed(new TestTurnToAngleProfiled(-90, m_drive).withTimeout(5));
     }
 
     public RobotContainer() {

@@ -64,10 +64,10 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         System.out.println("Robot initialized!");
 
-        RobotContainer.m_robotDrive.zeroHeading();
-        RobotContainer.m_robotDrive.resetEncoders();
+        RobotContainer.m_drive.zeroHeading();
+        RobotContainer.m_drive.resetEncoders();
 
-        RobotContainer.m_robotDrive.resetOdometry(RobotContainer.m_robotDrive.getPose());
+        RobotContainer.m_drive.resetOdometry(RobotContainer.m_drive.getPose());
 
         m_robotContainer = new RobotContainer();
 
@@ -75,12 +75,12 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().enable();
 
         // Reset the Falcon encoders
-        RobotContainer.m_robotDrive.leftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
+        RobotContainer.m_drive.leftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
                 Constants.kTimeoutMs);
-        RobotContainer.m_robotDrive.leftSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-        RobotContainer.m_robotDrive.rightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
+        RobotContainer.m_drive.leftSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+        RobotContainer.m_drive.rightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
                 Constants.kTimeoutMs);
-        RobotContainer.m_robotDrive.rightSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
+        RobotContainer.m_drive.rightSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
                 Constants.kTimeoutMs);
 
         //initialize trajectories and ramsetes
@@ -125,10 +125,10 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().cancelAll();
         CommandScheduler.getInstance().enable();
 
-        RobotContainer.m_robotDrive.zeroHeading();
-        RobotContainer.m_robotDrive.resetEncoders();
+        RobotContainer.m_drive.zeroHeading();
+        RobotContainer.m_drive.resetEncoders();
 
-        CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_robotDrive,
+        CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_drive,
                 new DifferentialDriveWithJoysticks());
     }
 

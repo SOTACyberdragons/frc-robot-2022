@@ -180,10 +180,10 @@ class Tester:
                         continue
 
                     # TODO Values are in BGR - Tweak these!
-                    red = [70, 66, 152]
+                    red = [80, 88, 255]
                     redtolerance = [32, 32, 64]
-                    blue = [.8, 0,  0]
-                    bluetolerance = [.2, .2, .2]
+                    blue = [128, 128,  96]
+                    bluetolerance = [64, 32, 32]
 
                     cropped = frame_cv2[ymin:ymax, xmin: xmax]
                     averages = np.average(cropped, axis=(0, 1))

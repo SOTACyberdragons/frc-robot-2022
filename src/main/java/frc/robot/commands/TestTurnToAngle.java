@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants;
@@ -20,11 +19,22 @@ public class TestTurnToAngle extends PIDCommand {
     private static double kI = 0;
     private static double kD = 0.0025432;
 
+    // Constraints
+    private static double kTurnToleranceDeg = 5;
+    private static double kTurnRateToleranceDegPerS = 10; // degrees per second
+
     double angleTarget;
 
     private static SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(kS, kV, kA);
 
+    /* Turn the robot to the specified angle. */
     public TestTurnToAngle(double targetAngleDegrees, Drivetrain m_drive) {
+        /**
+         * Turns to robot to the specified angle.
+         *
+         * @param targetAngleDegrees The angle to turn to
+         * @param drive              The drive subsystem to use
+         */
         super(
                 // The controller that the command will use
                 new PIDController(kP, kI, kD),
@@ -38,19 +48,19 @@ public class TestTurnToAngle extends PIDCommand {
                 // Require the drive
                 m_drive);
 
-        this.angleTarget = targetAngleDegrees;
-    }
+        // Set the controller to be continuous (because it is an angle controller)
+        getController().enableContinuousInput(-180, 180);
 
-    @Override
-    public void end(boolean interupted) {
-        RobotContainer.m_robotDrive.tankDriveVolts(0, 0);
+        // Set the controller tolerance
+        getController().setTolerance(kTurnToleranceDeg, kTurnRateToleranceDegPerS);
     }
 
     @Override
     public boolean isFinished() {
         // End when the controller is at the reference.
-        System.out.println("Current Heading " + RobotContainer.m_robotDrive.getHeadingDouble());
+        System.out.println("Current Heading " + RobotContainer.m_drive.getHeadingDouble());
         System.out.println("Current Target " + angleTarget);
+
         return getController().atSetpoint();
     }
 }

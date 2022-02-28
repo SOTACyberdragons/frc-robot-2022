@@ -53,7 +53,7 @@ public class AutoCommandGroup extends SequentialCommandGroup {
 
     public AutoCommandGroup(RobotContainer robot) {
 
-        RobotContainer.m_robotDrive.resetOdometry(PathContainer.path1.getInitialPose());
+        RobotContainer.m_drive.resetOdometry(PathContainer.path1.getInitialPose());
 
         addCommands(
           PathContainer.ram1,

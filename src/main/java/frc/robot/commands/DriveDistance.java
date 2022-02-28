@@ -59,13 +59,13 @@ public class DriveDistance extends CommandBase {
     public DriveDistance(double distanceInMeters) {
         // Use addRequirements() here to declare subsystem dependencies.
         driveDistance = distanceInMeters;
-        addRequirements(RobotContainer.m_robotDrive);
+        addRequirements(RobotContainer.m_drive);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        startingDistance = RobotContainer.m_robotDrive.getAverageDistance();
+        startingDistance = RobotContainer.m_drive.getAverageDistance();
         targetDistance = startingDistance + driveDistance;
         m_pidController.setSetpoint(targetDistance);
         m_pidController.setTolerance(.05, .05);
@@ -75,17 +75,17 @@ public class DriveDistance extends CommandBase {
     @Override
     public void execute() {
         double pidOutput = MathUtil
-                .clamp((m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance()) + kF), -0.5, 0.5);
-        RobotContainer.m_robotDrive.m_drive(pidOutput, 0);
+                .clamp((m_pidController.calculate(RobotContainer.m_drive.getAverageDistance()) + kF), -0.5, 0.5);
+        RobotContainer.m_drive.m_drive(pidOutput, 0);
         RobotContainer.m_controller.setRumble(RumbleType.kRightRumble,
-                1 - (m_pidController.calculate(RobotContainer.m_robotDrive.getAverageDistance())));
+                1 - (m_pidController.calculate(RobotContainer.m_drive.getAverageDistance())));
         RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.25);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.m_robotDrive.m_drive(0, 0);
+        RobotContainer.m_drive.m_drive(0, 0);
         RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);
         RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
     }
