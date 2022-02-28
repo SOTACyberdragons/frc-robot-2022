@@ -57,12 +57,12 @@ public class SpinShooter extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        Robot.m_simpleShooter.setPower(0);
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        Robot.m_simpleShooter.setPower(0);
         return false;
     }
 }
