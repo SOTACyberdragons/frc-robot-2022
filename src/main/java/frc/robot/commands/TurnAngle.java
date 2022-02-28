@@ -83,7 +83,9 @@ public class TurnAngle extends CommandBase {
         startHeading = RobotContainer.m_drive.getRotation();
         targetHeading = startHeading + rotationAmount;
         m_pidController.setGoal(targetHeading);
-        m_pidController.setTolerance(5, 1);
+
+        // Tolerance is position, velocity
+        m_pidController.setTolerance(5, 5);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

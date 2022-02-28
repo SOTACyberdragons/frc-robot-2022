@@ -1,3 +1,5 @@
+// DOESN'T WORK DUE TO REV SENSORS USAGE OF THREADS.
+
 //                                                 @                             
 //                                                  &@@                           
 //                          * .                    * @@@                          
