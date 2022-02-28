@@ -42,6 +42,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
@@ -90,12 +91,16 @@ public class TurnAngle extends CommandBase {
     public void execute() {
         double pidOutput = m_pidController.calculate(RobotContainer.m_drive.getRotation(), targetHeading) + feedForward.calculate(targetHeading);
         RobotContainer.m_drive.arcadeDrive(0, -pidOutput);
+        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 1 - pidOutput);
+        RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.25);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         RobotContainer.m_drive.arcadeDrive(0, 0);
+        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);
+        RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
     }
 
     // Returns true when the command should end.
