@@ -62,13 +62,15 @@ public class TurnAngle extends CommandBase {
     private static double kI = 0;
     private static double kD = 0.0025432;
 
-    // Trapezoid constraints 
-    // TODO I suspect these are too low.
+    // Trapezoid constraints
     private static double kMaxTurnSpeed = .5;
-    private static double kMaxAccelerationMetersPerSecondSquared = .25;
+    private static double kMaxAccelerationMetersPerSecondSquared = .5;
+
+    // Setpoint Tolerance
     private static double kTurnTolerance = 2;
 
-    private static TrapezoidProfile.Constraints m_profile = new TrapezoidProfile.Constraints(kMaxTurnSpeed, kMaxAccelerationMetersPerSecondSquared);
+    private static TrapezoidProfile.Constraints m_profile = new TrapezoidProfile.Constraints(kMaxTurnSpeed,
+            kMaxAccelerationMetersPerSecondSquared);
     private static ProfiledPIDController m_pidController = new ProfiledPIDController(kP, kI, kD, m_profile);
     private static SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(kS, kV, kA);
 
@@ -93,13 +95,10 @@ public class TurnAngle extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double pidOutput = m_pidController.calculate(RobotContainer.m_drive.getRotation(), targetHeading) + feedForward.calculate(targetHeading);
-        RobotContainer.m_drive.arcadeDrive(0, -pidOutput);
+        double pidOutput = m_pidController.calculate(RobotContainer.m_drive.getRotation(), targetHeading)
+                + feedForward.calculate(targetHeading);
+        RobotContainer.m_drive.arcadeDrive(0, -(pidOutput / 12));
         RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 1 - pidOutput);
-        RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.25);
-
-        SmartDashboard.putNumber("Turn Power:", pidOutput);
-
     }
 
     // Called once the command ends or is interrupted.

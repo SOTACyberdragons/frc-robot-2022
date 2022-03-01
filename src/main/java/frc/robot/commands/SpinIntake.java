@@ -36,10 +36,15 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class SpinIntake extends CommandBase {
+
+    public static double kIntakeSpeed = 0.75;
+    public static double kFeederSpeed = 0.5;
 
     public SpinIntake() {
         // addRequirements(Robot.m_intake, Robot.m_feeder);
@@ -48,8 +53,12 @@ public class SpinIntake extends CommandBase {
     // Called just before this Command runs the first time
     @Override
     public void initialize() { 
-        Robot.m_intake.startIntake();        
-        Robot.m_feeder.feederIn();
+        Robot.m_intake.startIntake(kIntakeSpeed);        
+        Robot.m_feeder.feederIn(kFeederSpeed);
+        
+        // Left rumble is always feeder
+        RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, kFeederSpeed);
+        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, kIntakeSpeed);
     } 
 
     // Called repeatedly when this Command is scheduled to run
@@ -57,6 +66,7 @@ public class SpinIntake extends CommandBase {
     public void execute() {        
         if (!Robot.m_feeder.getBreakBeam()) {
             Robot.m_feeder.feederStop();
+            RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.0);
         } 
     }
 
@@ -71,5 +81,8 @@ public class SpinIntake extends CommandBase {
     public void end(boolean interrupted) {
         Robot.m_intake.stopIntake();
         Robot.m_feeder.feederStop();
+
+        RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.0);
+        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0.0);
     }
 }

@@ -48,23 +48,24 @@ public class Feeder extends SubsystemBase {
     private WPI_TalonSRX feederMotor;
     private DigitalInput breakBeam = new DigitalInput(0); // Break beam
 
-    // Speed to run the feeder at
-    private double kFeederSpeed = -0.5;
-    
+    // Expose input variables
+    private static double feederPower = 0;
+
     public Feeder() {
         feederMotor = new WPI_TalonSRX(RobotMap.FEEDER_MOTOR);
     }
 
-    public void feederIn() {
-        feederMotor.set(ControlMode.PercentOutput, kFeederSpeed);
+    public void feederIn(double power) {
+        feederPower = power;
+        feederMotor.set(ControlMode.PercentOutput, -feederPower);
     }
 
-    public void feederOut() {
-        feederMotor.set(ControlMode.PercentOutput, -kFeederSpeed);
+    public void feederOut(double power) {
+        feederPower = power;
+        feederMotor.set(ControlMode.PercentOutput, feederPower);
     }
 
-    public boolean getBreakBeam()
-    {
+    public boolean getBreakBeam() {
         return breakBeam.get();
     }
 
@@ -72,5 +73,4 @@ public class Feeder extends SubsystemBase {
         feederMotor.set(ControlMode.PercentOutput, 0);
     }
 
-    
 }

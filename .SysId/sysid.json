@@ -1,11 +1,10 @@
 {
   "SysId": {
     "Analysis Type": "General Mechanism",
-    "AnalyzerJSONLocation": "C:\\Users\\Public\\frc2022\\frc-robot-2022\\robot_profiling\\rotation_20220227-142530.json",
+    "AnalyzerJSONLocation": "",
     "NetworkTables Settings": {
-      "serverTeam": "5700"
+      "serverTeam": "10.57.0.67"
     },
-    "mode": "Client",
     "serverTeam": "5700"
   }
 }
