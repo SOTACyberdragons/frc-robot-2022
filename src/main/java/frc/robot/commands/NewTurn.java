@@ -16,7 +16,7 @@ public class NewTurn extends CommandBase {
     public static double startingAngle;
     public static double targetAngle;
     public static double currentAngle;
- 
+
     public static double turnDirection = 1;
 
     // Motor characterization
@@ -28,10 +28,6 @@ public class NewTurn extends CommandBase {
     private static double kP = 0.1084;
     private static double kI = 0;
     private static double kD = 0.0039948;
-
-    // Trapezoid constraints
-    private static double kMaxTurnSpeed = .5;
-    private static double kMaxAccelerationMetersPerSecondSquared = .5;
 
     // Setpoint Tolerance
     private static double kTurnTolerance = 2;
@@ -74,8 +70,9 @@ public class NewTurn extends CommandBase {
 
         double pidOutput = m_pidController.calculate(currentAngle, targetAngle);
         double powerOutput = ((pidOutput + m_feedForward.calculate(targetAngle)) / 12) - 0.25;
-      
-        // RobotContainer.m_drive.arcadeDrive(0, pidOutput + -m_feedForward.calculate(targetAngle));
+
+        // RobotContainer.m_drive.arcadeDrive(0, pidOutput +
+        // -m_feedForward.calculate(targetAngle));
         RobotContainer.m_drive.arcadeDrive(0, -powerOutput);
 
         SmartDashboard.putNumber("rotationAmount", rotationAmount);

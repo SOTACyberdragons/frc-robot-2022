@@ -43,7 +43,7 @@ import frc.robot.commands.DifferentialDriveWithJoysticks;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.TalonExample;
+import frc.robot.subsystems.Climber;
 
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
     public static Intake m_intake = new Intake();
     public static Feeder m_feeder = new Feeder();
     public static Shooter m_shooter = new Shooter();
-    public static TalonExample m_shooterTest = new TalonExample();
+    public static Climber m_climber = new Climber();
 
     // TODO Old REV sensor code. Doesn't work. Replace with PWF Sensor code
     // public static MultiplexedDistanceSensor m_leftSensor;
