@@ -41,10 +41,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommandGroup;
-import frc.robot.commands.NewTurn;
 import frc.robot.commands.RamseteTest;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.SpinShooter;
+import frc.robot.commands.TurnAngle;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.JoystickAnalogButton;
@@ -86,8 +86,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
-        buttonX.whenPressed(new NewTurn(45));
-        buttonB.whenPressed(new NewTurn(-45));
+        buttonB.whenPressed(new TurnAngle(-5).withTimeout(2));
 
         // Spins the Intake and feeder. WARNING! Breakbeam behaviour doesn't work in
         // sunlight.
