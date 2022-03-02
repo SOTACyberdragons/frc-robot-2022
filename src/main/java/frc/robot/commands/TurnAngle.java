@@ -64,7 +64,7 @@ public class TurnAngle extends CommandBase {
     // Setpoint Tolerance
     private static double kTurnTolerance = 2;
 
-    // TODO MAGIC_NUMBER to increase m_feedForard amount is robot stalls out
+    // TODO MAGIC_NUMBER to increase m_feedForard amount if robot stalls out turning
     private static double MAGIC_NUMBER = 0.3;
 
     private static PIDController m_pidController = new PIDController(kP, kI, kD);
