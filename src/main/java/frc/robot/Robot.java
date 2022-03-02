@@ -37,6 +37,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DifferentialDriveWithJoysticks;
@@ -81,8 +82,15 @@ public class Robot extends TimedRobot {
         RobotContainer.m_drive.rightSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
                 Constants.kTimeoutMs);
 
-        //initialize trajectories and ramsetes
+        // initialize trajectories and ramsetes
         PathContainer.initBlueRightPaths();
+
+        // Create entries allowing for realtime modification without a deploy
+        // TODO Remove these before competition
+        SmartDashboard.putNumber("High Target RPS", Constants.kShooterRPSHigh);
+        SmartDashboard.putNumber("High Target Spin", Constants.kShooterFeederBackspinHigh);
+        SmartDashboard.putNumber("Low Target RPS", Constants.kShooterRPSLow);
+        SmartDashboard.putNumber("Low Target Spin", Constants.kShooterFeederBackspinLow);
 
         // TODO Old REV sensor code. Doesn't work. Replace with PWF Sensor code
         // m_leftSensor = new MultiplexedDistanceSensor(I2C.Port.kOnboard, 7);
@@ -132,7 +140,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-
+        // Definate input for realtime modification without a deploy
+        // TODO Remove these before competition
+        Constants.kShooterRPSHigh = SmartDashboard.getNumber("High Target RPS", Constants.kShooterRPSHigh);
+        Constants.kShooterFeederBackspinHigh = SmartDashboard.getNumber("High Target Spin", Constants.kShooterFeederBackspinHigh);
+        Constants.kShooterRPSLow = SmartDashboard.getNumber("Low Target RPS", Constants.kShooterRPSLow);
+        Constants.kShooterFeederBackspinLow = SmartDashboard.getNumber("Low Target Spin", Constants.kShooterFeederBackspinLow);
     }
 
     @Override

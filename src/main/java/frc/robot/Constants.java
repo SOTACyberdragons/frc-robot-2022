@@ -1,11 +1,9 @@
 package frc.robot;
 
-import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
-// import edu.wpi.first.wpilibj.DigitalInput;
-// import edu.wpi.first.wpilibj.DigitalSource;
-import edu.wpi.first.wpilibj.Filesystem;
 import java.nio.file.Path;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.Filesystem;
 
 public class Constants {
 
@@ -51,7 +49,11 @@ public class Constants {
 		DO_NOT_MOVE
 	};
 
-	// values from profiler
+	// Talon FX configuration constants
+	public static int kTimeoutMs = 30;
+	public static int kPIDLoopIdx = 0;
+
+	// Ramsets values from robot characterization
 	public static final double ksVolts = 0.43389; // 0.589151 initially
 	public static final double kvVoltSecondsPerMeter = 5.9696; // 5.9696 initially
 	public static final double kaVoltSecondsSquaredPerMeter = 0.40192; // 0.11108 initially
@@ -59,20 +61,10 @@ public class Constants {
 	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
 			kTrackwidthMeters);
 
-	// Ramsete constants - TUNE THESE IF THE ROBOT MOVES TOO QUICKLY!
-	public static final double kMaxSpeedMetersPerSecond = 0.93088; // initially 3
-	public static final double kMaxAccelerationMetersPerSecondSquared = 0.37894; // initially 3
+	// TODO Update PID values for the Ramsete commands.
+	public static final double kPDriveVel = 0.0039019;
 
-	public static final double kRamseteB = 2; // initially 2
-	public static final double kRamseteZeta = 0.7;
-
-	public static final double kDistancePerPulse = 2048;
-
-	// XBox Controller Drivetrain Constants
-	public static final double kMaxDriveSpeed = .7;
-	public static final double kMaxTurnSpeed = .7;
-
-	// Updated drivetrain constants
+	// Drivetrain wheel constants
 	public static final int kEncoderCPR = 2048;
 	public static final double kWheelDiameterMeters = 0.152;
 	public static final double kWheelRadiusMeters = kWheelDiameterMeters / 2;
@@ -80,9 +72,22 @@ public class Constants {
 	public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR)
 			/ kGearRation;
 
-	public static final double kPDriveVel = 0.0039019;
+	// Ramsete constants that control speed 
+	// TUNE THESE IF THE ROBOT MOVES TOO QUICKLY!
+	public static final double kMaxSpeedMetersPerSecond = 0.93088; // initially 3
+	public static final double kMaxAccelerationMetersPerSecondSquared = 0.37894; // initially 3
 
-	public static int kTimeoutMs = 30;
-	public static int kPIDLoopIdx = 0;
+	public static final double kRamseteB = 2; // initially 2
+	public static final double kRamseteZeta = 0.7;
 
+	// XBox Controller Drivetrain Constants
+	public static final double kMaxDriveSpeed = .7;
+	public static final double kMaxTurnSpeed = .7;
+
+	// Shooter constants
+	public static double kShooterRPSHigh = 50;
+	public static double kShooterFeederBackspinHigh = .5;
+
+	public static double kShooterRPSLow = 20;
+	public static double kShooterFeederBackspinLow = .5;
 }

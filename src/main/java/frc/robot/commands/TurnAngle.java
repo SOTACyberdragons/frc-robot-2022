@@ -64,8 +64,8 @@ public class TurnAngle extends CommandBase {
     // Setpoint Tolerance
     private static double kTurnTolerance = 2;
 
-    // private static PIDController m_pidController;
-    // private static SimpleMotorFeedforward m_feedForward;
+    // TODO MAGIC_NUMBER to increase m_feedForard amount is robot stalls out
+    private static double MAGIC_NUMBER = 0.3;
 
     private static PIDController m_pidController = new PIDController(kP, kI, kD);
     private static SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(kS, kV, kA);
@@ -86,6 +86,11 @@ public class TurnAngle extends CommandBase {
         // Define the endpoints
         targetAngle = startingAngle + rotationAmount;
 
+        // Set the magic number to the right direction 
+        if (targetAngle < startingAngle) {
+            MAGIC_NUMBER = MAGIC_NUMBER * -1;
+        }
+
         // Create the PID objects
         m_pidController.reset();
 
@@ -100,7 +105,7 @@ public class TurnAngle extends CommandBase {
         currentAngle = RobotContainer.m_drive.getRotation();
 
         double pidOutput = m_pidController.calculate(currentAngle, targetAngle);
-        double powerOutput = ((pidOutput + m_feedForward.calculate(targetAngle)) / 12) - 0.3;
+        double powerOutput = ((pidOutput + m_feedForward.calculate(targetAngle)) / 12) + MAGIC_NUMBER;
 
         RobotContainer.m_drive.arcadeDrive(0, -powerOutput);
 
