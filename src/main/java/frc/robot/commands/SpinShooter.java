@@ -41,6 +41,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
@@ -66,9 +67,18 @@ public class SpinShooter extends CommandBase {
     private double m_feederPower = 0;
 
     /** Creates a new SpinShooter. */
-    public SpinShooter(double shooterDesiredRPS, double feederPower) {
-        this.m_shooterTargetRPS = shooterDesiredRPS;
-        this.m_feederPower = feederPower;
+    public SpinShooter(String profile) {
+        String my_profile = profile;
+        if (my_profile == "High") {
+            this.m_shooterTargetRPS = Constants.kShooterRPSHigh;
+            this.m_feederPower = Constants.kShooterFeederBackspinHigh;
+        } else if (my_profile == "Low") {
+            this.m_shooterTargetRPS = Constants.kShooterRPSLow;
+            this.m_feederPower = Constants.kShooterFeederBackspinLow;
+        } else if (my_profile == null) {
+            this.m_shooterTargetRPS = Constants.kShooterRPSHigh;
+            this.m_feederPower = Constants.kShooterFeederBackspinHigh;
+        }
         // Use addRequirements() here to declare subsystem dependencies.
     }
 

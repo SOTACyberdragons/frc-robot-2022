@@ -61,7 +61,7 @@ public class RobotContainer {
     final JoystickButton buttonX = new JoystickButton(m_controller, 3);
     final JoystickButton buttonY = new JoystickButton(m_controller, 4);
     final JoystickButton bumperL = new JoystickButton(m_controller, 5);
-    
+
     public JoystickAnalogButton triggerR = new JoystickAnalogButton(m_controller, 3, 0.5);
     public JoystickAnalogButton triggerL = new JoystickAnalogButton(m_controller, 2, 0.5);
 
@@ -83,8 +83,9 @@ public class RobotContainer {
         return m_controller.getPOV();
     }
 
-    private static SpinShooter triggerShooter = new SpinShooter(50, 0.5);
-    private static SpinShooter bumperShooter = new SpinShooter(25, 0.5);
+    // Allows use to use the same command on multiple buttons
+    private static SpinShooter highShooter = new SpinShooter("High");
+    private static SpinShooter lowShooter = new SpinShooter("Low");
 
     private void configureButtonBindings() {
         // Test commands
@@ -92,19 +93,12 @@ public class RobotContainer {
         buttonB.whenPressed(new TurnAngle(-30).withTimeout(2));
 
         // Spins the Intake and feeder. WARNING! Breakbeam behaviour doesn't work in
-        // sunlight. 
+        // sunlight.
         triggerR.whenHeld(new SpinIntake());
 
-        // This sets the shooter speed in RPS and feeder from 0 to 1.
-         triggerL.whenHeld(new SpinShooter(50, 0.5));
-         bumperL.whenHeld(new SpinShooter(25, 0.5));
-
-        // triggerL.whenHeld(triggerShooter);
-        // bumperL.whenHeld(bumperShooter);
-
-        // buttonX.whenPressed(new TestTurnToAngle(90, m_drive).withTimeout(5));
-        // buttonB.whenPressed(new TestTurnToAngleProfiled(-90,
-        // m_drive).withTimeout(5));
+        // Shooter buttons
+        triggerL.whenHeld(highShooter);
+        bumperL.whenHeld(lowShooter);
     }
 
     public RobotContainer() {
