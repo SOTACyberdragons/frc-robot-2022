@@ -84,8 +84,8 @@ public class RobotContainer {
     }
 
     // Allows use to use the same command on multiple buttons
-    private static SpinShooter highShooter = new SpinShooter("High");
-    private static SpinShooter lowShooter = new SpinShooter("Low");
+    // private static SpinShooter highShooter = new SpinShooter("High");
+    // private static SpinShooter lowShooter = new SpinShooter("Low");
 
     private void configureButtonBindings() {
         // Test commands
@@ -97,8 +97,8 @@ public class RobotContainer {
         triggerR.whenHeld(new SpinIntake());
 
         // Shooter buttons
-        triggerL.whenHeld(highShooter);
-        bumperL.whenHeld(lowShooter);
+        triggerL.whenHeld(new SpinShooter("High"));
+        bumperL.whenHeld(new SpinShooter("Low"));
     }
 
     public RobotContainer() {
