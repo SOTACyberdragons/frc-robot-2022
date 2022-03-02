@@ -44,10 +44,10 @@ import frc.robot.RobotContainer;
 
 public class TurnAngle extends CommandBase {
 
-    private static double rotationAmount;
-    public static double startingAngle;
-    public static double targetAngle;
-    public static double currentAngle;
+    private double rotationAmount; //made them not static!!
+    public double startingAngle;
+    public double targetAngle;
+    public double currentAngle;
 
     public static double turnDirection = 1;
 

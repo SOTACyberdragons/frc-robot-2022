@@ -55,7 +55,7 @@ public class RobotContainer {
     public static Shooter m_shooter = new Shooter();
 
     // Adding XBox Controller Supports
-    public static XboxController m_controller = new XboxController(0);
+    public static XboxController m_controller = new XboxController(3);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
     final JoystickButton buttonX = new JoystickButton(m_controller, 3);
@@ -83,18 +83,24 @@ public class RobotContainer {
         return m_controller.getPOV();
     }
 
+    private static SpinShooter triggerShooter = new SpinShooter(50, 0.5);
+    private static SpinShooter bumperShooter = new SpinShooter(25, 0.5);
+
     private void configureButtonBindings() {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
-        buttonB.whenPressed(new TurnAngle(-5).withTimeout(2));
+        buttonB.whenPressed(new TurnAngle(-30).withTimeout(2));
 
         // Spins the Intake and feeder. WARNING! Breakbeam behaviour doesn't work in
-        // sunlight.
+        // sunlight. 
         triggerR.whenHeld(new SpinIntake());
 
         // This sets the shooter speed in RPS and feeder from 0 to 1.
-        triggerL.whenHeld(new SpinShooter(50, 0.5));
-        bumperL.whenHeld(new SpinShooter(25, 0.5));
+         triggerL.whenHeld(new SpinShooter(50, 0.5));
+         bumperL.whenHeld(new SpinShooter(25, 0.5));
+
+        // triggerL.whenHeld(triggerShooter);
+        // bumperL.whenHeld(bumperShooter);
 
         // buttonX.whenPressed(new TestTurnToAngle(90, m_drive).withTimeout(5));
         // buttonB.whenPressed(new TestTurnToAngleProfiled(-90,

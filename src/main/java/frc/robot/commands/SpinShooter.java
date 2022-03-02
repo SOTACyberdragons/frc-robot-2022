@@ -62,13 +62,13 @@ public class SpinShooter extends CommandBase {
     public PIDController m_pidController = new PIDController(kP, kI, kD);
 
     // Expose input variables
-    private static double m_shooterTargetRPS = 0;
-    private static double m_feederPower = 0;
+    private double m_shooterTargetRPS = 0;
+    private double m_feederPower = 0;
 
     /** Creates a new SpinShooter. */
     public SpinShooter(double shooterDesiredRPS, double feederPower) {
-        m_shooterTargetRPS = shooterDesiredRPS;
-        m_feederPower = feederPower;
+        this.m_shooterTargetRPS = shooterDesiredRPS;
+        this.m_feederPower = feederPower;
         // Use addRequirements() here to declare subsystem dependencies.
     }
 
