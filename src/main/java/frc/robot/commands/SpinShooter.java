@@ -76,7 +76,8 @@ public class SpinShooter extends CommandBase {
         } else if (my_profile == "Low") {
             this.m_shooterTargetRPS = Constants.kShooterRPSLow;
             this.m_feederPower = Constants.kShooterFeederBackspinLow;
-        } else if (my_profile == null) {
+        } else {
+            // Default to the high shooter profile
             this.m_shooterTargetRPS = Constants.kShooterRPSHigh;
             this.m_feederPower = Constants.kShooterFeederBackspinHigh;
         }
