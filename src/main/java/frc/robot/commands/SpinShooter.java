@@ -56,6 +56,7 @@ public class SpinShooter extends CommandBase {
     private static double kI = 0;
     private static double kD = 0;
 
+    // Additional motor control setting for the PID controller
     private double velocityTolerance = 2;
     private static SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(kS, kV, kA);
 
