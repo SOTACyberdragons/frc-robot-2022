@@ -6,7 +6,6 @@ from time import time
 import tflite_runtime.interpreter as tflite
 from cscore import CameraServer, VideoSource, UsbCamera, MjpegServer
 from networktables import NetworkTablesInstance
-import cv2
 import collections
 import json
 import sys
