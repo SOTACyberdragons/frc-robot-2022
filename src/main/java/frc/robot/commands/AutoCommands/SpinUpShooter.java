@@ -34,7 +34,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -45,7 +45,7 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
-public class SpinShooter extends CommandBase {
+public class SpinUpShooter extends CommandBase {
     // Motor characterization
     private static double kS = 0.56092;
     private static double kV = 0.10938;
@@ -65,21 +65,17 @@ public class SpinShooter extends CommandBase {
 
     // Expose input variables
     private double m_shooterTargetRPS = 0;
-    private double m_feederPower = 0;
 
     /** Creates a new SpinShooter. */
-    public SpinShooter(String profile) {
+    public SpinUpShooter(String profile) {
         String my_profile = profile;
         if (my_profile == "High") {
             this.m_shooterTargetRPS = Constants.kShooterRPSHigh;
-            this.m_feederPower = Constants.kShooterFeederBackspinHigh;
         } else if (my_profile == "Low") {
             this.m_shooterTargetRPS = Constants.kShooterRPSLow;
-            this.m_feederPower = Constants.kShooterFeederBackspinLow;
         } else {
             // Default to the high shooter profile
             this.m_shooterTargetRPS = Constants.kShooterRPSHigh;
-            this.m_feederPower = Constants.kShooterFeederBackspinHigh;
         }
         // Use addRequirements() here to declare subsystem dependencies.
     }
@@ -99,30 +95,11 @@ public class SpinShooter extends CommandBase {
 
         // IMPORTANT! Always divide pidOutput by 12 for Falcon 500s
         Robot.m_shooter.setPower(pidOutput / 12);
-
-        // Haptic functions. Right is shooter, left is intake.
-        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, (Robot.m_shooter.getRPS() / m_shooterTargetRPS));
-
-        if (m_pidController.atSetpoint()) {
-            RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, m_feederPower);
-            Robot.m_feeder.feederIn(m_feederPower);
-        } else {
-            RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
-            Robot.m_feeder.feederStop();
-        }
-
-        SmartDashboard.putNumber("Shooter RPS: ", Robot.m_shooter.getRPS());
-        SmartDashboard.putNumber("Shooter Voltage: ", (pidOutput / 12));
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        Robot.m_shooter.setPower(0);
-        Robot.m_feeder.feederStop();
-
-        RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
-        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);
     }
 
     // Returns true when the command should end.

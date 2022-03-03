@@ -43,7 +43,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AutoCommandGroup;
 import frc.robot.commands.RamseteTest;
 import frc.robot.commands.SpinIntake;
-import frc.robot.commands.SpinShooter;
+import frc.robot.commands.ShootCargo;
 import frc.robot.commands.TestTurnAngle;
 import frc.robot.commands.TurnAngle;
 import frc.robot.subsystems.Drivetrain;
@@ -102,8 +102,8 @@ public class RobotContainer {
         triggerR.whenHeld(new SpinIntake());
 
         // Shooter buttons
-        triggerL.whenHeld(new SpinShooter("High"));
-        bumperL.whenHeld(new SpinShooter("Low"));
+        triggerL.whenHeld(new ShootCargo("High"));
+        bumperL.whenHeld(new ShootCargo("Low"));
     }
 
     public RobotContainer() {

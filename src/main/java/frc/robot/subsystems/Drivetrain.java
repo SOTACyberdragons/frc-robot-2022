@@ -39,7 +39,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
@@ -105,6 +107,9 @@ public class Drivetrain extends SubsystemBase {
         leftMaster.setInverted(true);
         leftSlave.setInverted(true);
 
+        initDriveTalon(leftMaster);
+        initDriveTalon(rightMaster);
+
         rightMaster.setNeutralMode(NeutralMode.Coast);
         rightSlave.setNeutralMode(NeutralMode.Coast);
         leftMaster.setNeutralMode(NeutralMode.Coast);
@@ -116,6 +121,39 @@ public class Drivetrain extends SubsystemBase {
         // Populate field position in Smartdashboard
         SmartDashboard.putData("Field", m_field);
     }
+
+    public void initDriveTalon(final WPI_TalonFX talon) {
+		talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_LOOP_IDX,
+				Constants.TIMEOUT_MS);
+
+		/* Set relevant frame periods to be at least as fast as periodic rate */
+		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.TIMEOUT_MS);
+		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.TIMEOUT_MS);
+
+		/* set the peak and nominal outputs */
+		talon.configNominalOutputForward(0, Constants.TIMEOUT_MS);
+		talon.configNominalOutputReverse(0, Constants.TIMEOUT_MS);
+		talon.configPeakOutputForward(1, Constants.TIMEOUT_MS);
+		talon.configPeakOutputReverse(-1, Constants.TIMEOUT_MS);
+
+		/* set closed loop gains in slot 0 - see documentation */
+		// distance
+		talon.selectProfileSlot(Constants.SLOT_IDX, Constants.PID_LOOP_IDX);
+		talon.config_kF(0, Constants.TALON_MAX_OUTPUT / Constants.kEncoderMaxSpeed, Constants.TIMEOUT_MS);
+		talon.config_kP(0, 0.45, Constants.TIMEOUT_MS);
+		talon.config_kI(0, 0, Constants.TIMEOUT_MS);
+		talon.config_kD(0, 0.0, Constants.TIMEOUT_MS);
+
+		// turning
+		talon.config_kF(1, 0, Constants.TIMEOUT_MS);
+		talon.config_kP(1, 0.1, Constants.TIMEOUT_MS);
+		talon.config_kI(1, 0, Constants.TIMEOUT_MS);
+		talon.config_kD(1, 0, Constants.TIMEOUT_MS);
+
+		/* set acceleration and cruise velocity - see documentation */
+		talon.configMotionCruiseVelocity(25000, Constants.TIMEOUT_MS);
+		talon.configMotionAcceleration(20000, Constants.TIMEOUT_MS);
+	}
 
     @Override
     public void periodic() {
@@ -266,7 +304,9 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public double getHeadingDouble() {
-        return -Math.IEEEremainder(m_gyro.getAngle(), 360) * (gyroReversed ? -1.0 : 1.0);
+        final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+        double angle = m_gyro.getFusedHeading(fusionStatus);
+        return Math.IEEEremainder(angle, 360) * (gyroReversed ? -1.0 : 1.0);
     }
 
 	public double getAngle() {
@@ -285,6 +325,9 @@ public class Drivetrain extends SubsystemBase {
 	public void setAngle(final double angle) {
 		final double distance = (getLeftEncoder() + getRightEncoder()) / 2;
 		final double totalAngle = angle + getAngle();
+		// rightMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, totalAngle);
+		// leftMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, -totalAngle);
+		leftMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, totalAngle);
 		rightMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, -totalAngle);
 	}
 

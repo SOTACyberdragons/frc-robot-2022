@@ -41,25 +41,24 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.PathContainer;
 import frc.robot.RobotContainer;
+import frc.robot.commands.AutoCommands.SpinUpShooter;
 
 public class AutoCommandGroup extends SequentialCommandGroup {
-
-    private static Command wait = new WaitCommand(1);
-
     public AutoCommandGroup(RobotContainer robot) {
 
-        RobotContainer.m_drive.resetOdometry(PathContainer.path1.getInitialPose());
+        RobotContainer.m_drive.resetOdometry(PathContainer.bR1.getInitialPose());
 
         addCommands(
-          PathContainer.ram1,
-          PathContainer.ram2,
-          PathContainer.ram3,
-          PathContainer.ram4,
-          PathContainer.ram5);
+            new ParallelDeadlineGroup(PathContainer.bR1ram, new SpinIntake()),
+            new ParallelDeadlineGroup(PathContainer.bR2ram, new SpinUpShooter("High")),
+            new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("High")),
+            new ParallelDeadlineGroup(PathContainer.bR3ram, new SpinIntake()),
+            new ParallelDeadlineGroup(PathContainer.bR4ram, new SpinUpShooter("High")),
+            new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("High")));
     }
 }

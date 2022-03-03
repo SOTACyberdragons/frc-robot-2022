@@ -1,13 +1,8 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 public class TestTurnAngle extends PIDCommand {
     // Motor characterization
@@ -16,9 +11,12 @@ public class TestTurnAngle extends PIDCommand {
     private static double kA = 8.3993E-05;
 
     // Motor PID values
-    private static double kP = 0;
+    private static double kP = 0.1084;
     private static double kI = 0;
     private static double kD = 0.0039948;
+
+    private static final double kTurnToleranceDeg = 5;
+    private static final double kTurnRateToleranceDegPerS = 10; // degrees per second
 
     double angleTarget;
 
@@ -31,23 +29,20 @@ public class TestTurnAngle extends PIDCommand {
                 // Set reference to target
                 targetAngleDegrees,
                 // Pipe output to turn robot
-                output -> m_drive.arcadeDrive(0, -(output + 5) / 12),
+                output -> m_drive.arcadeDrive(0, ((output + kS)/ 12)),
                 // Require the drive
                 m_drive);
 
-            // Set the controller to be continuous (because it is an angle controller)
-    getController().enableContinuousInput(-180, 180);
-    // Set the controller tolerance - the delta tolerance ensures the robot is stationary at the
-    // setpoint before it is considered as having reached the reference
-    getController()
-        .setTolerance(5, 10);
-
-        this.angleTarget = targetAngleDegrees;
+        // Set the controller to be continuous (because it is an angle controller)
+        getController().enableContinuousInput(-180, 180);
+        // Set the controller tolerance - the delta tolerance ensures the robot is
+        // stationary at the setpoint before it is considered as having reached the
+        // reference
+        getController().setTolerance(kTurnToleranceDeg, kTurnRateToleranceDegPerS);
     }
 
     @Override
-    public boolean isFinished()
-    {
+    public boolean isFinished() {
         return getController().atSetpoint();
     }
 }
