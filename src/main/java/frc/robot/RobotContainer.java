@@ -44,6 +44,7 @@ import frc.robot.commands.AutoCommandGroup;
 import frc.robot.commands.RamseteTest;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.SpinShooter;
+import frc.robot.commands.TestTurnAngle;
 import frc.robot.commands.TurnAngle;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
@@ -90,7 +91,9 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
-        buttonB.whenPressed(new TurnAngle(-30).withTimeout(2));
+        // buttonB.whenPressed(new TurnAngle(-45).withTimeout(1));
+        // buttonX.whenPressed(new TurnAngle(45).withTimeout(1))
+        // buttonX.whenHeld(m_drive.setAngle(45));
 
         // Spins the Intake and feeder. WARNING! Breakbeam behaviour doesn't work in
         // sunlight.

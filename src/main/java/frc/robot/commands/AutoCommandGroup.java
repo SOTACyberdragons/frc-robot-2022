@@ -57,13 +57,9 @@ public class AutoCommandGroup extends SequentialCommandGroup {
 
         addCommands(
           PathContainer.ram1,
-          wait,
           PathContainer.ram2,
-          wait,
           PathContainer.ram3,
-          wait,
           PathContainer.ram4,
-          wait,
           PathContainer.ram5);
     }
 }

@@ -44,12 +44,12 @@ import frc.robot.RobotContainer;
 
 public class TurnAngle extends CommandBase {
 
-    private double rotationAmount; //made them not static!!
-    public double startingAngle;
-    public double targetAngle;
-    public double currentAngle;
+    private double rotationAmount; // made them not static!!
+    private double startingAngle;
+    private double targetAngle;
+    private double currentAngle;
 
-    public static double turnDirection = 1;
+    private static double turnDirection = 1;
 
     // Motor characterization
     private static double kS = 0.8975;
@@ -65,10 +65,15 @@ public class TurnAngle extends CommandBase {
     private static double kTurnTolerance = 2;
 
     // TODO MAGIC_NUMBER to increase m_feedForard amount if robot stalls out turning
-    private double MAGIC_NUMBER = 0.3;
+    private double MAGIC_NUMBER = 0.4;
 
-    private PIDController m_pidController = new PIDController(kP, kI, kD);
-    private SimpleMotorFeedforward m_feedForward = new SimpleMotorFeedforward(kS, kV, kA);
+    private double powerOutput;
+    private double pidOutput;
+
+    private PIDController m_pidController;
+    private SimpleMotorFeedforward m_feedForward;
+
+    private boolean reversed;
 
     /** Creates a new NewTurn. */
     public TurnAngle(double angleInput) {
@@ -86,9 +91,16 @@ public class TurnAngle extends CommandBase {
         // Define the endpoints
         targetAngle = startingAngle + rotationAmount;
 
-        // Set the magic number to the right direction 
+        m_pidController = new PIDController(kP, kI, kD);
+        m_feedForward = new SimpleMotorFeedforward(kS, kV, kA);
+
+        // Set the magic number to the right direction
         if (targetAngle < startingAngle) {
-            MAGIC_NUMBER = MAGIC_NUMBER * -1;
+            reversed = false;
+            powerOutput = 2;
+        } else {
+            powerOutput = -2;
+            reversed = true;
         }
 
         // Create the PID objects
@@ -104,15 +116,16 @@ public class TurnAngle extends CommandBase {
     public void execute() {
         currentAngle = RobotContainer.m_drive.getRotation();
 
-        double pidOutput = m_pidController.calculate(currentAngle, targetAngle);
-        double powerOutput = ((pidOutput + m_feedForward.calculate(targetAngle)) / 12) + MAGIC_NUMBER;
-
-        RobotContainer.m_drive.arcadeDrive(0, -powerOutput);
+        pidOutput = m_pidController.calculate(currentAngle, targetAngle);
+        // double powerOutput = ((pidOutput + m_feedForrward.calculate(targetAngle)) /
+        // 12) + MAGIC_NUMBER;
+        RobotContainer.m_drive.arcadeDrive(0, powerOutput);
 
         SmartDashboard.putNumber("rotationAmount", rotationAmount);
         SmartDashboard.putNumber("targetAngle", targetAngle);
         SmartDashboard.putNumber("currentAngle", currentAngle);
-        SmartDashboard.putNumber("feedForward", m_feedForward.calculate(targetAngle));
+        // SmartDashboard.putNumber("feedForward",
+        // m_feedForward.calculate(targetAngle));
         SmartDashboard.putNumber("pidOutput", pidOutput);
         SmartDashboard.putNumber("powerOutput", powerOutput);
     }
@@ -126,12 +139,27 @@ public class TurnAngle extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (m_pidController.atSetpoint()) {
-            SmartDashboard.putBoolean("Turning done", true);
-            return true;
+        if (!reversed) {
+            if (RobotContainer.m_drive.getRotation() <= targetAngle) {
+                SmartDashboard.putBoolean("Turning done", true);
+
+                powerOutput = 0; 
+                pidOutput = 0;
+                
+                return true;
+            } else {
+                SmartDashboard.putBoolean("Turning not done yet", false);
+                return false;
+            }
         } else {
-            SmartDashboard.putBoolean("Turning done", false);
-            return false;
+            if (RobotContainer.m_drive.getRotation() >= targetAngle) {
+                SmartDashboard.putBoolean("Turning done", true);
+
+                return true;
+            } else {
+                SmartDashboard.putBoolean("Turning not done yet", false);
+                return false;
+            }
         }
     }
 }

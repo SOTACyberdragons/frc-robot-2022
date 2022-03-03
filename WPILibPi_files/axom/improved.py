@@ -10,7 +10,6 @@ import collections
 import json
 import sys
 
-
 class ConfigParser:
     def __init__(self, config_path):
         self.team = -1
