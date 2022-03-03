@@ -91,9 +91,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
-        // buttonB.whenPressed(new TurnAngle(-45).withTimeout(1));
-        // buttonX.whenPressed(new TurnAngle(45).withTimeout(1))
+
         // buttonX.whenHeld(m_drive.setAngle(45));
+
+        buttonB.whenPressed(new TurnAngle(-45).withTimeout(1));
+        buttonX.whenPressed(new TurnAngle(45).withTimeout(1));
 
         // Spins the Intake and feeder. WARNING! Breakbeam behaviour doesn't work in
         // sunlight.

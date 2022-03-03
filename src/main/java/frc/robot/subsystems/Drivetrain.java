@@ -243,14 +243,6 @@ public class Drivetrain extends SubsystemBase {
         return (getRightDistance() + getLeftDistance()) / 2;
     }
 
-    // FIXME Test this function
-    public void setDistance(final double distance) {
-        final double distanceTicks = distance / Constants.kEncoderDistancePerPulse;
-        final double totalDistance = ((getLeftEncoder() + getRightEncoder()) / 2) + distanceTicks;
-        final double angle = getRotation();
-        rightMaster.set(ControlMode.MotionMagic, totalDistance, DemandType.AuxPID, angle);
-    }
-
     /**
      * Sets the max output of the drive. Useful for scaling the drive to drive more
      * slowly.
@@ -273,28 +265,35 @@ public class Drivetrain extends SubsystemBase {
         return Rotation2d.fromDegrees(newAngle);
     }
 
-    public double getHeadingDouble()
-    {
+    public double getHeadingDouble() {
         return -Math.IEEEremainder(m_gyro.getAngle(), 360) * (gyroReversed ? -1.0 : 1.0);
     }
+
+	public double getAngle() {
+		final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+		final double[] xyz_dps = new double[3];
+		m_gyro.getRawGyro(xyz_dps);
+		final double currentAngle = m_gyro.getFusedHeading(fusionStatus);
+		return currentAngle;
+	}
 
     public double getRotation() {
         final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
         return m_gyro.getFusedHeading(fusionStatus);
     }
 
-     // FIXME Test this function
 	public void setAngle(final double angle) {
 		final double distance = (getLeftEncoder() + getRightEncoder()) / 2;
-		final double totalAngle = angle + getRotation();
-		// rightMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID,
-		// totalAngle);
-		// leftMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID,
-		// -totalAngle);
-		// leftMaster.set(ControlMode.PercentOutput, distance,
-		// DemandType.ArbitraryFeedForward, totalAngle);
+		final double totalAngle = angle + getAngle();
 		rightMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, -totalAngle);
 	}
+
+    public void setDistance(final double distance) {
+        final double distanceTicks = distance / Constants.kEncoderDistancePerPulse;
+        final double totalDistance = ((getLeftEncoder() + getRightEncoder()) / 2) + distanceTicks;
+        final double angle = getAngle();
+        rightMaster.set(ControlMode.MotionMagic, totalDistance, DemandType.AuxPID, angle);
+    }
 
     /**
      * Returns the turn rate of the robot.
