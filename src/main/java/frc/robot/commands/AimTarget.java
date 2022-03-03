@@ -30,6 +30,7 @@ public class AimTarget extends CommandBase {
     /** Creates a new AimTarget. */
     public AimTarget(double targetYaw) {
         desiredYaw = targetYaw + RobotContainer.m_drive.getRotation();
+        errorYaw = desiredYaw - RobotContainer.m_drive.getRotation();
 
         if (targetYaw > 0) {
             turningRight = true;
@@ -47,10 +48,10 @@ public class AimTarget extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        errorYaw = desiredYaw - RobotContainer.m_drive.getRotation();
         // -1.0 required to ensure positive PID controller effort _increases_ ya
         rotationSpeed = -turnController.calculate(errorYaw, 0);
         RobotContainer.m_drive.arcadeDrive(0, rotationSpeed);
+        errorYaw = desiredYaw - RobotContainer.m_drive.getRotation();
     }
 
     // Called once the command ends or is interrupted.
