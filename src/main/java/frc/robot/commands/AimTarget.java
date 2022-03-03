@@ -49,6 +49,7 @@ public class AimTarget extends CommandBase {
     @Override
     public void execute() {
         // -1.0 required to ensure positive PID controller effort _increases_ ya
+        // TODO May need to scale rotation speed / 12?
         rotationSpeed = -turnController.calculate(errorYaw, 0);
         RobotContainer.m_drive.arcadeDrive(0, rotationSpeed);
         errorYaw = desiredYaw - RobotContainer.m_drive.getRotation();
