@@ -20,38 +20,37 @@ public class AimTarget extends CommandBase {
     private final double kI = 0;
     private final double kD = 0.0039948;
 
-    double desiredYaw;
-    double errorYaw;
-    double rotationSpeed;
-    boolean turningRight;
+    // Calculation variables
+    private double targetYaw;
+    private double desiredYaw;
+    private double errorYaw;
+
+    // PID output variables
+    private double rotationSpeed;
 
     PIDController turnController = new PIDController(kP, 0, kD);
 
     /** Creates a new AimTarget. */
-    public AimTarget(double targetYaw) {
-        desiredYaw = targetYaw + RobotContainer.m_drive.getRotation();
-        errorYaw = desiredYaw - RobotContainer.m_drive.getRotation();
-
-        if (targetYaw > 0) {
-            turningRight = true;
-        } else {
-            turningRight = false;
-        }
+    public AimTarget(double turnAngle) {
+        targetYaw = turnAngle;
         // Use addRequirements() here to declare subsystem dependencies.
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        desiredYaw = targetYaw + RobotContainer.m_drive.getRotation();
+        // Set the initial PID error
+        errorYaw = desiredYaw - RobotContainer.m_drive.getRotation();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         // -1.0 required to ensure positive PID controller effort _increases_ ya
-        // TODO May need to scale rotation speed / 12?
         rotationSpeed = -turnController.calculate(errorYaw, 0);
         RobotContainer.m_drive.arcadeDrive(0, rotationSpeed);
+        // Update the PID error
         errorYaw = desiredYaw - RobotContainer.m_drive.getRotation();
     }
 
@@ -64,12 +63,6 @@ public class AimTarget extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (turningRight & errorYaw < 1) {
-            return true;
-        } else if (!turningRight & errorYaw > -1) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 }
