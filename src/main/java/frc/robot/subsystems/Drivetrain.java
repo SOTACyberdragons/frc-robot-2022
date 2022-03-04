@@ -107,9 +107,6 @@ public class Drivetrain extends SubsystemBase {
         leftMaster.setInverted(true);
         leftSlave.setInverted(true);
 
-        initDriveTalon(leftMaster);
-        initDriveTalon(rightMaster);
-
         rightMaster.setNeutralMode(NeutralMode.Coast);
         rightSlave.setNeutralMode(NeutralMode.Coast);
         leftMaster.setNeutralMode(NeutralMode.Coast);
@@ -121,39 +118,6 @@ public class Drivetrain extends SubsystemBase {
         // Populate field position in Smartdashboard
         SmartDashboard.putData("Field", m_field);
     }
-
-    public void initDriveTalon(final WPI_TalonFX talon) {
-		talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_LOOP_IDX,
-				Constants.TIMEOUT_MS);
-
-		/* Set relevant frame periods to be at least as fast as periodic rate */
-		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.TIMEOUT_MS);
-		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.TIMEOUT_MS);
-
-		/* set the peak and nominal outputs */
-		talon.configNominalOutputForward(0, Constants.TIMEOUT_MS);
-		talon.configNominalOutputReverse(0, Constants.TIMEOUT_MS);
-		talon.configPeakOutputForward(1, Constants.TIMEOUT_MS);
-		talon.configPeakOutputReverse(-1, Constants.TIMEOUT_MS);
-
-		/* set closed loop gains in slot 0 - see documentation */
-		// distance
-		talon.selectProfileSlot(Constants.SLOT_IDX, Constants.PID_LOOP_IDX);
-		talon.config_kF(0, Constants.TALON_MAX_OUTPUT / Constants.kEncoderMaxSpeed, Constants.TIMEOUT_MS);
-		talon.config_kP(0, 0.45, Constants.TIMEOUT_MS);
-		talon.config_kI(0, 0, Constants.TIMEOUT_MS);
-		talon.config_kD(0, 0.0, Constants.TIMEOUT_MS);
-
-		// turning
-		talon.config_kF(1, 0, Constants.TIMEOUT_MS);
-		talon.config_kP(1, 0.1, Constants.TIMEOUT_MS);
-		talon.config_kI(1, 0, Constants.TIMEOUT_MS);
-		talon.config_kD(1, 0, Constants.TIMEOUT_MS);
-
-		/* set acceleration and cruise velocity - see documentation */
-		talon.configMotionCruiseVelocity(25000, Constants.TIMEOUT_MS);
-		talon.configMotionAcceleration(20000, Constants.TIMEOUT_MS);
-	}
 
     @Override
     public void periodic() {

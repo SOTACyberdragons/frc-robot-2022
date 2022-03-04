@@ -42,8 +42,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.AimTarget;
 import frc.robot.commands.AutoCommandGroup;
+import frc.robot.commands.MotionMagic;
 import frc.robot.commands.RamseteTest;
 import frc.robot.commands.SpinIntake;
+import frc.robot.commands.SpinOutake;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.TestTurnAngle;
 import frc.robot.commands.TurnAngle;
@@ -63,6 +65,7 @@ public class RobotContainer {
     final JoystickButton buttonX = new JoystickButton(m_controller, 3);
     final JoystickButton buttonY = new JoystickButton(m_controller, 4);
     final JoystickButton bumperL = new JoystickButton(m_controller, 5);
+    final JoystickButton bumperR = new JoystickButton(m_controller, 6);
 
     public JoystickAnalogButton triggerR = new JoystickAnalogButton(m_controller, 3, 0.5);
     public JoystickAnalogButton triggerL = new JoystickAnalogButton(m_controller, 2, 0.5);
@@ -93,12 +96,13 @@ public class RobotContainer {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
 
-        buttonB.whenHeld(new AimTarget(15));
-        buttonX.whenHeld(new AimTarget(-15));
+        buttonB.whenHeld(new MotionMagic(15));
+        buttonX.whenHeld(new MotionMagic(-15));
 
         // Spins the Intake and feeder. WARNING! Breakbeam behaviour doesn't work in
         // sunlight.
         triggerR.whenHeld(new SpinIntake());
+        bumperR.whenHeld(new SpinOutake());
 
         // Shooter buttons
         triggerL.whenHeld(new ShootCargo("High"));

@@ -12,13 +12,13 @@ public class PathContainer {
 
     public static void initBlueRightPaths() {
         bR1 = PathPlanner.loadPath("blueRight-1", Constants.kMaxSpeedMetersPerSecond,
-                Constants.kMaxAccelerationMetersPerSecondSquared, true);
+                Constants.kMaxAccelerationMetersPerSecondSquared);
         bR2 = PathPlanner.loadPath("blueRight-2", Constants.kMaxSpeedMetersPerSecond,
-                Constants.kMaxAccelerationMetersPerSecondSquared);
-        bR3 = PathPlanner.loadPath("blueRight-3", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared, true);
-        bR4 = PathPlanner.loadPath("blueRight-4", Constants.kMaxSpeedMetersPerSecond,
+        bR3 = PathPlanner.loadPath("blueRight-3", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared);
+        bR4 = PathPlanner.loadPath("blueRight-4", Constants.kMaxSpeedMetersPerSecond,
+                Constants.kMaxAccelerationMetersPerSecondSquared, true);
 
         initRamsetes();
     }

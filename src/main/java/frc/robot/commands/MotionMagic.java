@@ -49,6 +49,6 @@ public class MotionMagic extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return motionTolerance(desiredAngle, RobotContainer.m_drive.getAngle(), 5.0);
+        return false;
     }
 }
