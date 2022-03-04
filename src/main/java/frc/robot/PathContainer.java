@@ -3,7 +3,7 @@ package frc.robot;
 import com.pathplanner.lib.PathPlanner;
 
 import edu.wpi.first.math.trajectory.Trajectory;
-import frc.robot.commands.DrivetrainRamsete;
+import frc.robot.commands.AutoCommands.DrivetrainRamsete;
 
 public class PathContainer {
     public static Trajectory bR1, bR2, bR3, bR4;

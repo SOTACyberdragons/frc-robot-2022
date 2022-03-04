@@ -39,9 +39,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.Faults;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
@@ -289,8 +287,6 @@ public class Drivetrain extends SubsystemBase {
 	public void setAngle(final double angle) {
 		final double distance = (getLeftEncoder() + getRightEncoder()) / 2;
 		final double totalAngle = angle + getAngle();
-		// rightMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, totalAngle);
-		// leftMaster.set(ControlMode.MotionMagic, distance, DemandType.AuxPID, -totalAngle);
 		leftMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, totalAngle);
 		rightMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, -totalAngle);
 	}

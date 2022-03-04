@@ -40,15 +40,11 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.AimTarget;
-import frc.robot.commands.AutoCommandGroup;
-import frc.robot.commands.MotionMagic;
 import frc.robot.commands.RamseteTest;
+import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.SpinOutake;
-import frc.robot.commands.ShootCargo;
-import frc.robot.commands.TestTurnAngle;
-import frc.robot.commands.TurnAngle;
+import frc.robot.commands.AutoCommands.AutoCommandGroup;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.JoystickAnalogButton;
@@ -96,8 +92,8 @@ public class RobotContainer {
         // Test commands
         // buttonA.whenPressed(new DriveForward(3));
 
-        buttonB.whenHeld(new MotionMagic(15));
-        buttonX.whenHeld(new MotionMagic(-15));
+        // buttonB.whenHeld(new MotionMagic(15));
+        // buttonX.whenHeld(new MotionMagic(-15));
 
         // Spins the Intake and feeder. WARNING! Breakbeam behaviour doesn't work in
         // sunlight.

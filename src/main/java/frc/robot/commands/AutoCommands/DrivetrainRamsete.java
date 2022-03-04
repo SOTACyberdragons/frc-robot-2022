@@ -39,7 +39,7 @@
 /* This work is licensed under the terms of the MIT license.    */
 /****************************************************************/
 
-package frc.robot.commands;
+package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;

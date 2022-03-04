@@ -65,7 +65,6 @@ public class Robot extends TimedRobot {
 
         RobotContainer.m_drive.zeroHeading();
         RobotContainer.m_drive.resetEncoders();
-
         RobotContainer.m_drive.resetOdometry(RobotContainer.m_drive.getPose());
 
         m_robotContainer = new RobotContainer();
@@ -143,9 +142,11 @@ public class Robot extends TimedRobot {
         // Definate input for realtime modification without a deploy
         // TODO Remove these before competition
         Constants.kShooterRPSHigh = SmartDashboard.getNumber("High Target RPS", Constants.kShooterRPSHigh);
-        Constants.kShooterFeederBackspinHigh = SmartDashboard.getNumber("High Target Spin", Constants.kShooterFeederBackspinHigh);
+        Constants.kShooterFeederBackspinHigh = SmartDashboard.getNumber("High Target Spin",
+                Constants.kShooterFeederBackspinHigh);
         Constants.kShooterRPSLow = SmartDashboard.getNumber("Low Target RPS", Constants.kShooterRPSLow);
-        Constants.kShooterFeederBackspinLow = SmartDashboard.getNumber("Low Target Spin", Constants.kShooterFeederBackspinLow);
+        Constants.kShooterFeederBackspinLow = SmartDashboard.getNumber("Low Target Spin",
+                Constants.kShooterFeederBackspinLow);
     }
 
     @Override
