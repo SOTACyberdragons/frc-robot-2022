@@ -1,0 +1,22 @@
+[
+    {
+        "label": "red",
+        "box": {
+            "ymin": 216,
+            "xmin": 369,
+            "ymax": 359,
+            "xmax": 513
+        },
+        "confidence": 0.96875
+    },
+    {
+        "label": "blue",
+        "box": {
+            "ymin": 208,
+            "xmin": 90,
+            "ymax": 330,
+            "xmax": 225
+        },
+        "confidence": 0.88671875
+    }
+]

@@ -121,6 +121,8 @@ public class ShootCargo extends CommandBase {
         Robot.m_shooter.setPower(0);
         Robot.m_feeder.feederStop();
 
+        SmartDashboard.putNumber("Shooter RPS: ", 0);
+
         RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
         RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);
     }

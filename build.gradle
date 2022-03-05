@@ -67,6 +67,8 @@ dependencies {
     nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
     simulationRelease wpi.sim.enableRelease()
 
+    implementation files('libs/gson-2.9.0-javadoc.jar')
+
     testImplementation 'junit:junit:4.12'
 }
 

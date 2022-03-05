@@ -82,7 +82,7 @@ public class Constants {
 	public static final double kRamseteZeta = 0.7;
 
 	// XBox Controller Drivetrain Constants
-	public static final double kMaxDriveSpeed = 0.9;
+	public static final double kMaxDriveSpeed = 0.85;
 	public static final double kMaxTurnSpeed = 0.7;
 
 	// Shooter constants

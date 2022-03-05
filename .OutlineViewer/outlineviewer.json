@@ -1,4 +1,7 @@
 {
+  "ML": {
+    "open": true
+  },
   "NetworkTables Settings": {
     "listenAddress": "192.168.0.250",
     "mode": "Client",
