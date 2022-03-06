@@ -11,4 +11,6 @@ public class Ball {
 
     @JsonProperty("confidence")
     public double confidence;
+
+    public double d = 5;
 }
