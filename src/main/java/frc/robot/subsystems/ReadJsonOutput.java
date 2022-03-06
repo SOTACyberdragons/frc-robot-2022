@@ -1,18 +1,14 @@
 package frc.robot.subsystems;
 
-import org.json.*;
-
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ContainerFactory;
-import org.json.simple.*;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -27,30 +23,43 @@ public class ReadJsonOutput extends SubsystemBase {
 
     public static double xMin, yMin, xMax, yMax;
 
-    public static List<Ball> balls;
+    public static ArrayList<Ball> balls = new ArrayList<>();
 
-    private static void readBallData()
+    public static boolean noTargets = false;
+
+    public static void printBallData(Ball ball)
+    {
+        System.out.println(ball.color);
+        System.out.println(ball.confidence);
+    }
+
+    public static double getBallYaw(Ball color)
+    {
+        
+        return 0;
+    }
+
+    public static void readBallData() throws Exception
     {
         balls.clear(); //refresh balls 
 
-        String output = detectionsEntry.getString("");
+        //Path testFilePath = Paths.get("C:/Users/SOTAC/robotics_projects/frc-robot-2022/src/main/example1.Json");
+        String output = "[\n    {\n        \"label\": \"red\",\n        \"box\": {\n            \"ymin\": 216,\n            \"xmin\": 369,\n            \"ymax\": 359,\n            \"xmax\": 513\n        },\n        \"confidence\": 0.96875\n    },\n    {\n        \"label\": \"blue\",\n        \"box\": {\n            \"ymin\": 208,\n            \"xmin\": 90,\n            \"ymax\": 330,\n            \"xmax\": 225\n        },\n        \"confidence\": 0.88671875\n    }\n]";
+
+        System.out.println(output);
 
         ObjectMapper mapper = new ObjectMapper();
-
-
-        JsonFactory factory = new JsonFactory();
-
-        try {
-            JsonParser parser = factory.createParser(output);
-
-            balls = mapper.readTree(parser);
-        } catch (Exception e) {
-            e.printStackTrace();
+        
+        Ball[] ballArr = mapper.readValue(output, Ball[].class);
+        
+        for (Ball b : ballArr) {
+            balls.add(b);
         }
     }
 
     public static Ball getClosestBall(boolean red)
     {
+        Ball defaultBall = new Ball(); //return this if no balls are in front of robot
         String color;
 
         if (red) {
@@ -59,17 +68,37 @@ public class ReadJsonOutput extends SubsystemBase {
             color = new String("blue");
         }
 
-        readBallData(); //get the list of all balls in our field of view
+        //get the list of all balls in our field of view
+        try {
+            readBallData();
+        } catch (Exception e) {
+            e.printStackTrace();
 
-        int closestBallIndex = 0;
+            return defaultBall;
+        }
+
+        for (Ball b : balls) {
+            printBallData(b);
+        }
+
+        if (balls.size() == 0) { //if no balls are in front of robot
+            return defaultBall;
+        }
 
         //delete balls from list that aren't of our color
         for (int i = 0; i < balls.size(); i++) {
-            if (balls.get(i).color != color) {
+            if (!(balls.get(i).color.equals(color))) {
+                System.out.println(balls.get(i).color + " is not equal to " + color);
                 balls.remove(i);
                 i--; //we have deleted an element, so our index must shrink by 1
             }
         }
+
+        for (int i = 0; i < 25; i++) {
+            System.out.println(balls.size());
+        }
+
+        int closestBallIndex = 0;
 
         //get index of ball with largest box
         for (int i = 0; i < balls.size(); i++) { 
