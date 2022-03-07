@@ -14,6 +14,7 @@ public class PathContainer {
         T1ram, T2ram, T3ram, T4ram, 
         R1ram, R2ram, R3ram, R4ram;
 
+    // Must set the reverse flags here, if applicable
     public static void initRightPaths() {
         R1 = PathPlanner.loadPath("blueRight-1", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared);
@@ -25,6 +26,7 @@ public class PathContainer {
                 Constants.kMaxAccelerationMetersPerSecondSquared, true);
     }
 
+    // Must set the reverse flags here, if applicable
     public static void initTestPaths() {
         T1 = PathPlanner.loadPath("test-1", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared);

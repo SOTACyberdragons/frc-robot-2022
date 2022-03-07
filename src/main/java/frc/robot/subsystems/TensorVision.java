@@ -33,10 +33,10 @@ public class TensorVision extends SubsystemBase {
 
     @Override
     public void periodic() {
+        // This method will be called once per scheduler run
         NetworkTableEntry detectionsEntry = outputTable.getEntry("detections");
         String m_detectionsEntry = detectionsEntry.getString("[]");
 
-        // This method will be called once per scheduler run
         try {
             m_targets = parseTargets(m_detectionsEntry);
         } catch (IOException e) {
