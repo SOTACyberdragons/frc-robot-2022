@@ -19,7 +19,6 @@ public class PathContainer {
                 Constants.kMaxAccelerationMetersPerSecondSquared);
         bR4 = PathPlanner.loadPath("blueRight-4", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared, true);
-
         initRamsetes();
     }
 
