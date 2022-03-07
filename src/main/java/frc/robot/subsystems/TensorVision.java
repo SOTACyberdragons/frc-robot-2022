@@ -27,6 +27,7 @@ public class TensorVision extends SubsystemBase {
 
     private static NetworkTableInstance inst = NetworkTableInstance.getDefault();
     private static NetworkTable outputTable = inst.getTable("ml");
+    private static NetworkTableEntry detectionsEntry = outputTable.getEntry("detections");
 
     public static Target[] m_targets;
     public static String teamColor = "";
@@ -34,7 +35,7 @@ public class TensorVision extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        NetworkTableEntry detectionsEntry = outputTable.getEntry("detections");
+  
         String m_detectionsEntry = detectionsEntry.getString("[]");
 
         try {
