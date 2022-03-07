@@ -81,8 +81,12 @@ public class Robot extends TimedRobot {
         RobotContainer.m_drive.rightSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
                 Constants.kTimeoutMs);
 
-        // initialize trajectories and ramsetes
-        PathContainer.initBlueRightPaths();
+        // initialize trajectories paths
+        PathContainer.initTestPaths();
+        PathContainer.initRightPaths();
+
+        // Convert the paths into Ramsete commands
+        PathContainer.initRamsetes();
     }
 
     @Override

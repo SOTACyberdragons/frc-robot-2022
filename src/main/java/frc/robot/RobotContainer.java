@@ -40,11 +40,11 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.RamseteTest;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.SpinOutake;
-import frc.robot.commands.AutoCommands.AutoCommandGroup;
+import frc.robot.commands.AutoCommands.AutoRight;
+import frc.robot.commands.AutoCommands.AutoTest;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.JoystickAnalogButton;
@@ -109,9 +109,9 @@ public class RobotContainer {
         configureButtonBindings();
     }
 
-    RamseteTest autonomousCommand = new RamseteTest();
+    // RamseteTest autonomousCommand = new RamseteTest();
 
     public Command getAutonomousCommand() {
-        return new AutoCommandGroup(this);
+        return new AutoTest(this);
     }
 }

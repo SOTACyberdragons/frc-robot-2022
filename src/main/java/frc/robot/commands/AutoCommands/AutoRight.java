@@ -44,18 +44,18 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 
-public class AutoCommandGroup extends SequentialCommandGroup {
-    public AutoCommandGroup(RobotContainer robot) {
+public class AutoRight extends SequentialCommandGroup {
+    public AutoRight(RobotContainer robot) {
 
-        RobotContainer.m_drive.resetOdometry(PathContainer.bR1.getInitialPose());
+        RobotContainer.m_drive.resetOdometry(PathContainer.R1.getInitialPose());
 
         addCommands(
-            new ParallelDeadlineGroup(PathContainer.bR1ram, new SpinIntake()),
-            new ParallelDeadlineGroup(PathContainer.bR2ram, new SpinUpShooter("High")),
+            new ParallelDeadlineGroup(PathContainer.R1ram, new SpinIntake()),
+            new ParallelDeadlineGroup(PathContainer.R2ram, new SpinUpShooter("High")),
             new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("High")),
-            new ParallelDeadlineGroup(PathContainer.bR3ram, new SpinIntake()),
+            new ParallelDeadlineGroup(PathContainer.R3ram, new SpinIntake()),
             new ParallelDeadlineGroup(new WaitCommand(1), new SpinIntake()),
-            new ParallelDeadlineGroup(PathContainer.bR4ram, new SpinUpShooter("Low")),
+            new ParallelDeadlineGroup(PathContainer.R4ram, new SpinUpShooter("Low")),
             new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("High")));
     }
 }
