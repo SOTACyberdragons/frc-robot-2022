@@ -110,7 +110,6 @@ public class RobotContainer {
     public RobotContainer() {
         // TODO Uncomment this for competition
         // LiveWindow.disableAllTelemetry();
-
         configureButtonBindings();
     }
 

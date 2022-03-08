@@ -50,13 +50,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.utils.TrajectoryLoader;
 
-public class DrivetrainRamsete extends RamseteCommand {
+public class DrivetrainRamseteCommand extends RamseteCommand {
 
-    private boolean resetPosition;
-    private Trajectory trajectory;
-    private Drivetrain drivetrain;
+    protected boolean resetPosition;
+    protected Trajectory trajectory;
+    protected Drivetrain drivetrain;
 
-    public DrivetrainRamsete(Drivetrain drivetrain, Trajectory trajectory) {
+    public DrivetrainRamseteCommand(Drivetrain drivetrain, Trajectory trajectory) {
         super(
                 trajectory,
                 drivetrain::getPose,
@@ -77,22 +77,22 @@ public class DrivetrainRamsete extends RamseteCommand {
         this.drivetrain = drivetrain;
     }
 
-    public DrivetrainRamsete(Drivetrain drivetrain, String path) {
+    public DrivetrainRamseteCommand(Drivetrain drivetrain, String path) {
         this(drivetrain, TrajectoryLoader.getTrajectory(path));
     }
 
-    public DrivetrainRamsete(Drivetrain drivetrain, String... paths) {
+    public DrivetrainRamseteCommand(Drivetrain drivetrain, String... paths) {
         this(drivetrain, TrajectoryLoader.getTrajectory(paths));
     }
 
     // [DEFAULT] Resets the drivetrain to the begining of the trajectory
-    public DrivetrainRamsete robotRelative() {
+    public DrivetrainRamseteCommand robotRelative() {
         this.resetPosition = true;
         return this;
     }
 
     // Make the trajectory relative to the field
-    public DrivetrainRamsete fieldRelative() {
+    public DrivetrainRamseteCommand fieldRelative() {
         this.resetPosition = false;
         return this;
     }
