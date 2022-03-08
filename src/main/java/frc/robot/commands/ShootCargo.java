@@ -42,7 +42,6 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class ShootCargo extends CommandBase {
@@ -94,24 +93,24 @@ public class ShootCargo extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double pidOutput = m_pidController.calculate(Robot.m_shooter.getRPS(), m_shooterTargetRPS)
+        double pidOutput = m_pidController.calculate(RobotContainer.m_shooter.getRPS(), m_shooterTargetRPS)
                 + feedForward.calculate(m_shooterTargetRPS);
 
         // IMPORTANT! Always divide pidOutput by 12 for Falcon 500s
-        Robot.m_shooter.setPower(pidOutput / 12);
+        RobotContainer.m_shooter.setPower(pidOutput / 12);
 
         // Haptic functions. Right is shooter, left is intake.
-        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, (Robot.m_shooter.getRPS() / m_shooterTargetRPS));
+        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, (RobotContainer.m_shooter.getRPS() / m_shooterTargetRPS));
 
         if (m_pidController.atSetpoint()) {
             RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, m_feederPower);
-            Robot.m_feeder.feederIn(m_feederPower);
+            RobotContainer.m_feeder.feederIn(m_feederPower);
         } else {
             RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
-            Robot.m_feeder.feederStop();
+            RobotContainer.m_feeder.feederStop();
         }
 
-        SmartDashboard.putNumber("Shooter RPS: ", Robot.m_shooter.getRPS());
+        SmartDashboard.putNumber("Shooter RPS: ", RobotContainer.m_shooter.getRPS());
         SmartDashboard.putNumber("Shooter Voltage: ", (pidOutput / 12));
         
     }
@@ -119,8 +118,8 @@ public class ShootCargo extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        Robot.m_shooter.setPower(0);
-        Robot.m_feeder.feederStop();
+        RobotContainer.m_shooter.setPower(0);
+        RobotContainer.m_feeder.feederStop();
 
         SmartDashboard.putNumber("Shooter RPS: ", 0);
 

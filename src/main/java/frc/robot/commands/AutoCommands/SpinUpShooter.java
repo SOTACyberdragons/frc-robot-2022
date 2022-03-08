@@ -40,7 +40,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class SpinUpShooter extends CommandBase {
     // Motor characterization
@@ -87,11 +87,11 @@ public class SpinUpShooter extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double pidOutput = m_pidController.calculate(Robot.m_shooter.getRPS(), m_shooterTargetRPS)
+        double pidOutput = m_pidController.calculate(RobotContainer.m_shooter.getRPS(), m_shooterTargetRPS)
                 + feedForward.calculate(m_shooterTargetRPS);
 
         // IMPORTANT! Always divide pidOutput by 12 for Falcon 500s
-        Robot.m_shooter.setPower(pidOutput / 12);
+        RobotContainer.m_shooter.setPower(pidOutput / 12);
     }
 
     // Called once the command ends or is interrupted.

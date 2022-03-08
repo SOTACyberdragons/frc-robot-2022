@@ -37,12 +37,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class Climber extends CommandBase {
 
     public Climber() {
-        addRequirements(Robot.m_climber);
+        addRequirements(RobotContainer.m_climber);
     }
 
     public void initialize() {
@@ -50,7 +50,7 @@ public class Climber extends CommandBase {
     }
 
     public void execute() {
-        Robot.m_climber.moveUp();
+        RobotContainer.m_climber.moveUp();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Climber extends CommandBase {
     // Called once after isFinished returns true
     @Override
     public void end(boolean interrupted) {
-        Robot.m_climber.stop();
+        RobotContainer.m_climber.stop();
     }
 
 }

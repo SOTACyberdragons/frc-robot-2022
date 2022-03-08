@@ -54,7 +54,7 @@ public class Constants {
 	public static int kPIDLoopIdx = 0;
 	public static double kEncoderMaxSpeed = 33000;
 
-	// Ramsets values from robot characterization
+	// Ramsets values from forward robot characterization
 	public static final double ksVolts = 0.43389; // 0.589151 initially
 	public static final double kvVoltSecondsPerMeter = 5.9696; // 5.9696 initially
 	public static final double kaVoltSecondsSquaredPerMeter = 0.40192; // 0.11108 initially

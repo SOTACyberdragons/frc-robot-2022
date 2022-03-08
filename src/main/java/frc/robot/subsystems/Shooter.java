@@ -37,7 +37,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.Faults;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -49,9 +48,6 @@ public class Shooter extends SubsystemBase {
 
     // Create Falcon 500 motor objects
     public WPI_TalonFX leftMotor, rightMotor;
-
-    // Falcon 500 faults objects
-    private Faults faults = new Faults();
 
     // Moto speed containers
     public static double m_leftMotorSpeed;

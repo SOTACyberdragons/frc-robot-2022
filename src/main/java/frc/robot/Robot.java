@@ -37,49 +37,30 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DifferentialDriveWithJoysticks;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Feeder;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Climber;
 
 public class Robot extends TimedRobot {
-    private Command m_autonomousCommand;
-
-    public static RobotContainer m_robotContainer;
-    public static Intake m_intake = new Intake();
-    public static Feeder m_feeder = new Feeder();
-    public static Shooter m_shooter = new Shooter();
-    public static Climber m_climber = new Climber();
-
-    // TODO Old REV sensor code. Doesn't work. Replace with PWF Sensor code
-    // public static MultiplexedDistanceSensor m_leftSensor;
-    // public static MultiplexedDistanceSensor m_rightSensor;
+    private static Command m_autonomousCommand;
+    private static RobotContainer m_robotContainer;
 
     @Override
     public void robotInit() {
-        System.out.println("Robot initialized!");
-
         RobotContainer.m_drive.zeroHeading();
         RobotContainer.m_drive.resetEncoders();
         RobotContainer.m_drive.resetOdometry(RobotContainer.m_drive.getPose());
 
         m_robotContainer = new RobotContainer();
 
-        CommandScheduler.getInstance();
-        CommandScheduler.getInstance().enable();
-
-        // Reset the Falcon encoders
-        RobotContainer.m_drive.leftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
-                Constants.kTimeoutMs);
-        RobotContainer.m_drive.leftSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
-        RobotContainer.m_drive.rightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
-                Constants.kTimeoutMs);
-        RobotContainer.m_drive.rightSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
-                Constants.kTimeoutMs);
+        // Reset the Falcon encoders. Redundant? 
+        // RobotContainer.m_drive.leftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
+        //         Constants.kTimeoutMs);
+        // RobotContainer.m_drive.leftSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+        // RobotContainer.m_drive.rightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
+        //         Constants.kTimeoutMs);
+        // RobotContainer.m_drive.rightSlave.setSelectedSensorPosition(0, Constants.kPIDLoopIdx,
+        //         Constants.kTimeoutMs);
 
         // initialize trajectories paths
         PathContainer.initTestPaths();
@@ -91,16 +72,18 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotPeriodic() {
+        // Runs the Scheduler. This is responsible for polling buttons, adding
+        // newly-scheduled commands, running already-scheduled commands, removing
+        // finished or interrupted commands, and running subsystem periodic() methods.
+        // This must be called from the robot's periodic block in order for anything in
+        // the Command-based framework to work.
         CommandScheduler.getInstance().run();
     }
 
     @Override
     public void autonomousInit() {
-        CommandScheduler.getInstance().cancelAll();
-        CommandScheduler.getInstance().enable();
-
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
+        // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
@@ -112,12 +95,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        System.out.println("Teleop initialized!");
-        CommandScheduler.getInstance().cancelAll();
-        CommandScheduler.getInstance().enable();
-
-        RobotContainer.m_drive.zeroHeading();
-        RobotContainer.m_drive.resetEncoders();
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
 
         CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_drive,
                 new DifferentialDriveWithJoysticks());
@@ -129,13 +109,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testInit() {
+        // Cancels all running commands at the start of test mode.
         CommandScheduler.getInstance().cancelAll();
-        CommandScheduler.getInstance().enable();
     }
 
     @Override
-    public void testPeriodic() {
-        CommandScheduler.getInstance().run();
-    }
+    public void testPeriodic() {}
 
 }
