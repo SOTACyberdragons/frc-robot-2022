@@ -55,7 +55,7 @@ public class RobotContainer {
     public static Shooter m_shooter = new Shooter();
 
     // Adding XBox Controller Supports
-    public static XboxController m_controller = new XboxController(3);
+    public static XboxController m_controller = new XboxController(0);
     final JoystickButton buttonA = new JoystickButton(m_controller, 1);
     final JoystickButton buttonB = new JoystickButton(m_controller, 2);
     final JoystickButton buttonX = new JoystickButton(m_controller, 3);

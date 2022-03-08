@@ -42,7 +42,7 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class SpinOutake extends CommandBase {
-  public static double kIntakeSpeed = -0.5;
+  public static double kIntakeSpeed = -0.75;
   public static double kFeederSpeed = -0.5;
 
   /** Creates a new Outake. */

@@ -25,17 +25,15 @@ public class TensorVision extends SubsystemBase {
     private static final double kFOVWidth = 60;
     private static final double kPixelsPerDegreeWidth = kImageWidth / kFOVWidth;
 
-    private static NetworkTableInstance inst = NetworkTableInstance.getDefault();
-    private static NetworkTable outputTable = inst.getTable("ml");
-    private static NetworkTableEntry detectionsEntry = outputTable.getEntry("detections");
-
     public static Target[] m_targets;
     public static String teamColor = "";
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-  
+        NetworkTableInstance inst = NetworkTableInstance.getDefault();
+        NetworkTable outputTable = inst.getTable("ML");
+        NetworkTableEntry detectionsEntry = outputTable.getEntry("detections");
         String m_detectionsEntry = detectionsEntry.getString("[]");
 
         try {
@@ -43,8 +41,6 @@ public class TensorVision extends SubsystemBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        SmartDashboard.putBoolean("Targets Found", hasTargets(m_targets, teamColor));
     }
 
     public static Target[] parseTargets(String payload) throws JsonParseException, JsonMappingException, IOException {

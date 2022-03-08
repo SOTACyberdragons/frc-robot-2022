@@ -113,6 +113,7 @@ public class ShootCargo extends CommandBase {
 
         SmartDashboard.putNumber("Shooter RPS: ", Robot.m_shooter.getRPS());
         SmartDashboard.putNumber("Shooter Voltage: ", (pidOutput / 12));
+        
     }
 
     // Called once the command ends or is interrupted.

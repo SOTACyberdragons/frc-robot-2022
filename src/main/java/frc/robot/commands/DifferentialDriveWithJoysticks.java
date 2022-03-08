@@ -50,7 +50,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
     private static String teamColor = "red";
 
     // Turn PID values scaled to 0 thru 1
-    private final double kP = 0.0090329; // 0.1084;
+    private final double kP = 0.025; // 0.1084;
     private final double kI = 0;
     private final double kD = 0.0003329; // 0.0039948;
 
@@ -88,8 +88,10 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
             if (TensorVision.hasTargets(TensorVision.m_targets, teamColor)) {
                 // Calculate angular turn power
                 // -1.0 required to ensure positive PID controller effort _increases_ yaw
+                System.out.println("Target yaw: " + TensorVision.getTargetYaw(TensorVision.m_targets, teamColor));
                 rotationSpeed = -turnController.calculate(TensorVision.getTargetYaw(TensorVision.m_targets, teamColor),
                         0);
+                new SpinIntake();
             } else {
                 // If we have no targets, don't turn.
                 rotationSpeed = 0;
