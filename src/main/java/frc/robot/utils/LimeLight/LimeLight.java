@@ -1,10 +1,10 @@
-package frc.robot.oi.limelightvision.limelight;
+package frc.robot.utils.LimeLight;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Notifier;
-import frc.robot.oi.limelightvision.limelight.ControlMode.*;
+import frc.robot.utils.LimeLight.ControlMode.*;
 
 /**
  * Lime Light Class was started by Corey Applegate of Team 3244

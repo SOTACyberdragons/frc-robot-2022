@@ -54,7 +54,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
-import frc.robot.commands.RamseteTest;
 import frc.robot.utils.TalonFXConfig;
 
 public class Drivetrain extends SubsystemBase {
@@ -133,7 +132,6 @@ public class Drivetrain extends SubsystemBase {
 
         // Update field position
         m_field.setRobotPose(m_odometry.getPoseMeters());
-        m_field.getObject("traj").setTrajectory(RamseteTest.trajectory());
     }
 
     /**
