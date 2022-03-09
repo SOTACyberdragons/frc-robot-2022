@@ -42,25 +42,34 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
-    private static TalonSRX leftMotor;
-    private static TalonSRX rightMotor;
-    
-    public Climber()
+    private TalonSRX leftMotor;
+    private TalonSRX rightMotor;
+
+    public Climber(int id1, int id2)
     {
-        leftMotor = new TalonSRX(10);
-        rightMotor = new TalonSRX(11);
+        leftMotor = new TalonSRX(id1);
+        rightMotor = new TalonSRX(id2);
 
         leftMotor.follow(rightMotor);
     }
 
-    public void moveUp()
+    public void spin(boolean upward)
     {
-        rightMotor.set(ControlMode.PercentOutput, 0.5);
+        if (upward) {
+            moveRightMotor();
+        } else {
+            moveLeftMotor();
+        }
     }
 
-    public void moveDown()
+    public void moveRightMotor()
     {
-        rightMotor.set(ControlMode.PercentOutput, -0.5);
+        rightMotor.set(ControlMode.PercentOutput, 0.2);
+    }
+
+    public void moveLeftMotor()
+    {
+        rightMotor.set(ControlMode.PercentOutput, -0.2);
     }
     
     public void stop() { 

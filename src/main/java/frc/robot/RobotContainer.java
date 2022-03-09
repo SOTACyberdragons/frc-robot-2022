@@ -38,11 +38,11 @@ package frc.robot;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.SpinOutake;
@@ -62,7 +62,8 @@ public class RobotContainer {
     public final static Shooter m_shooter = new Shooter();
     public final static Intake m_intake = new Intake();
     public final static Feeder m_feeder = new Feeder();
-    public final static Climber m_climber = new Climber();
+    public final static Climber m_verticalClimber = new Climber(8, 9);
+    public final static Climber m_horizontalClimber = new Climber(10, 11);
 
     // Autonomous
     private static SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -101,6 +102,11 @@ public class RobotContainer {
     private void configureButtonBindings() {
         triggerR.whenHeld(new SpinIntake());
         bumperR.whenHeld(new SpinOutake());
+
+        buttonA.whenHeld(new ClimbCommand(false, true));
+        buttonB.whenHeld(new ClimbCommand(false, false));
+        buttonX.whenHeld(new ClimbCommand(true, true));
+        buttonY.whenHeld(new ClimbCommand(true, false));
 
         // Shooter buttons
         triggerL.whenHeld(new ShootCargo("High"));
