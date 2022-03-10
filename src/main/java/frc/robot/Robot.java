@@ -63,11 +63,8 @@ public class Robot extends TimedRobot {
         //         Constants.kTimeoutMs);
 
         // initialize trajectories paths
-        PathContainer.initTestPaths();
-        PathContainer.initRightPaths();
-
-        // Convert the paths into Ramsete commands
-        PathContainer.initRamsetes();
+        PathLoader.initTestPaths();
+        PathLoader.initRightPaths();
     }
 
     @Override
