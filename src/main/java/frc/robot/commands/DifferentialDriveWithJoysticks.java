@@ -91,6 +91,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
                 System.out.println("Target yaw: " + TensorVision.getTargetYaw(TensorVision.m_targets, teamColor));
                 rotationSpeed = -turnController.calculate(TensorVision.getTargetYaw(TensorVision.m_targets, teamColor),
                         0);
+                // TODO Don't know if this will trigger stopping the intake.
                 new SpinIntake();
             } else {
                 // If we have no targets, don't turn.
@@ -100,8 +101,18 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
             // Manual Driver Mode
             rotationSpeed = RobotContainer.getXBoxRotation();
         }
-
         RobotContainer.m_drive.m_drive(forwardSpeed, rotationSpeed);
+
+        // Controls for the climber pivot motors using the POV input
+        switch (RobotContainer.m_controller.getPOV()) {
+            case 0:
+                RobotContainer.m_climber.pivotForward();
+            case 180:
+                RobotContainer.m_climber.pivotBackward();
+            default:
+                RobotContainer.m_climber.stopPivot();
+        }
+
     }
 
     // Called once the command ends or is interrupted.

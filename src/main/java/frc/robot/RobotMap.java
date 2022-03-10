@@ -54,8 +54,11 @@ public class RobotMap {
 	public static final int INTAKE_MOTOR = 6;
 	public static final int FEEDER_MOTOR = 7;
 
-	// hopper
-	public static final int HOPPER_MOTOR = 6;
+	// climber
+	public static final int PRIMARY_ARM_MOTOR = 8;
+	public static final int SECONDARY_ARM_MOTOR = 9;
+	public static final int PRIMARY_PIVOT_MOTOR = 10;
+	public static final int SECONDARY_PIVOT_MOTOR = 11;
 
 	// PCM
 	public static final int DOUBLE_SOLENOID_ZERO = 0;

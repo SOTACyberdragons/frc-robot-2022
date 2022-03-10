@@ -37,6 +37,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
@@ -61,6 +62,7 @@ public class AimTarget extends CommandBase {
     private double rotationSpeed;
 
     PIDController turnController = new PIDController(kP, 0, kD);
+    SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(kS, kV, kA);
 
     /** Creates a new AimTarget. */
     public AimTarget(double turnAngle) {
@@ -81,6 +83,14 @@ public class AimTarget extends CommandBase {
     public void execute() {
         // -1.0 required to ensure positive PID controller effort _increases_ ya
         rotationSpeed = -turnController.calculate(errorYaw, 0);
+        if (rotationSpeed > 0) {
+            rotationSpeed = rotationSpeed + feedForward.calculate(RobotContainer.m_drive.getTurnRate());
+        } else if (rotationSpeed < 0) {
+            rotationSpeed = rotationSpeed - feedForward.calculate(RobotContainer.m_drive.getTurnRate());
+        } else {
+            rotationSpeed = 0;
+        } 
+
         RobotContainer.m_drive.arcadeDrive(0, rotationSpeed);
         // Update the PID error
         errorYaw = desiredYaw - RobotContainer.m_drive.getRotation();

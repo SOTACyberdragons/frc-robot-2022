@@ -58,7 +58,7 @@ public class Shooter extends SubsystemBase {
     public static final double kSensorUnitsPerRotation = 2048;
     public static final double gearRatio = 1;
 
-    /** Creates a new SimpleShooter. */
+    /** Creates a new Shooter */
     public Shooter() {
 
         // Assign the motor objects
@@ -85,7 +85,7 @@ public class Shooter extends SubsystemBase {
         // motor
         leftMotor.follow(rightMotor);
 
-        // Final clean up on Talon data
+        // Finally, clean up on Talon data
         zeroSensors();
 
     }
