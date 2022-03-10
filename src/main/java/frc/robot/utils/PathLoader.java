@@ -1,7 +1,8 @@
-package frc.robot;
+package frc.robot.utils;
 
 import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.math.trajectory.Trajectory;
+import frc.robot.Constants;
 
 public class PathLoader {
     public static Trajectory 

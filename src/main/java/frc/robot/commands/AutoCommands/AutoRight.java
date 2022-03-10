@@ -39,10 +39,10 @@ package frc.robot.commands.AutoCommands;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.PathLoader;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
+import frc.robot.utils.PathLoader;
 
 public class AutoRight extends SequentialCommandGroup {
     public AutoRight(RobotContainer robot) {

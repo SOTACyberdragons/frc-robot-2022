@@ -38,9 +38,9 @@ package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.PathLoader;
 import frc.robot.RobotContainer;
 import frc.robot.commands.SpinIntake;
+import frc.robot.utils.PathLoader;
 
 public class AutoTest extends SequentialCommandGroup {
     public AutoTest(RobotContainer robot) {
