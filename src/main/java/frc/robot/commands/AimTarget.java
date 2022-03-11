@@ -61,7 +61,7 @@ public class AimTarget extends CommandBase {
     // PID output variables
     private double rotationSpeed;
 
-    PIDController turnController = new PIDController(kP, 0, kD);
+    PIDController turnController = new PIDController(kP, kI, kD);
     SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(kS, kV, kA);
 
     /** Creates a new AimTarget. */

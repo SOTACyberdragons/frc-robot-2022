@@ -30,6 +30,7 @@ public class ClimberPivot extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        RobotContainer.m_climber.stopPivot();;
     }
 
     // Returns true when the command should end.

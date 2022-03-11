@@ -103,16 +103,6 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
         }
         RobotContainer.m_drive.m_drive(forwardSpeed, rotationSpeed);
 
-        // Controls for the climber pivot motors using the POV input
-        switch (RobotContainer.m_controller.getPOV()) {
-            case 0:
-                RobotContainer.m_climber.pivotForward();
-            case 180:
-                RobotContainer.m_climber.pivotBackward();
-            default:
-                RobotContainer.m_climber.stopPivot();
-        }
-
     }
 
     // Called once the command ends or is interrupted.

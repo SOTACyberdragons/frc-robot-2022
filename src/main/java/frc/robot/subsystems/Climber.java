@@ -22,10 +22,6 @@ public class Climber extends SubsystemBase {
     private double kArmSpeed = 0.1;
     private double kPivotSpeed = 0.75;
 
-    public enum Direction {
-        UP, DOWN
-    };
-
     /** Creates a new NewClimber. */
     public Climber() {
 
@@ -81,11 +77,12 @@ public class Climber extends SubsystemBase {
     }
 
     public void moveArms(String direction) {
-        System.out.println(direction);
         if (direction.equals("UP")) {
             primaryArmMotor.set(ControlMode.PercentOutput, kArmSpeed);
         } else if (direction.equals("DOWN")) {
             primaryArmMotor.set(ControlMode.PercentOutput, -kArmSpeed);
+        } else {
+            System.out.println("Invalid parameter");
         }
     }
 
@@ -95,18 +92,12 @@ public class Climber extends SubsystemBase {
 
     public void movePivot(String direction) {
         if (direction.equals("FORWARD")) {
-            pivotForward();
+            primaryPivotMotor.set(ControlMode.PercentOutput, kPivotSpeed);
         } else if (direction.equals("BACKWARD")) {
-            pivotBackward();
+            primaryPivotMotor.set(ControlMode.PercentOutput, -kPivotSpeed);
+        } else {
+            System.out.println("Invalid parameter");
         }
-    }
-
-    public void pivotForward() {
-        primaryPivotMotor.set(ControlMode.PercentOutput, kPivotSpeed);
-    }
-
-    public void pivotBackward() {
-        primaryPivotMotor.set(ControlMode.PercentOutput, -kPivotSpeed);
     }
 
     public void stopPivot() {

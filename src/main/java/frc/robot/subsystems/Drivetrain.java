@@ -119,7 +119,7 @@ public class Drivetrain extends SubsystemBase {
     @Override
     public void periodic() {
         // Update the odometry in the periodic block
-        m_odometry.update(getHeading(), getLeftDistance(), getRightDistance()); // Working code);
+        m_odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
         // Smart Dashboard display
         SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());

@@ -43,6 +43,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.ClimberArms;
 import frc.robot.commands.ClimberPivot;
 import frc.robot.commands.ShootCargo;
@@ -82,6 +83,10 @@ public class RobotContainer {
     private final static JoystickAnalogButton triggerR = new JoystickAnalogButton(m_controller, 3, 0.5);
     private final static JoystickAnalogButton triggerL = new JoystickAnalogButton(m_controller, 2, 0.5);
 
+    // Turn the D_Pad into buttons
+    private final static POVButton dPadUp = new POVButton(m_controller, 0);
+    private final static POVButton dPadDown = new POVButton(m_controller, 180);
+
     // Adding slew value for the XBox Controller joysticks
     private final static SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
     private final static SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
@@ -112,8 +117,9 @@ public class RobotContainer {
         // Climber arm buttons
         buttonX.whenHeld(new ClimberArms("UP"));
         buttonB.whenHeld(new ClimberArms("DOWN"));
-        buttonY.whenHeld(new ClimberPivot("FORWARD"));
-        buttonA.whenHeld(new ClimberPivot("BACKWARD"));
+
+        dPadUp.whenHeld(new ClimberPivot("FORWARD"));
+        dPadDown.whenHeld(new ClimberPivot("BACKWARD"));
     }
 
     public RobotContainer() {
