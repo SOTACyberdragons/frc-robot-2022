@@ -44,6 +44,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ClimberArms;
+import frc.robot.commands.ClimberPivot;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.SpinOutake;
@@ -109,8 +110,10 @@ public class RobotContainer {
         bumperL.whenHeld(new ShootCargo("Low"));
 
         // Climber arm buttons
-        buttonY.whenHeld(new ClimberArms("UP"));
-        buttonA.whenHeld(new ClimberArms("DOWN"));
+        buttonX.whenHeld(new ClimberArms("UP"));
+        buttonB.whenHeld(new ClimberArms("DOWN"));
+        buttonY.whenHeld(new ClimberPivot("FORWARD"));
+        buttonA.whenHeld(new ClimberPivot("BACKWARD"));
     }
 
     public RobotContainer() {

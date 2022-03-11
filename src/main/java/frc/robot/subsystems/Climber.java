@@ -19,8 +19,8 @@ public class Climber extends SubsystemBase {
      * Local, standardized power setting for this subsystem.
      */
 
-    private double kArmSpeed = .25;
-    private double kPivotSpeed = .25;
+    private double kArmSpeed = 0.1;
+    private double kPivotSpeed = 0.75;
 
     public enum Direction {
         UP, DOWN
@@ -72,8 +72,8 @@ public class Climber extends SubsystemBase {
         secondaryArmMotor.setInverted(false);
 
         // Behavior of the arm motors under 0 power. Brake or coast
-        primaryArmMotor.setNeutralMode(NeutralMode.Brake);
-        secondaryArmMotor.setNeutralMode(NeutralMode.Brake);
+        primaryArmMotor.setNeutralMode(NeutralMode.Coast);
+        secondaryArmMotor.setNeutralMode(NeutralMode.Coast);
 
         // We make the left a follower, so all commands need to be sent to the right
         // arm motor
@@ -81,6 +81,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void moveArms(String direction) {
+        System.out.println(direction);
         if (direction.equals("UP")) {
             primaryArmMotor.set(ControlMode.PercentOutput, kArmSpeed);
         } else if (direction.equals("DOWN")) {
@@ -90,6 +91,14 @@ public class Climber extends SubsystemBase {
 
     public void stopArms() {
         primaryArmMotor.set(ControlMode.PercentOutput, 0);
+    }
+
+    public void movePivot(String direction) {
+        if (direction.equals("FORWARD")) {
+            pivotForward();
+        } else if (direction.equals("BACKWARD")) {
+            pivotBackward();
+        }
     }
 
     public void pivotForward() {
