@@ -101,10 +101,6 @@ public class RobotContainer {
         return m_rotLimiter.calculate(m_controller.getRightX() * Constants.kMaxTurnSpeed);
     }
 
-    public static double getXBoxPOV() {
-        return m_controller.getPOV();
-    }
-
     private void configureButtonBindings() {
         // Intake buttons
         triggerR.whenHeld(new SpinIntake());
