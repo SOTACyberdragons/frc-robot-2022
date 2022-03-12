@@ -1,3 +1,39 @@
+//                                                 @                              
+//                                                  &@@                           
+//                          * .                    * @@@                          
+//                           * (@   ,                 @@@@                        
+//                               @@@*       /          @@@@                       
+//                                @@@@@@    @@(     ,* ,@@@@@                     
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
+//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
+//                ***   @@@@@@@@@@@  ,****@@@,                                    
+//                 *      @@@@@@@@@@.  *****@@                                    
+//                          @@@@@@@@@#   ***%@                                    
+//                           ,@@@@@@@@@    ***@,  /                               
+//                              @@@@@@@@@(    ***   //////*.     */               
+//                                 //@@@@@@%/      *    ///////                   
+//                                 @    //////////                                
+//                                   @@**                                         
+//                                       @*****                                   
+//                                             *                                  
+
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot.utils;
 
 import com.pathplanner.lib.PathPlanner;
@@ -11,13 +47,13 @@ public class PathLoader {
 
     // Must set the reverse flags here, if applicable
     public static void initRightPaths() {
-        RIGHT_1 = PathPlanner.loadPath("blueRight-1", Constants.kMaxSpeedMetersPerSecond,
+        RIGHT_1 = PathPlanner.loadPath("right-1", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared);
-        RIGHT_2 = PathPlanner.loadPath("blueRight-2", Constants.kMaxSpeedMetersPerSecond,
+        RIGHT_2 = PathPlanner.loadPath("right-2", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared, true);
-        RIGHT_3 = PathPlanner.loadPath("blueRight-3", Constants.kMaxSpeedMetersPerSecond,
+        RIGHT_3 = PathPlanner.loadPath("right-3", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared);
-        RIGHT_4 = PathPlanner.loadPath("blueRight-4", Constants.kMaxSpeedMetersPerSecond,
+        RIGHT_4 = PathPlanner.loadPath("right-4", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared, true);
     }
 
@@ -32,20 +68,4 @@ public class PathLoader {
         TEST_4 = PathPlanner.loadPath("test-4", Constants.kMaxSpeedMetersPerSecond,
                 Constants.kMaxAccelerationMetersPerSecondSquared, true);
     }
-
-//     public static void initRamsetes() {
-//         // TODO This is the wrong pattern
-
-//         // Test paths
-//         T1ram = new DrivetrainRamseteCommand(RobotContainer.m_drive, T1);
-//         T2ram = new DrivetrainRamseteCommand(RobotContainer.m_drive, T2);
-//         T3ram = new DrivetrainRamseteCommand(RobotContainer.m_drive, T3);
-//         T4ram = new DrivetrainRamseteCommand(RobotContainer.m_drive, T4);
-        
-//         // Right paths
-//         R1ram = new DrivetrainRamseteCommand(RobotContainer.m_drive, R1);
-//         R2ram = new DrivetrainRamseteCommand(RobotContainer.m_drive, R2);
-//         R3ram = new DrivetrainRamseteCommand(RobotContainer.m_drive, R3);
-//         R4ram = new DrivetrainRamseteCommand(RobotContainer.m_drive, R4);
-//     }
 }
