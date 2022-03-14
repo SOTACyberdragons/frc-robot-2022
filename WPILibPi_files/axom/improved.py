@@ -180,7 +180,7 @@ class Tester:
                     # TODO Values are in BGR - Tweak these!
                     red = [80, 88, 255]
                     redtolerance = [32, 32, 64]
-                    blue = [128, 128,  96]
+                    blue = [180, 128,  64]
                     bluetolerance = [64, 32, 32]
 
                     cropped = frame_cv2[ymin:ymax, xmin: xmax]

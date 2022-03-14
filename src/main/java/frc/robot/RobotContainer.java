@@ -36,8 +36,11 @@
 
 package frc.robot;
 
+import com.playingwithfusion.TimeOfFlight;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,15 +48,19 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.ClimberArms;
 import frc.robot.commands.ClimberPivot;
+import frc.robot.commands.PostUp;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.SpinOutake;
 import frc.robot.commands.AutoCommands.AutoRight;
 import frc.robot.commands.AutoCommands.AutoTest;
+import frc.robot.commands.AutoCommands.AutoLeft;
+import frc.robot.commands.AutoCommands.AutoMiddle;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.SensorArray;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.JoystickAnalogButton;
 
@@ -65,6 +72,7 @@ public class RobotContainer {
     public final static Intake m_intake = new Intake();
     public final static Feeder m_feeder = new Feeder();
     public final static Climber m_climber = new Climber();
+    public final static SensorArray m_sensors = new SensorArray();
 
     // Autonomous
     private static SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -80,6 +88,8 @@ public class RobotContainer {
     private final static JoystickButton buttonY = new JoystickButton(m_controller, 4);
     private final static JoystickButton bumperL = new JoystickButton(m_controller, 5);
     private final static JoystickButton bumperR = new JoystickButton(m_controller, 6);
+    private final static JoystickButton leftStick = new JoystickButton(m_controller, 9);
+    private final static JoystickButton rightStick = new JoystickButton(m_controller, 10);
 
     // Turn the triggers into buttons
     private final static JoystickAnalogButton triggerR = new JoystickAnalogButton(m_controller, 3, 0.5);
@@ -112,9 +122,12 @@ public class RobotContainer {
         triggerL.whenHeld(new ShootCargo("High"));
         bumperL.whenHeld(new ShootCargo("Low"));
 
+        // Targeting buttons
+        buttonX.whenHeld(new PostUp());
+
         // Climber arm buttons
-        buttonX.whenHeld(new ClimberArms("UP"));
-        buttonB.whenHeld(new ClimberArms("DOWN"));
+        rightStick.whenHeld(new ClimberArms("UP"));
+        leftStick.whenHeld(new ClimberArms("DOWN"));
 
         dPadUp.whenHeld(new ClimberPivot("FORWARD"));
         dPadDown.whenHeld(new ClimberPivot("BACKWARD"));
@@ -122,7 +135,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         // TODO Uncomment this for competition
-        // LiveWindow.disableAllTelemetry();
+        LiveWindow.disableAllTelemetry();
         configureButtonBindings();
         configureAuto();
         configureColor();
@@ -131,6 +144,8 @@ public class RobotContainer {
     public void configureAuto() {
         autoChooser.addOption("Test Path", new AutoTest(this));
         autoChooser.setDefaultOption("Right (4 Ball)", new AutoRight(this));
+        autoChooser.addOption("Left (2 Ball Popcorn)", new AutoLeft(this));
+        autoChooser.addOption("Middle (2 Ball Popcorn)", new AutoMiddle(this));
         SmartDashboard.putData("Autonomous", autoChooser);
     }
 

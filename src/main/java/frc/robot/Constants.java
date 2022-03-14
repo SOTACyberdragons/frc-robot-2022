@@ -122,6 +122,9 @@ public class Constants {
 	public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR)
 			/ kGearRation;
 
+	// Sensor constants
+	public static final double kSensorSpread = 610; // Distance between the sensors in mm
+
 	// Ramsete constants that control speed
 	public static final double kMaxSpeedMetersPerSecond = 4.0; // initially 3
 	public static final double kMaxAccelerationMetersPerSecondSquared = 2.0; // initially 3
@@ -136,6 +139,7 @@ public class Constants {
 	// Shooter constants
 	public static double kShooterRPSHigh = 55;
 	public static double kShooterFeederBackspinHigh = .5;
+	public static double kShooterSweetSpot = 500; // Sweet spot for shooter correction in mm
 
 	public static double kShooterRPSLow = 30;
 	public static double kShooterFeederBackspinLow = .5;

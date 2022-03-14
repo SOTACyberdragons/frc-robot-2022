@@ -110,8 +110,8 @@ public class ShootCargo extends CommandBase {
             RobotContainer.m_feeder.feederStop();
         }
 
-        SmartDashboard.putNumber("Shooter RPS: ", RobotContainer.m_shooter.getRPS());
-        SmartDashboard.putNumber("Shooter Voltage: ", (pidOutput / 12));
+        // SmartDashboard.putNumber("Shooter RPS: ", RobotContainer.m_shooter.getRPS());
+        // SmartDashboard.putNumber("Shooter Voltage: ", (pidOutput / 12));
         
     }
 
@@ -121,7 +121,7 @@ public class ShootCargo extends CommandBase {
         RobotContainer.m_shooter.setPower(0);
         RobotContainer.m_feeder.feederStop();
 
-        SmartDashboard.putNumber("Shooter RPS: ", 0);
+        // SmartDashboard.putNumber("Shooter RPS: ", 0);
 
         RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
         RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);

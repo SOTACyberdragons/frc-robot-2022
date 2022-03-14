@@ -59,10 +59,10 @@ public class AutoTest extends SequentialCommandGroup {
     public AutoTest(RobotContainer robotContainer) {
 
         // TODO See if changing paths to Robot relative works better
-        RobotContainer.m_drive.resetOdometry(TEST_1.getInitialPose());
+        // RobotContainer.m_drive.resetOdometry(TEST_1.getInitialPose());
 
         addCommands(
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, TEST_1),
+                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, TEST_1).robotRelative(),
                         new SpinIntake()),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, TEST_2),
                         new SpinUpShooter("Low")),

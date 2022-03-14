@@ -39,19 +39,10 @@ package frc.robot.commands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class AimTarget extends CommandBase {
-
-    // Motor characterization
-    private final double kS = 0.8975;
-    private final double kV = 0.0026249;
-    private final double kA = 8.3993E-05;
-
-    // Motor PID values
-    private final double kP = 0.1084;
-    private final double kI = 0;
-    private final double kD = 0.0039948;
 
     // Calculation variables
     private double targetYaw;
@@ -61,13 +52,14 @@ public class AimTarget extends CommandBase {
     // PID output variables
     private double rotationSpeed;
 
-    PIDController turnController = new PIDController(kP, kI, kD);
-    SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(kS, kV, kA);
+    PIDController turnController = new PIDController(Constants.kPAngular, Constants.kIAngular, Constants.kDAngular);
 
     /** Creates a new AimTarget. */
     public AimTarget(double turnAngle) {
         targetYaw = turnAngle;
-        // Use addRequirements() here to declare subsystem dependencies.
+
+        turnController.setSetpoint(0);
+        turnController.setTolerance(2);
     }
 
     // Called when the command is initially scheduled.
@@ -83,13 +75,6 @@ public class AimTarget extends CommandBase {
     public void execute() {
         // -1.0 required to ensure positive PID controller effort _increases_ ya
         rotationSpeed = -turnController.calculate(errorYaw, 0);
-        if (rotationSpeed > 0) {
-            rotationSpeed = rotationSpeed + feedForward.calculate(RobotContainer.m_drive.getTurnRate());
-        } else if (rotationSpeed < 0) {
-            rotationSpeed = rotationSpeed - feedForward.calculate(RobotContainer.m_drive.getTurnRate());
-        } else {
-            rotationSpeed = 0;
-        } 
 
         RobotContainer.m_drive.arcadeDrive(0, rotationSpeed);
         // Update the PID error
@@ -105,6 +90,6 @@ public class AimTarget extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return turnController.atSetpoint();
     }
 }

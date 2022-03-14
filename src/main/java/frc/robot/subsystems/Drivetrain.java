@@ -113,7 +113,7 @@ public class Drivetrain extends SubsystemBase {
         m_drive = new DifferentialDrive(leftMaster, rightMaster);
 
         // Populate field position in Smartdashboard
-        SmartDashboard.putData("Field", m_field);
+        // SmartDashboard.putData("Field", m_field);
     }
 
     @Override
@@ -286,7 +286,7 @@ public class Drivetrain extends SubsystemBase {
 	public void setAngle(final double angle) {
 		final double distance = (getLeftEncoder() + getRightEncoder()) / 2;
 		final double totalAngle = angle + getAngle();
-		leftMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, totalAngle);
+		// leftMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, totalAngle);
 		rightMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, -totalAngle);
 	}
 

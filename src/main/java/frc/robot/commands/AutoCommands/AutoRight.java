@@ -61,19 +61,19 @@ public class AutoRight extends SequentialCommandGroup {
     public AutoRight(RobotContainer robotContainer) {
 
         // TODO See if changing paths to Robot relative works better
-        RobotContainer.m_drive.resetOdometry(RIGHT_1.getInitialPose());
+        // RobotContainer.m_drive.resetOdometry(RIGHT_1.getInitialPose());
 
         addCommands(
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, RIGHT_1),
+                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, RIGHT_1).robotRelative(),
                         new SpinIntake()),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, RIGHT_2),
-                        new SpinUpShooter("High")),
-                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("High")),
+                        new SpinUpShooter("Low")),
+                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("Low")),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, RIGHT_3),
                         new SpinIntake()),
                 new ParallelDeadlineGroup(new WaitCommand(1), new SpinIntake()),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, RIGHT_4),
                         new SpinUpShooter("Low")),
-                new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("High")));
+                new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("Low")));
     }
 }
