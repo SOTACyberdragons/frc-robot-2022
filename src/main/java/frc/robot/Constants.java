@@ -90,22 +90,22 @@ public class Constants {
 	public static int kPIDLoopIdx = 0;
 	public static double kEncoderMaxSpeed = 33000;
 
-	// Forward robot characterization data
+	// TODO Forward robot characterization data
 	public static final double ksDrivetrain = 0.77132;
 	public static final double kvDrivetrain = 5.0013;
 	public static final double kaDrivetrain = 2.0347;
 
-	// PID values for forward drivetrain commands
+	// TODO PID values for forward drivetrain commands
 	public static final double kPDrivetrain = 0.12991;
 	public static final double kIDrivetrain = 0.0;
 	public static final double kDDrivetrain = 0.013708;
 
-	// Angular robot characterization data
+	// TODO Angular robot characterization data
 	public static final double ksAngular = 0.7918;
 	public static final double kvAngular = 0.0022871;
 	public static final double kaAngular = 0.000113;
 
-	// PID values for angular drivetrain commands
+	// TODO PID values for angular drivetrain commands
 	public static final double kPAngular = 0.048135;
 	public static final double kIAngular = 0.0;
 	public static final double kDAngular = 0.00082831;
@@ -139,6 +139,8 @@ public class Constants {
 	// Shooter constants
 	public static double kShooterRPSHigh = 55;
 	public static double kShooterFeederBackspinHigh = .5;
+
+	// TODO Distance from the base to ensure a high shot. Tune me!
 	public static double kShooterSweetSpot = 500; // Sweet spot for shooter correction in mm
 
 	public static double kShooterRPSLow = 30;

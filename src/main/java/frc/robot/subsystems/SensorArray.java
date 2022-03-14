@@ -40,6 +40,7 @@ import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.math.filter.MedianFilter;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -66,6 +67,8 @@ public class SensorArray extends SubsystemBase {
         // This method will be called once per scheduler run
         leftAveraged = leftFilter.calculate(m_leftSensor.getRange());
         rightAveraged = rightFilter.calculate(m_rightSensor.getRange());
+
+        SmartDashboard.putNumber("Left sensor", m_leftSensor.getRange());
     }
 
     public double getDistanceOffset() {

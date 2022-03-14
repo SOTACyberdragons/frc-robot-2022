@@ -85,10 +85,11 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
                 // Poor man's PID
                 targetYaw = TensorVision.getTargetYaw(TensorVision.m_targets, RobotContainer.getTeamColor());
 
+                // TODO Should slightly turn towards target. Tune these values if needed
                 if (targetYaw > 2) {
-                    rotationSpeed = -0.25;
+                    rotationSpeed = -0.15;
                 } else if (targetYaw < 2) {
-                    rotationSpeed = 0.25;
+                    rotationSpeed = 0.15;
                 }
                 // rotationSpeed = -turnController.calculate(TensorVision.getTargetYaw(TensorVision.m_targets, RobotContainer.getTeamColor()), 0);
             }

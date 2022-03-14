@@ -58,7 +58,7 @@ public class AutoTest extends SequentialCommandGroup {
 
     public AutoTest(RobotContainer robotContainer) {
 
-        // TODO See if changing paths to Robot relative works better
+        // See if changing paths to Robot relative works better
         // RobotContainer.m_drive.resetOdometry(TEST_1.getInitialPose());
 
         addCommands(
