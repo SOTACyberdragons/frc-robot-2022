@@ -67,6 +67,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
     public void execute() {
         double forwardSpeed;
         double rotationSpeed;
+        double targetYaw;
 
         forwardSpeed = RobotContainer.getXBoxThrottle();
         rotationSpeed = RobotContainer.getXBoxRotation();
@@ -80,9 +81,16 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
             if (RobotContainer.m_controller.getBButton()) {
                 // Calculate angular turn power
                 // -1.0 required to ensure positive PID controller effort _increases_ yaw
-                rotationSpeed = -turnController.calculate(
-                        TensorVision.getTargetYaw(TensorVision.m_targets, RobotContainer.getTeamColor()),
-                        0);
+
+                // Poor man's PID
+                targetYaw = TensorVision.getTargetYaw(TensorVision.m_targets, RobotContainer.getTeamColor());
+
+                if (targetYaw > 2) {
+                    rotationSpeed = -0.25;
+                } else if (targetYaw < 2) {
+                    rotationSpeed = 0.25;
+                }
+                // rotationSpeed = -turnController.calculate(TensorVision.getTargetYaw(TensorVision.m_targets, RobotContainer.getTeamColor()), 0);
             }
         } else {
             RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);

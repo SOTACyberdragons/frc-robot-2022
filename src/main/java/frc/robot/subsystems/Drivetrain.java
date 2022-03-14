@@ -49,8 +49,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotMap;
@@ -79,7 +77,7 @@ public class Drivetrain extends SubsystemBase {
     public static double m_rightWheelSpeed;
 
     // Field2d object for Smartdashboard display
-    private Field2d m_field = new Field2d();
+    // private Field2d m_field = new Field2d();
 
     public Drivetrain() {
 

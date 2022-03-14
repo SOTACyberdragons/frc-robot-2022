@@ -36,8 +36,6 @@
 
 package frc.robot;
 
-import com.playingwithfusion.TimeOfFlight;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -134,7 +132,6 @@ public class RobotContainer {
     }
 
     public RobotContainer() {
-        // TODO Uncomment this for competition
         LiveWindow.disableAllTelemetry();
         configureButtonBindings();
         configureAuto();
