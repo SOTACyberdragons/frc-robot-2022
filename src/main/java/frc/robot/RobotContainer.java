@@ -80,13 +80,13 @@ public class RobotContainer {
 
     // Adding XBox Controller Supports
     public final static XboxController m_controller = new XboxController(0);
-    private final static JoystickButton buttonA = new JoystickButton(m_controller, 1);
+    // private final static JoystickButton buttonA = new JoystickButton(m_controller, 1);
 
     // Button B is indirectly mapped don't use this button.
     // private final static JoystickButton buttonB = new JoystickButton(m_controller, 2);
-    
+
     private final static JoystickButton buttonX = new JoystickButton(m_controller, 3);
-    private final static JoystickButton buttonY = new JoystickButton(m_controller, 4);
+    // private final static JoystickButton buttonY = new JoystickButton(m_controller, 4);
     private final static JoystickButton bumperL = new JoystickButton(m_controller, 5);
     private final static JoystickButton bumperR = new JoystickButton(m_controller, 6);
     private final static JoystickButton leftStick = new JoystickButton(m_controller, 9);

@@ -42,9 +42,6 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.AutoCommands.DrivetrainRamseteCommand;
 import frc.robot.utils.TrajectoryLoader;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PostUp extends SequentialCommandGroup {
     /** Creates a new PostUp2. */
     public PostUp() {
