@@ -90,19 +90,29 @@ public class Constants {
 	public static int kPIDLoopIdx = 0;
 	public static double kEncoderMaxSpeed = 33000;
 
-	// Ramsets values from forward robot characterization
-	public static final double ksVolts = 0.43389; // 0.589151 initially
-	public static final double kvVoltSecondsPerMeter = 5.9696; // 5.9696 initially
-	public static final double kaVoltSecondsSquaredPerMeter = 0.40192; // 0.11108 initially
+	// Forward robot characterization data
+	public static final double ksDrivetrain = 0.77132;
+	public static final double kvDrivetrain = 5.0013;
+	public static final double kaDrivetrain = 2.0347;
 
+	// PID values for forward drivetrain commands
+	public static final double kPDrivetrain = 0.12991;
+	public static final double kIDrivetrain = 0.0;
+	public static final double kDDrivetrain = 0.013708;
 
-	
+	// Angular robot characterization data
+	public static final double ksAngular = 0.7918;
+	public static final double kvAngular = 0.0022871;
+	public static final double kaAngular = 0.000113;
+
+	// PID values for angular drivetrain commands
+	public static final double kPAngular = 0.048135;
+	public static final double kIAngular = 0.0;
+	public static final double kDAngular = 0.00082831;
+
 	public static final double kTrackwidthMeters = 0.25732;
 	public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
 			kTrackwidthMeters);
-
-	// TODO Update PID values for the Ramsete commands.
-	public static final double kPDriveVel = 0.0039019;
 
 	// Drivetrain wheel constants
 	public static final int kEncoderCPR = 2048;
@@ -112,12 +122,11 @@ public class Constants {
 	public static final double kEncoderDistancePerPulse = ((kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR)
 			/ kGearRation;
 
-	// Ramsete constants that control speed 
-	// TUNE THESE IF THE ROBOT MOVES TOO QUICKLY!
-	public static final double kMaxSpeedMetersPerSecond = 0.93088; // initially 3
-	public static final double kMaxAccelerationMetersPerSecondSquared = 0.37894; // initially 3
+	// Ramsete constants that control speed
+	public static final double kMaxSpeedMetersPerSecond = 4.0; // initially 3
+	public static final double kMaxAccelerationMetersPerSecondSquared = 2.0; // initially 3
 
-	public static final double kRamseteB = 2; // initially 2
+	public static final double kRamseteB = 2;
 	public static final double kRamseteZeta = 0.7;
 
 	// XBox Controller Drivetrain Constants

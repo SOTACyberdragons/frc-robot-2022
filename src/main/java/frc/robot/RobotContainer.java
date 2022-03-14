@@ -38,7 +38,6 @@ package frc.robot;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -49,12 +48,12 @@ import frc.robot.commands.ClimberPivot;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.SpinOutake;
-import frc.robot.commands.AutoCommands.AutoTest;
 import frc.robot.commands.AutoCommands.AutoRight;
+import frc.robot.commands.AutoCommands.AutoTest;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.JoystickAnalogButton;
 
@@ -70,6 +69,9 @@ public class RobotContainer {
     // Autonomous
     private static SendableChooser<Command> autoChooser = new SendableChooser<>();
 
+    // Team color
+    private static SendableChooser<String> colorChooser = new SendableChooser<>();
+
     // Adding XBox Controller Supports
     public final static XboxController m_controller = new XboxController(0);
     private final static JoystickButton buttonA = new JoystickButton(m_controller, 1);
@@ -79,7 +81,7 @@ public class RobotContainer {
     private final static JoystickButton bumperL = new JoystickButton(m_controller, 5);
     private final static JoystickButton bumperR = new JoystickButton(m_controller, 6);
 
-    // Turn the triggers into buttons 
+    // Turn the triggers into buttons
     private final static JoystickAnalogButton triggerR = new JoystickAnalogButton(m_controller, 3, 0.5);
     private final static JoystickAnalogButton triggerL = new JoystickAnalogButton(m_controller, 2, 0.5);
 
@@ -122,16 +124,27 @@ public class RobotContainer {
         // TODO Uncomment this for competition
         // LiveWindow.disableAllTelemetry();
         configureButtonBindings();
+        configureAuto();
+        configureColor();
     }
 
     public void configureAuto() {
-        // autoChooser.addOption("Do Nothing", new DoNothingAuton());
-        autoChooser.addOption("Test", new AutoTest(this));
-        autoChooser.setDefaultOption("Right", new AutoRight(this));
+        autoChooser.addOption("Test Path", new AutoTest(this));
+        autoChooser.setDefaultOption("Right (4 Ball)", new AutoRight(this));
         SmartDashboard.putData("Autonomous", autoChooser);
+    }
+
+    public void configureColor() {
+        colorChooser.addOption("Red", "red");
+        colorChooser.setDefaultOption("Blue", "blue");
+        SmartDashboard.putData("Team Color", colorChooser);
     }
 
     public Command getAutonomousCommand() {
         return autoChooser.getSelected();
+    }
+
+    public static String getTeamColor() {
+        return colorChooser.getSelected();
     }
 }

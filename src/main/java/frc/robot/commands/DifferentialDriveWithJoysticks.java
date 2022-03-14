@@ -36,9 +36,14 @@
 
 package frc.robot.commands;
 
+import static frc.robot.subsystems.TensorVision.m_targets;
+
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.TensorVision;
 
@@ -46,16 +51,10 @@ import frc.robot.subsystems.TensorVision;
 public class DifferentialDriveWithJoysticks extends CommandBase {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
 
-    // TODO THIS MUST BE A GLOBAL CONSTANT!
-    private static String teamColor = "red";
-
-    // Turn PID values scaled to 0 thru 1
-    private final double kP = 0.025; // 0.1084;
-    private final double kI = 0;
-    private final double kD = 0.0003329; // 0.0039948;
-
     TensorVision m_TensorVision = new TensorVision();
-    PIDController turnController = new PIDController(kP, kI, kD);
+    PIDController turnController = new PIDController(Constants.kPAngular, Constants.kIAngular, Constants.kDAngular);
+    SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(Constants.ksAngular, Constants.kvAngular,
+            Constants.kaAngular);
 
     public DifferentialDriveWithJoysticks() {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -72,27 +71,37 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
     public void execute() {
         double forwardSpeed;
         double rotationSpeed;
+        double kF = Constants.kvAngular;
 
         forwardSpeed = RobotContainer.getXBoxThrottle();
 
         // If we have a target, rumble the controller
-        if (TensorVision.hasTargets(TensorVision.m_targets, teamColor)) {
+        if (TensorVision.hasTargets(m_targets, RobotContainer.getTeamColor())) {
             RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble,
-                    TensorVision.getRumbleStrength(TensorVision.m_targets, teamColor));
+                    TensorVision.getRumbleStrength(TensorVision.m_targets, RobotContainer.getTeamColor()));
         } else {
             RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
         }
 
         // If the 'A' button is pressed, aim towards target if one has been found
         if (RobotContainer.m_controller.getAButton()) {
-            if (TensorVision.hasTargets(TensorVision.m_targets, teamColor)) {
+            if (TensorVision.hasTargets(TensorVision.m_targets, RobotContainer.getTeamColor())) {
                 // Calculate angular turn power
                 // -1.0 required to ensure positive PID controller effort _increases_ yaw
-                System.out.println("Target yaw: " + TensorVision.getTargetYaw(TensorVision.m_targets, teamColor));
-                rotationSpeed = -turnController.calculate(TensorVision.getTargetYaw(TensorVision.m_targets, teamColor),
+                rotationSpeed = -turnController.calculate(
+                        TensorVision.getTargetYaw(TensorVision.m_targets, RobotContainer.getTeamColor()),
                         0);
-                // TODO Don't know if this will trigger stopping the intake.
-                new SpinIntake();
+
+                if (rotationSpeed < 0) {
+                    kF = -kF;
+                }
+
+                // System.out.println(TensorVision.getTargetYaw(TensorVision.m_targets, RobotContainer.getTeamColor()));
+                System.out.println("PID Output " + rotationSpeed);
+                System.out.println("Feed forward " + kF);
+
+                rotationSpeed = rotationSpeed + kF;
+
             } else {
                 // If we have no targets, don't turn.
                 rotationSpeed = 0;

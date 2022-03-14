@@ -122,16 +122,17 @@ public class Drivetrain extends SubsystemBase {
         m_odometry.update(getHeading(), getLeftDistance(), getRightDistance());
 
         // Smart Dashboard display
-        SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());
-        SmartDashboard.putNumber("Robot Y", getPose().getTranslation().getY());
-        SmartDashboard.putNumber("Robot Heading", getHeading().getDegrees());
-        SmartDashboard.putNumber("Robot Rotation", getRotation());
-        SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
+        // SmartDashboard.putNumber("Robot X", getPose().getTranslation().getX());
+        // SmartDashboard.putNumber("Robot Y", getPose().getTranslation().getY());
+        // SmartDashboard.putNumber("Robot Heading", getHeading().getDegrees());
+        // SmartDashboard.putNumber("Robot Rotation", getRotation());
+        // SmartDashboard.putNumber("Drive Distance: ", getAverageDistance());
         // SmartDashboard.putNumber("Left Encoder: ", getLeftEncoder());
         // SmartDashboard.putNumber("Right Encoder: ", getRightEncoder());
+        // SmartDashboard.putNumber("Turn Rate: ", getTurnRate());
 
         // Update field position
-        m_field.setRobotPose(m_odometry.getPoseMeters());
+        // m_field.setRobotPose(m_odometry.getPoseMeters());
     }
 
     /**

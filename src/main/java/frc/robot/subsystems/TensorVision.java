@@ -53,14 +53,13 @@ public class TensorVision extends SubsystemBase {
     /** Creates a new TensorVision. */
     private static final double kImageHeight = 480;
     private static final double kImageWidth = 640;
-    private static final double kFOVWidth = 60;
+    private static final double kFOVWidth = 58.3;
     private static final double kPixelsPerDegreeWidth = kImageWidth / kFOVWidth;
 
     private static NetworkTableInstance inst = NetworkTableInstance.getDefault();
     private static NetworkTable outputTable = inst.getTable("ML");
 
     public static Target[] m_targets;
-    public static String teamColor = "";
 
     @Override
     public void periodic() {
@@ -73,6 +72,7 @@ public class TensorVision extends SubsystemBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public static Target[] parseTargets(String payload) throws JsonParseException, JsonMappingException, IOException {

@@ -36,30 +36,43 @@
 
 package frc.robot.commands.AutoCommands;
 
+import com.pathplanner.lib.PathPlanner;
+
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
-import frc.robot.utils.PathLoader;
 
 public class AutoRight extends SequentialCommandGroup {
-    public AutoRight(RobotContainer robot) {
+
+    private static final Trajectory RIGHT_1 = PathPlanner.loadPath("right-1", Constants.kMaxSpeedMetersPerSecond,
+            Constants.kMaxAccelerationMetersPerSecondSquared);
+    private static final Trajectory RIGHT_2 = PathPlanner.loadPath("right-2", Constants.kMaxSpeedMetersPerSecond,
+            Constants.kMaxAccelerationMetersPerSecondSquared, true);
+    private static final Trajectory RIGHT_3 = PathPlanner.loadPath("right-3", Constants.kMaxSpeedMetersPerSecond,
+            Constants.kMaxAccelerationMetersPerSecondSquared);
+    private static final Trajectory RIGHT_4 = PathPlanner.loadPath("right-4", Constants.kMaxSpeedMetersPerSecond,
+            Constants.kMaxAccelerationMetersPerSecondSquared, true);
+
+    public AutoRight(RobotContainer robotContainer) {
 
         // TODO See if changing paths to Robot relative works better
-        RobotContainer.m_drive.resetOdometry(PathLoader.RIGHT_1.getInitialPose());
+        RobotContainer.m_drive.resetOdometry(RIGHT_1.getInitialPose());
 
         addCommands(
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, PathLoader.RIGHT_1),
+                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, RIGHT_1),
                         new SpinIntake()),
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, PathLoader.RIGHT_2),
+                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, RIGHT_2),
                         new SpinUpShooter("High")),
                 new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("High")),
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, PathLoader.RIGHT_3),
+                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, RIGHT_3),
                         new SpinIntake()),
                 new ParallelDeadlineGroup(new WaitCommand(1), new SpinIntake()),
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, PathLoader.RIGHT_4),
+                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, RIGHT_4),
                         new SpinUpShooter("Low")),
                 new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("High")));
     }

@@ -62,13 +62,13 @@ public class DrivetrainRamseteCommand extends RamseteCommand {
                 drivetrain::getPose,
                 new RamseteController(),
                 new SimpleMotorFeedforward(
-                        Constants.ksVolts,
-                        Constants.kvVoltSecondsPerMeter,
-                        Constants.kaVoltSecondsSquaredPerMeter),
+                        Constants.ksDrivetrain,
+                        Constants.kvDrivetrain,
+                        Constants.kaDrivetrain),
                 Constants.kDriveKinematics,
                 drivetrain::getWheelSpeeds,
-                new PIDController(Constants.kPDriveVel, 0, 0),
-                new PIDController(Constants.kPDriveVel, 0, 0),
+                new PIDController(Constants.kPDrivetrain, 0, Constants.kDDrivetrain),
+                new PIDController(Constants.kPDrivetrain, 0, Constants.kDDrivetrain),
                 drivetrain::tankDriveVolts,
                 drivetrain);
 
