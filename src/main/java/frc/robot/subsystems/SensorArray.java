@@ -53,8 +53,8 @@ public class SensorArray extends SubsystemBase {
     MedianFilter leftFilter = new MedianFilter(10);
     MedianFilter rightFilter = new MedianFilter(10);
 
-    double leftAveraged;
-    double rightAveraged;
+    double leftMedian;
+    double rightMedian;
 
     /** Creates a new SensorArray. */
     public SensorArray() {
@@ -65,20 +65,18 @@ public class SensorArray extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        leftAveraged = leftFilter.calculate(m_leftSensor.getRange());
-        rightAveraged = rightFilter.calculate(m_rightSensor.getRange());
-
-        SmartDashboard.putNumber("Left sensor", m_leftSensor.getRange());
+        leftMedian = leftFilter.calculate(m_leftSensor.getRange());
+        rightMedian = rightFilter.calculate(m_rightSensor.getRange());
     }
 
     public double getDistanceOffset() {
-        return -(Constants.kShooterSweetSpot - ((leftAveraged + rightAveraged) / 2));
+        return -(Constants.kShooterSweetSpot - ((leftMedian + rightMedian) / 2));
     }
 
     public double getAngularOffset() {
         double sensorOffset;
         
-        sensorOffset = leftAveraged - rightAveraged;
+        sensorOffset = leftMedian - rightMedian;
         return (Math.atan(sensorOffset / Constants.kSensorSpread)) * 100;
     }
 
