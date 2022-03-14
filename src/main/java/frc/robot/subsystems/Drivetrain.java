@@ -145,7 +145,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     /**
-     * Copy of example code from this example: https://gist.github.com/jcorcoran/e56d985fd1ee290b075d13c9f9aa3595
+     * Copy of example code from this example: https://github.com/Team2168/2020_Main_Robot/blob/master/src/main/java/org/team2168/subsystems/Drivetrain.java
      */
     private void initDriveForPID() {
 
