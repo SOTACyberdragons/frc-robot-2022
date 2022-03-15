@@ -47,7 +47,7 @@ public class PostUp extends SequentialCommandGroup {
     public PostUp() {
 
         if (RobotContainer.m_sensors.getDistanceOffset() > -300 & RobotContainer.m_sensors.getDistanceOffset() < 300) {
-            Trajectory postUp_trajectory = TrajectoryLoader.getLine(RobotContainer.m_sensors.getDistanceOffset());
+            Trajectory postUp_trajectory = TrajectoryLoader.getLine(RobotContainer.m_sensors.getDistanceOffset() / 1000);
             // addCommands(new AimTarget(RobotContainer.m_sensors.getAngularOffset()));
             addCommands(new DrivetrainRamseteCommand(RobotContainer.m_drive, postUp_trajectory).robotRelative());
         }
