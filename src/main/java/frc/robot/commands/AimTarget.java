@@ -49,7 +49,7 @@ public class AimTarget extends CommandBase {
     private double errorYaw;
 
     // PID output variables
-    private double rotationSpeed;
+
 
     PIDController turnController = new PIDController(Constants.kPAngular, Constants.kIAngular, Constants.kDAngular);
 
@@ -72,6 +72,8 @@ public class AimTarget extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+        double rotationSpeed;
+        
         // -1.0 required to ensure positive PID controller effort _increases_ ya
         rotationSpeed = -turnController.calculate(errorYaw, 0);
 

@@ -93,15 +93,15 @@ public class RobotContainer {
     private static final JoystickButton rightStick = new JoystickButton(m_controller, 10);
 
     // Turn the triggers into buttons
-    private final static JoystickAnalogButton triggerR = new JoystickAnalogButton(m_controller, 3, 0.5);
-    private final static JoystickAnalogButton triggerL = new JoystickAnalogButton(m_controller, 2, 0.5);
+    private static final JoystickAnalogButton triggerR = new JoystickAnalogButton(m_controller, 3, 0.5);
+    private static final JoystickAnalogButton triggerL = new JoystickAnalogButton(m_controller, 2, 0.5);
 
     // Turn the D_Pad into buttons
-    private final static POVButton dPadUp = new POVButton(m_controller, 0);
-    private final static POVButton dPadDown = new POVButton(m_controller, 180);
+    private static final POVButton dPadUp = new POVButton(m_controller, 0);
+    private static final POVButton dPadDown = new POVButton(m_controller, 180);
 
     // Adding slew value for the XBox Controller joysticks
-    private final static SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
+    private static final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
     private static final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
 
     // Return XBox left stick for throttle control
@@ -142,7 +142,7 @@ public class RobotContainer {
     }
 
     public void configureAuto() {
-        autoChooser.addOption("Test Path", new AutoTest(this));
+        autoChooser.addOption("Test Path", new AutoTest());
         autoChooser.setDefaultOption("Right (4 Ball)", new AutoRight(this));
         autoChooser.addOption("Left (2 Ball Popcorn)", new AutoLeft(this));
         autoChooser.addOption("Middle (2 Ball Popcorn)", new AutoMiddle(this));

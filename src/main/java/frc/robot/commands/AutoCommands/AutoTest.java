@@ -56,7 +56,7 @@ public class AutoTest extends SequentialCommandGroup {
     private static final Trajectory TEST_4 = PathPlanner.loadPath("test-4", Constants.kMaxSpeedMetersPerSecond,
             Constants.kMaxAccelerationMetersPerSecondSquared, true);
 
-    public AutoTest(RobotContainer robotContainer) {
+    public AutoTest() {
 
         // See if changing paths to Robot relative works better
         // RobotContainer.m_drive.resetOdometry(TEST_1.getInitialPose());
