@@ -70,7 +70,7 @@ public class SensorArray extends SubsystemBase {
     }
 
     public double getDistanceOffset() {
-        return -(Constants.kShooterSweetSpot - ((leftMedian + rightMedian) / 2));
+        return (Constants.kShooterSweetSpot - ((leftMedian + rightMedian) / 2));
     }
 
     public double getAngularOffset() {
