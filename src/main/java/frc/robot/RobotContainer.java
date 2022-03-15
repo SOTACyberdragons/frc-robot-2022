@@ -65,12 +65,12 @@ import frc.robot.utils.JoystickAnalogButton;
 public class RobotContainer {
 
     // Subsystems
-    public final static Drivetrain m_drive = new Drivetrain();
-    public final static Shooter m_shooter = new Shooter();
-    public final static Intake m_intake = new Intake();
-    public final static Feeder m_feeder = new Feeder();
-    public final static Climber m_climber = new Climber();
-    public final static SensorArray m_sensors = new SensorArray();
+    public static final Drivetrain m_drive = new Drivetrain();
+    public static final Shooter m_shooter = new Shooter();
+    public static final Intake m_intake = new Intake();
+    public static final Feeder m_feeder = new Feeder();
+    public static final Climber m_climber = new Climber();
+    public static final SensorArray m_sensors = new SensorArray();
 
     // Autonomous
     private static SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -79,18 +79,18 @@ public class RobotContainer {
     private static SendableChooser<String> colorChooser = new SendableChooser<>();
 
     // Adding XBox Controller Supports
-    public final static XboxController m_controller = new XboxController(0);
+    public static final XboxController m_controller = new XboxController(0);
     // private final static JoystickButton buttonA = new JoystickButton(m_controller, 1);
 
     // Button B is indirectly mapped don't use this button.
     // private final static JoystickButton buttonB = new JoystickButton(m_controller, 2);
 
-    private final static JoystickButton buttonX = new JoystickButton(m_controller, 3);
+    private static final JoystickButton buttonX = new JoystickButton(m_controller, 3);
     // private final static JoystickButton buttonY = new JoystickButton(m_controller, 4);
-    private final static JoystickButton bumperL = new JoystickButton(m_controller, 5);
-    private final static JoystickButton bumperR = new JoystickButton(m_controller, 6);
-    private final static JoystickButton leftStick = new JoystickButton(m_controller, 9);
-    private final static JoystickButton rightStick = new JoystickButton(m_controller, 10);
+    private static final JoystickButton bumperL = new JoystickButton(m_controller, 5);
+    private static final JoystickButton bumperR = new JoystickButton(m_controller, 6);
+    private static final JoystickButton leftStick = new JoystickButton(m_controller, 9);
+    private static final JoystickButton rightStick = new JoystickButton(m_controller, 10);
 
     // Turn the triggers into buttons
     private final static JoystickAnalogButton triggerR = new JoystickAnalogButton(m_controller, 3, 0.5);
@@ -102,7 +102,7 @@ public class RobotContainer {
 
     // Adding slew value for the XBox Controller joysticks
     private final static SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3);
-    private final static SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
+    private static final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3);
 
     // Return XBox left stick for throttle control
     public static double getXBoxThrottle() {

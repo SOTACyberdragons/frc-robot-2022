@@ -59,7 +59,7 @@ public class ShootCargo extends CommandBase {
     private static SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(kS, kV, kA);
 
     // Initialize the PID Controller
-    public PIDController m_pidController = new PIDController(kP, kI, kD);
+    public static final PIDController m_pidController = new PIDController(kP, kI, kD);
 
     // Expose input variables
     private double m_shooterTargetRPS = 0;

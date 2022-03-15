@@ -86,9 +86,9 @@ public class Constants {
 	};
 
 	// Talon FX configuration constants
-	public static int kTimeoutMs = 30;
-	public static int kPIDLoopIdx = 0;
-	public static double kEncoderMaxSpeed = 33000;
+	public static final int kTimeoutMs = 30;
+	public static final int kPIDLoopIdx = 0;
+	public static final double kEncoderMaxSpeed = 33000;
 
 	// TODO Forward robot characterization data
 	public static final double ksDrivetrain = 0.77132;
