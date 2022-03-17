@@ -60,7 +60,7 @@ public class AutoRight extends SequentialCommandGroup {
 
     public AutoRight() {
 
-        // See if changing paths to Robot relative works better
+        // TODO See if changing paths to Robot relative works better
         // RobotContainer.m_drive.resetOdometry(RIGHT_1.getInitialPose());
 
         addCommands(

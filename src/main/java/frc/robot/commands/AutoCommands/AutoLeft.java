@@ -47,9 +47,6 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoLeft extends SequentialCommandGroup {
 
     private static final Trajectory LEFT_1 = PathPlanner.loadPath("left-1", Constants.kMaxSpeedMetersPerSecond,
@@ -62,8 +59,10 @@ public class AutoLeft extends SequentialCommandGroup {
             Constants.kMaxAccelerationMetersPerSecondSquared);
 
     public AutoLeft() {
-        // Add your commands in the addCommands() call, e.g.
-        // addCommands(new FooCommand(), new BarCommand());
+
+        // TODO See if changing paths to Robot relative works better
+        // RobotContainer.m_drive.resetOdometry(LEFT_1.getInitialPose());
+
         addCommands(
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_1).robotRelative(),
                         new SpinIntake()),

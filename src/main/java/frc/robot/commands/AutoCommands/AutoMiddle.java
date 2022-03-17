@@ -47,9 +47,6 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoMiddle extends SequentialCommandGroup {
 
     private static final Trajectory MIDDLE_1 = PathPlanner.loadPath("middle-1", Constants.kMaxSpeedMetersPerSecond,
@@ -60,8 +57,10 @@ public class AutoMiddle extends SequentialCommandGroup {
             Constants.kMaxAccelerationMetersPerSecondSquared);
 
     public AutoMiddle() {
-        // Add your commands in the addCommands() call, e.g.
-        // addCommands(new FooCommand(), new BarCommand());
+
+        // TODO See if changing paths to Robot relative works better
+        // RobotContainer.m_drive.resetOdometry(MIDDLE_1.getInitialPose());
+
         addCommands(
                 new ParallelDeadlineGroup(
                         new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_1).robotRelative().robotRelative(),
