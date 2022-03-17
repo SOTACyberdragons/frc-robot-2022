@@ -59,12 +59,12 @@ public class AutoMiddle extends SequentialCommandGroup {
     private static final Trajectory MIDDLE_3 = PathPlanner.loadPath("middle-3", Constants.kMaxSpeedMetersPerSecond,
             Constants.kMaxAccelerationMetersPerSecondSquared);
 
-    public AutoMiddle(RobotContainer robotContainer) {
+    public AutoMiddle() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
                 new ParallelDeadlineGroup(
-                        new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_1).robotRelative(),
+                        new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_1).robotRelative().robotRelative(),
                         new SpinIntake()),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_2),
                         new SpinUpShooter("Low")),

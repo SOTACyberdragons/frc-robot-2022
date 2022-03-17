@@ -61,11 +61,11 @@ public class AutoLeft extends SequentialCommandGroup {
     private static final Trajectory LEFT_4 = PathPlanner.loadPath("left-4", Constants.kMaxSpeedMetersPerSecond,
             Constants.kMaxAccelerationMetersPerSecondSquared);
 
-    public AutoLeft(RobotContainer robotContainer) {
+    public AutoLeft() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_1),
+                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_1).robotRelative(),
                         new SpinIntake()),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_2),
                         new SpinUpShooter("High")),

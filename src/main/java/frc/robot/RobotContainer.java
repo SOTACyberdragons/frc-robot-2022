@@ -143,9 +143,9 @@ public class RobotContainer {
 
     public void configureAuto() {
         autoChooser.addOption("Test Path", new AutoTest());
-        autoChooser.setDefaultOption("Right (4 Ball)", new AutoRight(this));
-        autoChooser.addOption("Left (2 Ball Popcorn)", new AutoLeft(this));
-        autoChooser.addOption("Middle (2 Ball Popcorn)", new AutoMiddle(this));
+        autoChooser.setDefaultOption("Right (4 Ball)", new AutoRight());
+        autoChooser.addOption("Left (2 Ball Popcorn)", new AutoLeft());
+        autoChooser.addOption("Middle (2 Ball Popcorn)", new AutoMiddle());
         SmartDashboard.putData("Autonomous", autoChooser);
     }
 

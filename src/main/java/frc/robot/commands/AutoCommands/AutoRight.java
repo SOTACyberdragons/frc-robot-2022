@@ -58,7 +58,7 @@ public class AutoRight extends SequentialCommandGroup {
     private static final Trajectory RIGHT_4 = PathPlanner.loadPath("right-4", Constants.kMaxSpeedMetersPerSecond,
             Constants.kMaxAccelerationMetersPerSecondSquared, true);
 
-    public AutoRight(RobotContainer robotContainer) {
+    public AutoRight() {
 
         // See if changing paths to Robot relative works better
         // RobotContainer.m_drive.resetOdometry(RIGHT_1.getInitialPose());
