@@ -51,12 +51,11 @@ public class Climber extends SubsystemBase {
      * Local, standardized power setting for this subsystem.
      */
 
-    private double kArmSpeed = 0.1;
+    private double kArmSpeed = 1;
     private double kPivotSpeed = 0.75;
 
     /** Creates a new NewClimber. */
     public Climber() {
-
         /*
          * Assign the pivot motor objects
          */
