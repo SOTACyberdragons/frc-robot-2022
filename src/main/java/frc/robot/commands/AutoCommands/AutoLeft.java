@@ -68,10 +68,10 @@ public class AutoLeft extends SequentialCommandGroup {
                         new SpinIntake()),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_2),
                         new SpinUpShooter("High")),
-                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("Low")),
+                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("High")),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_3),
                         new SpinIntake()),
-                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("Low")),
+                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("High")),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_4),
                         new SpinIntake()));
     }

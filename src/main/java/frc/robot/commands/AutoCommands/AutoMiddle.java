@@ -66,10 +66,10 @@ public class AutoMiddle extends SequentialCommandGroup {
                         new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_1).robotRelative().robotRelative(),
                         new SpinIntake()),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_2),
-                        new SpinUpShooter("Low")),
-                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("Low")),
+                        new SpinUpShooter("High")),
+                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("High")),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_3),
                         new SpinIntake()),
-                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("Low")));
+                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("High")));
     }
 }
