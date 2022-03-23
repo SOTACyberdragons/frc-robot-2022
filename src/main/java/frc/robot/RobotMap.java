@@ -61,8 +61,8 @@ public class RobotMap {
 	public static final int SECONDARY_PIVOT_MOTOR = 11;
 
 	// PCM
-	public static final int DOUBLE_SOLENOID_ZERO = 0;
-	public static final int DOUBLE_SOLENOID_ONE = 7;
+	public static final int DOUBLE_SOLENOID_ZERO = 5;
+	public static final int DOUBLE_SOLENOID_ONE = 6;
 
 	// DIO
 	public static final int FEEDER_BREAKBEAM = 1;

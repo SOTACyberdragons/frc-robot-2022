@@ -46,6 +46,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.ClimberArms;
 import frc.robot.commands.ClimberPivot;
+import frc.robot.commands.MoveIntake;
 import frc.robot.commands.PostUp;
 import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
@@ -80,13 +81,13 @@ public class RobotContainer {
 
     // Adding XBox Controller Supports
     public static final XboxController m_controller = new XboxController(0);
-    // private final static JoystickButton buttonA = new JoystickButton(m_controller, 1);
+   // private final static JoystickButton buttonA = new JoystickButton(m_controller, 1);
 
     // Button B is indirectly mapped don't use this button.
     // private final static JoystickButton buttonB = new JoystickButton(m_controller, 2);
 
     private static final JoystickButton buttonX = new JoystickButton(m_controller, 3);
-    // private final static JoystickButton buttonY = new JoystickButton(m_controller, 4);
+     private final static JoystickButton buttonY = new JoystickButton(m_controller, 4);
     private static final JoystickButton bumperL = new JoystickButton(m_controller, 5);
     private static final JoystickButton bumperR = new JoystickButton(m_controller, 6);
     private static final JoystickButton leftStick = new JoystickButton(m_controller, 9);
@@ -132,6 +133,9 @@ public class RobotContainer {
 
         dPadUp.whenHeld(new ClimberPivot("FORWARD"));
         dPadDown.whenHeld(new ClimberPivot("BACKWARD"));
+
+        //buttonA.whenPressed(new MoveIntake("up"));
+        buttonY.whenPressed(new MoveIntake("down"));
     }
 
     public RobotContainer() {

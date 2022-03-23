@@ -40,10 +40,13 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DifferentialDriveWithJoysticks;
+import frc.robot.commands.MoveIntake;
 
 public class Robot extends TimedRobot {
     private static Command m_autonomousCommand;
     private static RobotContainer m_robotContainer;
+
+    private static MoveIntake m_moveIntake = new MoveIntake("down");
 
     @Override
     public void robotInit() {
@@ -69,6 +72,12 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
         // schedule the autonomous command (example)
+
+        RobotContainer.m_intake.moveIntake("down");
+
+
+        
+
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
@@ -83,6 +92,10 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
+        RobotContainer.m_intake.stopIntake();
+        RobotContainer.m_shooter.setPower(0);
+        RobotContainer.m_feeder.feederStop();
 
         CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_drive,
                 new DifferentialDriveWithJoysticks());

@@ -143,6 +143,6 @@ public class Constants {
 	// TODO Distance from the base to ensure a high shot. Tune me!
 	public static double kShooterSweetSpot = 500; // Sweet spot for shooter correction in mm
 
-	public static double kShooterRPSLow = 30;
+	public static double kShooterRPSLow = 35;
 	public static double kShooterFeederBackspinLow = .5;
 }
