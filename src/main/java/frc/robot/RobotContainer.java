@@ -74,7 +74,7 @@ public class RobotContainer {
     public static final SensorArray m_sensors = new SensorArray();
 
     // Autonomous
-    private static SendableChooser<Command> autoChooser = new SendableChooser<>();
+    private static SendableChooser<Integer> autoChooser = new SendableChooser<>();
 
     // Team color
     private static SendableChooser<String> colorChooser = new SendableChooser<>();
@@ -146,10 +146,10 @@ public class RobotContainer {
     }
 
     public void configureAuto() {
-        autoChooser.addOption("Test Path", new AutoTest());
-        autoChooser.setDefaultOption("Right (4 Ball)", new AutoRight());
-        autoChooser.addOption("Left (2 Ball Popcorn)", new AutoLeft());
-        autoChooser.addOption("Middle (2 Ball Popcorn)", new AutoMiddle());
+        autoChooser.addOption("Test Path", 0);
+        autoChooser.setDefaultOption("Right (4 Ball)", 1);
+        autoChooser.addOption("Left (2 Ball Popcorn)", 2);
+        autoChooser.addOption("Middle (2 Ball Popcorn)", 3);
         SmartDashboard.putData("Autonomous", autoChooser);
     }
 
@@ -160,7 +160,20 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return autoChooser.getSelected();
+        int selected = autoChooser.getSelected();
+
+        switch (selected) {
+            case 0:
+            return new AutoTest();
+            case 1:
+            return new AutoRight();
+            case 2:
+            return new AutoLeft();
+            case 3:
+            return new AutoMiddle();
+            default:
+            return null;
+        }
     }
 
     public static String getTeamColor() {
