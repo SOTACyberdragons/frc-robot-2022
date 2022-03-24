@@ -126,8 +126,8 @@ public class Constants {
 	public static final double kSensorSpread = 610; // Distance between the sensors in mm
 
 	// TODO Ramsete constants that control speed
-	public static final double kMaxSpeedMetersPerSecond = 4.0; // initially 3
-	public static final double kMaxAccelerationMetersPerSecondSquared = 2.0; // initially 3
+	public static final double kMaxSpeedMetersPerSecond = 3.0; // initially 3
+	public static final double kMaxAccelerationMetersPerSecondSquared = 1.5; // initially 3
 
 	public static final double kRamseteB = 2;
 	public static final double kRamseteZeta = 0.7;
