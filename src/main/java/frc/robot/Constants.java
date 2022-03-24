@@ -91,14 +91,14 @@ public class Constants {
 	public static final double kEncoderMaxSpeed = 33000;
 
 	// TODO Forward robot characterization data
-	public static final double ksDrivetrain = 0.77132;
-	public static final double kvDrivetrain = 5.0013;
-	public static final double kaDrivetrain = 2.0347;
+	public static final double ksDrivetrain = 0.7709375;
+	public static final double kvDrivetrain = 5.02325;
+	public static final double kaDrivetrain = 1.92175;
 
 	// TODO PID values for forward drivetrain commands
-	public static final double kPDrivetrain = 0.12991;
+	public static final double kPDrivetrain = 0.12887;
 	public static final double kIDrivetrain = 0.0;
-	public static final double kDDrivetrain = 0.013708;
+	public static final double kDDrivetrain = 0.01320825;
 
 	// TODO Angular robot characterization data
 	public static final double ksAngular = 0.7918;

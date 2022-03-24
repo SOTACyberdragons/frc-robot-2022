@@ -57,19 +57,14 @@ public class AutoMiddle extends SequentialCommandGroup {
             Constants.kMaxAccelerationMetersPerSecondSquared);
 
     public AutoMiddle() {
-
-        // TODO See if changing paths to Robot relative works better
-        // RobotContainer.m_drive.resetOdometry(MIDDLE_1.getInitialPose());
-
         addCommands(
                 new ParallelDeadlineGroup(
                         new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_1).robotRelative().robotRelative(),
                         new SpinIntake()),
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_2),
-                        new SpinUpShooter("Low")),
-                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("Low")),
+                new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_2),
+                new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("High")),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, MIDDLE_3),
                         new SpinIntake()),
-                new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("Low")));
+                new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("High")));
     }
 }

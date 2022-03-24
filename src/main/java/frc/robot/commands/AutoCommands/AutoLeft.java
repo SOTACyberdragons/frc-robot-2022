@@ -60,20 +60,17 @@ public class AutoLeft extends SequentialCommandGroup {
             Constants.kMaxAccelerationMetersPerSecondSquared);
 
     public AutoLeft() {
-
-        // TODO See if changing paths to Robot relative works better
-        // RobotContainer.m_drive.resetOdometry(LEFT_1.getInitialPose());
-
         addCommands(
-        new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_1).robotRelative(),
-                new SpinIntake()),
-        new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_2),
-                new SpinUpShooter("High")),
-        new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("High")),
-        new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_3),
-                new SpinIntake()),
-        new ParallelDeadlineGroup(new WaitCommand(1), new ShootCargo("High")),
-        new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_4),
-        new SpinIntake()));
+                new ParallelDeadlineGroup(
+                        new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_1)
+                                .robotRelative(),
+                        new SpinIntake()),
+                new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_2),
+                new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("High")),
+                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_3),
+                        new SpinIntake()),
+                new ParallelDeadlineGroup(new WaitCommand(2), new ShootCargo("High")),
+                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, LEFT_4),
+                        new SpinIntake()));
     }
 }

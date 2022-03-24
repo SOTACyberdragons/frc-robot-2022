@@ -64,11 +64,9 @@ public class AutoTest extends SequentialCommandGroup {
         addCommands(
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, TEST_1).robotRelative(),
                         new SpinIntake()),
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, TEST_2),
-                        new SpinUpShooter("Low")),
+                new DrivetrainRamseteCommand(RobotContainer.m_drive, TEST_2),
                 new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, TEST_3),
                         new SpinIntake()),
-                new ParallelDeadlineGroup(new DrivetrainRamseteCommand(RobotContainer.m_drive, TEST_4),
-                        new SpinUpShooter("Low")));
+                new DrivetrainRamseteCommand(RobotContainer.m_drive, TEST_4));
     }
 }

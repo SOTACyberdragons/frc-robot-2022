@@ -49,7 +49,6 @@ import frc.robot.subsystems.TensorVision;
 public class DifferentialDriveWithJoysticks extends CommandBase {
     @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
 
-    TensorVision m_TensorVision = new TensorVision();
     PIDController turnController = new PIDController(Constants.kPAngular, Constants.kIAngular, Constants.kDAngular);
 
     public DifferentialDriveWithJoysticks() {
@@ -72,11 +71,11 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
         forwardSpeed = RobotContainer.getXBoxThrottle();
         rotationSpeed = RobotContainer.getXBoxRotation();
 
-        if (RobotContainer.m_sensors.getDistanceOffset() < (Constants.kShooterSweetSpot * 1.5)) {
-            RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0.5);
-        } else {
-            RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);
-        }
+        // if (RobotContainer.m_sensors.getDistanceOffset() < (Constants.kShooterSweetSpot * 1.5)) {
+        //     RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0.5);
+        // } else {
+        //     RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, 0);
+        // }
 
         // If we have a target, rumble the controller
         if (TensorVision.hasTargets(m_targets, RobotContainer.getTeamColor())) {

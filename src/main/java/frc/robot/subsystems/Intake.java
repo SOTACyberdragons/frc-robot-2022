@@ -53,9 +53,10 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
         intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
-        intakeSolenoid = new DoubleSolenoid(12, PneumaticsModuleType.CTREPCM, RobotMap.DOUBLE_SOLENOID_ZERO, RobotMap.DOUBLE_SOLENOID_ONE);
-       // compressor = new Compressor(12, PneumaticsModuleType.CTREPCM);
-       intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+        intakeSolenoid = new DoubleSolenoid(12, PneumaticsModuleType.CTREPCM, RobotMap.DOUBLE_SOLENOID_ZERO,
+                RobotMap.DOUBLE_SOLENOID_ONE);
+        // compressor = new Compressor(12, PneumaticsModuleType.CTREPCM);
+        intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void startIntake(double IntakeSpeed) {
