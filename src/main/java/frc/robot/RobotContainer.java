@@ -62,7 +62,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SensorArray;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.JoystickAnalogButton;
-import frc.robot.AutoCommands.simpleAuto;
 
 public class RobotContainer {
 
@@ -151,9 +150,6 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Right (4 Ball)", 1);
         autoChooser.addOption("Left (2 Ball Popcorn)", 2);
         autoChooser.addOption("Middle (2 Ball Popcorn)", 3);
-        autoChooser.addOption("Left (simpleAuto)", 4);
-        autoChooser.addOption("Right (simpleAuto)", 5);
-        autoChooser.addOption("Middle (simpleAuto)", 6);
         SmartDashboard.putData("Autonomous", autoChooser);
     }
 
@@ -174,12 +170,6 @@ public class RobotContainer {
             case 2:
             return new AutoLeft();
             case 3:
-            return new AutoLeft();
-            case 4:
-            return new AutoRight();
-            case 5:
-            return new AutoMiddle();
-            case 6:
             return new AutoMiddle();
             default:
             return null;

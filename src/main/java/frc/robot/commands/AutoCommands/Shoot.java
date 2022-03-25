@@ -34,85 +34,82 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.commands.AutoCommands;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotMap;
-import frc.robot.utils.TalonFXConfig;
+public class Shoot extends CommandBase {
+    // Motor characterization
+    private static double kS = 0.56092;
+    private static double kV = 0.10938;
+    private static double kA = 0.0060046;
 
-public class Shooter extends SubsystemBase {
+    // Motor PID values
+    private static double kP = 0.00052791;
+    private static double kI = 0;
+    private static double kD = 0;
 
-    // Create Falcon 500 motor objects
-    public WPI_TalonFX leftMotor, rightMotor;
+    // Additional motor control setting for the PID controller
+    private double velocityTolerance = 2;
+    private static SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(kS, kV, kA);
 
-    // Moto speed containers
-    public static double m_leftMotorSpeed;
-    public static double m_rightMotorSpeed;
+    // Initialize the PID Controller
+    public PIDController m_pidController = new PIDController(kP, kI, kD);
 
-    // Some Talon specific variables
-    public final static int kTimeoutMs = 30;
-    public static final double kSensorUnitsPerRotation = 2048;
-    public static final double gearRatio = 1;
+    // Expose input variables
+    private double m_shooterTargetRPS = 0;
+    private double m_feederPower = 0.5;
 
-    /** Creates a new Shooter */
-    public Shooter() {
+    /** Creates a new SpinShooter. */
+    public Shoot(String profile) {
+        String my_profile = profile;
 
-        // Assign the motor objects
-        leftMotor = TalonFXConfig.generateDefaultTalon(RobotMap.LEFT_SHOOTER_MOTOR);
-        rightMotor = TalonFXConfig.generateDefaultTalon(RobotMap.RIGHT_SHOOTER_MOTOR);
-
-        // Reset any embedded the motor configurations
-        leftMotor.configFactoryDefault();
-        rightMotor.configFactoryDefault();
-
-        // Set the motor encoder's sensor phase (Don't change)
-        leftMotor.setSensorPhase(false);
-        rightMotor.setSensorPhase(false);
-
-        // Make sure the motors are turning the right direction
-        leftMotor.setInverted(true);
-        rightMotor.setInverted(false);
-
-        // Behavior of the motors under 0 power. Brake or coast
-        leftMotor.setNeutralMode(NeutralMode.Coast);
-        rightMotor.setNeutralMode(NeutralMode.Coast);
-
-        // We make the left a follower, so all commands need to be sent to the right
-        // motor
-        //leftMotor.follow(rightMotor);
-
-        // Finally, clean up on Talon data
-        zeroSensors();
-
+        if (my_profile == "High") {
+            this.m_shooterTargetRPS = Constants.kShooterRPSHigh;
+        } else if (my_profile == "Low") {
+            this.m_shooterTargetRPS = Constants.kShooterRPSLow;
+        } else {
+            // Default to the high shooter profile
+            this.m_shooterTargetRPS = Constants.kShooterRPSHigh;
+        }
+        // Use addRequirements() here to declare subsystem dependencies.
     }
 
+    // Called when the command is initially scheduled.
     @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
+    public void initialize() {
+        m_pidController.setSetpoint(m_shooterTargetRPS);
+        m_pidController.setTolerance(velocityTolerance);
     }
 
-    /* Zero all sensors on Talons */
-    public void zeroSensors() {
-        leftMotor.getSensorCollection().setIntegratedSensorPosition(0, kTimeoutMs);
-        rightMotor.getSensorCollection().setIntegratedSensorPosition(0, kTimeoutMs);
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        double pidOutput = m_pidController.calculate(RobotContainer.m_shooter.getRPS(), m_shooterTargetRPS)
+                + feedForward.calculate(m_shooterTargetRPS);
+
+        // IMPORTANT! Always divide pidOutput by 12 for Falcon 500s
+        RobotContainer.m_shooter.setPower(pidOutput / 12);
+
+        RobotContainer.m_feeder.feederIn(m_feederPower);
     }
 
-    public void setPower(double powerLevel) {
-        rightMotor.set(ControlMode.PercentOutput, powerLevel);
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        RobotContainer.m_shooter.setPower(0);
     }
 
-    public double getPower() {
-        return rightMotor.get();
-    }
-
-    public double getRPS() {
-        double ticksPerSample = rightMotor.getSelectedSensorVelocity();
-        double ticksPerSecond = ticksPerSample * 10;
-        double rps = ticksPerSecond / kSensorUnitsPerRotation;
-        return rps;
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        System.out.println("here");
+        return false;
+        
     }
 }

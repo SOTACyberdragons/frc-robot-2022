@@ -42,8 +42,8 @@ import frc.robot.RobotContainer;
 
 public class SpinIntake extends CommandBase {
 
-    public static double kIntakeSpeed = 0.75;
-    public static double kFeederSpeed = 0.5;
+    public static double kIntakeSpeed = 0.8;
+    public static double kFeederSpeed = 0.8;
 
     public SpinIntake() {
         // addRequirements(Robot.m_intake, Robot.m_feeder);

@@ -84,6 +84,9 @@ public class TensorVision extends SubsystemBase {
 
     // Do we have a target? If not, move on ...
     public static boolean hasTargets(Target[] targetList, String teamColor) {
+        if (targetList == null) {
+            return false;
+        }
         boolean foundTarget = false;
         for (int i = 0; i < targetList.length; i++) {
             if (targetList[i].color.equals(teamColor)) {
