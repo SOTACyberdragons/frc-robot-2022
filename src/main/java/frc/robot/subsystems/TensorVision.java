@@ -87,13 +87,14 @@ public class TensorVision extends SubsystemBase {
         if (targetList == null) {
             return false;
         }
-        boolean foundTarget = false;
+
         for (int i = 0; i < targetList.length; i++) {
             if (targetList[i].color.equals(teamColor)) {
-                foundTarget = true;
+                return true;
             }
         }
-        return foundTarget;
+
+        return false;
     }
 
     // Get the array index of the best target, the target with the close y value
