@@ -52,6 +52,7 @@ import frc.robot.commands.ShootCargo;
 import frc.robot.commands.SpinIntake;
 import frc.robot.commands.SpinOutake;
 import frc.robot.commands.AutoCommands.AutoRight;
+import frc.robot.commands.AutoCommands.AutoSimple;
 import frc.robot.commands.AutoCommands.AutoTest;
 import frc.robot.commands.AutoCommands.AutoLeft;
 import frc.robot.commands.AutoCommands.AutoMiddle;
@@ -146,7 +147,7 @@ public class RobotContainer {
     }
 
     public void configureAuto() {
-        autoChooser.addOption("Test Path", 0);
+        autoChooser.addOption("Simple auto", 0);
         autoChooser.setDefaultOption("Right (4 Ball)", 1);
         autoChooser.addOption("Left (2 Ball Popcorn)", 2);
         autoChooser.addOption("Middle (2 Ball Popcorn)", 3);
@@ -164,7 +165,7 @@ public class RobotContainer {
 
         switch (selected) {
             case 0:
-            return new AutoTest();
+            return new AutoSimple();
             case 1:
             return new AutoRight();
             case 2:
