@@ -36,22 +36,28 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 public class SpinIntake extends CommandBase {
 
+    private Timer timer;
+    
     public static double kIntakeSpeed = 0.8;
-    public static double kFeederSpeed = 0.8;
+    public static double kFeederSpeed = 0.4;
 
     public SpinIntake() {
+        timer = new Timer();
         // addRequirements(Robot.m_intake, Robot.m_feeder);
     }
 
     // Called just before this Command runs the first time
     @Override
     public void initialize() { 
+        timer.start();
+
         RobotContainer.m_intake.startIntake(kIntakeSpeed);        
         RobotContainer.m_feeder.feederIn(kFeederSpeed);
         
@@ -62,7 +68,7 @@ public class SpinIntake extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     @Override
-    public void execute() {        
+    public void execute() {
         if (!RobotContainer.m_feeder.getBreakBeam()) {
             RobotContainer.m_feeder.feederStop();
             RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.0);

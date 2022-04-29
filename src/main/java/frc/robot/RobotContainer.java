@@ -54,6 +54,7 @@ import frc.robot.commands.SpinOutake;
 import frc.robot.commands.AutoCommands.AutoRight;
 import frc.robot.commands.AutoCommands.AutoSimple;
 import frc.robot.commands.AutoCommands.AutoTest;
+import frc.robot.commands.AutoCommands.MoveAcrossLine;
 import frc.robot.commands.AutoCommands.AutoLeft;
 import frc.robot.commands.AutoCommands.AutoMiddle;
 import frc.robot.subsystems.Climber;
@@ -126,7 +127,7 @@ public class RobotContainer {
         bumperL.whenHeld(new ShootCargo("Low"));
 
         // Targeting buttons
-        buttonX.whenHeld(new PostUp());
+        //buttonX.whenHeld(new PostUp());
 
         // Climber arm buttons
         rightStick.whenHeld(new ClimberArms("UP"));
@@ -135,8 +136,9 @@ public class RobotContainer {
         dPadUp.whenHeld(new ClimberPivot("FORWARD"));
         dPadDown.whenHeld(new ClimberPivot("BACKWARD"));
 
-        //buttonA.whenPressed(new MoveIntake("up"));
+        buttonX.whenPressed(new MoveIntake("up"));
         buttonY.whenPressed(new MoveIntake("down"));
+        //buttonX.whenPressed(new MoveIntake("up"));
     }
 
     public RobotContainer() {
@@ -151,6 +153,7 @@ public class RobotContainer {
         autoChooser.setDefaultOption("Right (4 Ball)", 1);
         autoChooser.addOption("Left (2 Ball Popcorn)", 2);
         autoChooser.addOption("Middle (2 Ball Popcorn)", 3);
+        autoChooser.addOption("Do Nothing", 4);
         SmartDashboard.putData("Autonomous", autoChooser);
     }
 
@@ -172,6 +175,8 @@ public class RobotContainer {
             return new AutoLeft();
             case 3:
             return new AutoMiddle();
+            case 4:
+            return new MoveAcrossLine();
             default:
             return null;
         }

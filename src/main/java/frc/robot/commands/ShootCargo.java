@@ -38,6 +38,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -65,6 +66,8 @@ public class ShootCargo extends CommandBase {
     private double m_shooterTargetRPS = 0;
     private double m_feederPower = 0;
 
+    private Timer timer;
+
     /** Creates a new SpinShooter. */
     public ShootCargo(String profile) {
         String my_profile = profile;
@@ -85,6 +88,8 @@ public class ShootCargo extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        this.timer = new Timer();
+        
         m_pidController.setSetpoint(m_shooterTargetRPS);
         m_pidController.setTolerance(velocityTolerance);
     }
@@ -101,7 +106,7 @@ public class ShootCargo extends CommandBase {
         // Haptic functions. Right is shooter, left is intake.
         RobotContainer.m_controller.setRumble(RumbleType.kRightRumble, (RobotContainer.m_shooter.getRPS() / m_shooterTargetRPS));
 
-        if (m_pidController.atSetpoint()) {
+        if (m_pidController.atSetpoint() || timer.get() > 2) {
             RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, m_feederPower);
             RobotContainer.m_feeder.feederIn(m_feederPower);
         } else {
