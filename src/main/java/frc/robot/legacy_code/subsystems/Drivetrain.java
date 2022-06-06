@@ -45,14 +45,19 @@ package frc.robot.legacy_code.subsystems;
 // 	public final static double WHEEL_DIAMETER = 6;
 // 	public final static double PULSE_PER_REVOLUTION = 2048; // from
 // 															// http://www.ctr-electronics.com/talon-fx.html#product_tabs_tech_specs
-// 	public final static double REDUCTION_TO_ENCODER_FAST = PULSE_PER_REVOLUTION * 7.95; // 11:42 24:50
-// 	public final static double REDUCTION_TO_ENCODER_SLOW = (2048 * 42 * 60) / (11 * 14); // 11:42 14:60
-// 	public final static double DISTANCE_PER_PULSE = (Math.PI * WHEEL_DIAMETER) / REDUCTION_TO_ENCODER_FAST;
+// 	public final static double REDUCTION_TO_ENCODER_FAST = PULSE_PER_REVOLUTION * 7.95; // 11:42
+// 24:50
+// 	public final static double REDUCTION_TO_ENCODER_SLOW = (2048 * 42 * 60) / (11 * 14); // 11:42
+// 14:60
+// 	public final static double DISTANCE_PER_PULSE = (Math.PI * WHEEL_DIAMETER) /
+// REDUCTION_TO_ENCODER_FAST;
 // 	public final static double DISTANCE_PER_PULSE_METERS = Units.inchesToMeters(DISTANCE_PER_PULSE);
-// 	public final static double MEETERS_PER_SECOND = 7.95 * 2 * Math.PI * Units.inchesToMeters(3) / 60;
+// 	public final static double MEETERS_PER_SECOND = 7.95 * 2 * Math.PI * Units.inchesToMeters(3) /
+// 60;
 // 	public final static double MAX_SPEED = 110.0;
 // 	public static final double MAX_ACCEL = 1.0 / 0.0254; // 0.2g in in/s^2
-// 	public static final double MAX_JERK = 20 / 0.0254; // 30 / 0.0254; //from example code in Pathfinder
+// 	public static final double MAX_JERK = 20 / 0.0254; // 30 / 0.0254; //from example code in
+// Pathfinder
 // 	public final double encoderMaxSpeed = 33000;
 // 	public final double distanceBetweenWheels = 24;
 
@@ -106,12 +111,14 @@ package frc.robot.legacy_code.subsystems;
 // 	}
 
 // 	public void initDriveTalonSRX(final WPI_TalonSRX talon) {
-// 		talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, Constants.PID_LOOP_IDX,
+// 		talon.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute,
+// Constants.PID_LOOP_IDX,
 // 				Constants.TIMEOUT_MS);
 
 // 		/* Set relevant frame periods to be at least as fast as periodic rate */
 // 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.TIMEOUT_MS);
-// 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.TIMEOUT_MS);
+// 		talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10,
+// Constants.TIMEOUT_MS);
 
 // 		/* set the peak and nominal outputs */
 // 		talon.configNominalOutputForward(0, Constants.TIMEOUT_MS);
@@ -290,13 +297,15 @@ package frc.robot.legacy_code.subsystems;
 
 // 	public void setDistance(final double distanceIn) {
 // 		final double distanceTicks = distanceIn / DISTANCE_PER_PULSE;
-// 		final double totalDistance = (getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2 + distanceTicks;
+// 		final double totalDistance = (getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2 +
+// distanceTicks;
 // 		final double angle = getAngle();
 // 		rightMaster.set(ControlMode.MotionMagic, totalDistance, DemandType.AuxPID, angle);
 // 	}
 
 // 	public double getDistance() {
-// 		return ((getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2) * DISTANCE_PER_PULSE_METERS;
+// 		return ((getLeftRawEncoderTicks() + getRightRawEncoderTicks()) / 2) *
+// DISTANCE_PER_PULSE_METERS;
 // 	}
 
 // 	public double getRightDistanceInches() {
@@ -316,7 +325,8 @@ package frc.robot.legacy_code.subsystems;
 // 		// -totalAngle);
 // 		// leftMaster.set(ControlMode.PercentOutput, distance,
 // 		// DemandType.ArbitraryFeedForward, totalAngle);
-// 		rightMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, -totalAngle);
+// 		rightMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward,
+// -totalAngle);
 // 	}
 
 // 	// inches per second

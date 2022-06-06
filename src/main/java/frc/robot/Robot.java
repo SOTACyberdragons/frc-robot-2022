@@ -1,34 +1,34 @@
-//                                                 @                              
-//                                                  &@@                           
-//                          * .                    * @@@                          
-//                           * (@   ,                 @@@@                        
-//                               @@@*       /          @@@@                       
-//                                @@@@@@    @@(     ,* ,@@@@@                     
-//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
-//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
-//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
-//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
-//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
-//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
-//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
-//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
-//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
-//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
-//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
-//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
-//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
-//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
-//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
-//                ***   @@@@@@@@@@@  ,****@@@,                                    
-//                 *      @@@@@@@@@@.  *****@@                                    
-//                          @@@@@@@@@#   ***%@                                    
-//                           ,@@@@@@@@@    ***@,  /                               
-//                              @@@@@@@@@(    ***   //////*.     */               
-//                                 //@@@@@@%/      *    ///////                   
-//                                 @    //////////                                
-//                                   @@**                                         
-//                                       @*****                                   
-//                                             *                                  
+//                                                 @
+//                                                  &@@
+//                          * .                    * @@@
+//                           * (@   ,                 @@@@
+//                               @@@*       /          @@@@
+//                                @@@@@@    @@(     ,* ,@@@@@
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@
+//                      #********,    @@@@@@@@@@    ***  @@@@@@
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*
+//                ***   @@@@@@@@@@@  ,****@@@,
+//                 *      @@@@@@@@@@.  *****@@
+//                          @@@@@@@@@#   ***%@
+//                           ,@@@@@@@@@    ***@,  /
+//                              @@@@@@@@@(    ***   //////*.     */
+//                                 //@@@@@@%/      *    ///////
+//                                 @    //////////
+//                                   @@**
+//                                       @*****
+//                                             *
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -52,7 +52,6 @@ public class Robot extends TimedRobot {
         RobotContainer.m_drive.resetOdometry(RobotContainer.m_drive.getPose());
 
         m_robotContainer = new RobotContainer();
-
     }
 
     @Override
@@ -75,8 +74,7 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void autonomousPeriodic() {
-    }
+    public void autonomousPeriodic() {}
 
     @Override
     public void teleopInit() {
@@ -84,13 +82,12 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
 
-        CommandScheduler.getInstance().setDefaultCommand(RobotContainer.m_drive,
-                new DifferentialDriveWithJoysticks());
+        CommandScheduler.getInstance()
+                .setDefaultCommand(RobotContainer.m_drive, new DifferentialDriveWithJoysticks());
     }
 
     @Override
-    public void teleopPeriodic() {
-    }
+    public void teleopPeriodic() {}
 
     @Override
     public void testInit() {
@@ -100,5 +97,4 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {}
-
 }

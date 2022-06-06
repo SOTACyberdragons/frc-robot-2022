@@ -1,34 +1,34 @@
-//                                                 @                             
-//                                                  &@@                           
-//                          * .                    * @@@                          
-//                           * (@   ,                 @@@@                        
-//                               @@@*       /          @@@@                       
-//                                @@@@@@    @@(     ,* ,@@@@@                     
-//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
-//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
-//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
-//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
-//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
-//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
-//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
-//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
-//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
-//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
-//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
-//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
-//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
-//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
-//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
-//                ***   @@@@@@@@@@@  ,****@@@,                                    
-//                 *      @@@@@@@@@@.  *****@@                                    
-//                          @@@@@@@@@#   ***%@                                    
-//                           ,@@@@@@@@@    ***@,  /                               
-//                              @@@@@@@@@(    ***   //////*.     */               
-//                                 //@@@@@@%/      *    ///////                   
-//                                 @    //////////                                
-//                                   @@**                                         
-//                                       @*****                                   
-//                                             *                                  
+//                                                 @
+//                                                  &@@
+//                          * .                    * @@@
+//                           * (@   ,                 @@@@
+//                               @@@*       /          @@@@
+//                                @@@@@@    @@(     ,* ,@@@@@
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@
+//                      #********,    @@@@@@@@@@    ***  @@@@@@
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*
+//                ***   @@@@@@@@@@@  ,****@@@,
+//                 *      @@@@@@@@@@.  *****@@
+//                          @@@@@@@@@#   ***%@
+//                           ,@@@@@@@@@    ***@,  /
+//                              @@@@@@@@@(    ***   //////*.     */
+//                                 //@@@@@@%/      *    ///////
+//                                 @    //////////
+//                                   @@**
+//                                       @*****
+//                                             *
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -47,10 +47,11 @@ import frc.robot.subsystems.TensorVision;
 
 /** An example command that uses an example subsystem. */
 public class DifferentialDriveWithJoysticks extends CommandBase {
-    @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-
+    @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
     TensorVision m_TensorVision = new TensorVision();
-    PIDController turnController = new PIDController(Constants.kPAngular, Constants.kIAngular, Constants.kDAngular);
+
+    PIDController turnController =
+            new PIDController(Constants.kPAngular, Constants.kIAngular, Constants.kDAngular);
 
     public DifferentialDriveWithJoysticks() {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -59,8 +60,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-    }
+    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
@@ -80,8 +80,10 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
 
         // If we have a target, rumble the controller
         if (TensorVision.hasTargets(m_targets, RobotContainer.getTeamColor())) {
-            RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble,
-                    TensorVision.getRumbleStrength(TensorVision.m_targets, RobotContainer.getTeamColor()));
+            RobotContainer.m_controller.setRumble(
+                    RumbleType.kLeftRumble,
+                    TensorVision.getRumbleStrength(
+                            TensorVision.m_targets, RobotContainer.getTeamColor()));
 
             // If the B button is pressed, correct the angle
             if (RobotContainer.m_controller.getBButton()) {
@@ -89,7 +91,9 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
                 // -1.0 required to ensure positive PID controller effort _increases_ yaw
 
                 // Poor man's PID
-                targetYaw = TensorVision.getTargetYaw(TensorVision.m_targets, RobotContainer.getTeamColor());
+                targetYaw =
+                        TensorVision.getTargetYaw(
+                                TensorVision.m_targets, RobotContainer.getTeamColor());
 
                 // TODO Should slightly turn towards target. Tune these values if needed
                 if (targetYaw > 2) {
@@ -97,7 +101,9 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
                 } else if (targetYaw < 2) {
                     rotationSpeed = 0.15;
                 }
-                // rotationSpeed = -turnController.calculate(TensorVision.getTargetYaw(TensorVision.m_targets, RobotContainer.getTeamColor()), 0);
+                // rotationSpeed =
+                // -turnController.calculate(TensorVision.getTargetYaw(TensorVision.m_targets,
+                // RobotContainer.getTeamColor()), 0);
             }
         } else {
             RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0);
@@ -107,8 +113,7 @@ public class DifferentialDriveWithJoysticks extends CommandBase {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override

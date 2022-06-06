@@ -6,12 +6,10 @@ package frc.robot.legacy_code.commands;
 // import edu.wpi.first.wpilibj.command.Command;
 // import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
 // /**
 //  *
 //  */
 // public class ShootOut extends CommandBase {
-
 
 //     public ShootOut() {
 //         addRequirements(Robot.shooter);
@@ -19,14 +17,14 @@ package frc.robot.legacy_code.commands;
 
 //     // Called just before this Command runs the first time
 //     @Override
-//     public void initialize() {  
+//     public void initialize() {
 
-//     } 
+//     }
 
 //     // Called repeatedly when this Command is scheduled to run
 //     @Override
 //     public void execute() {
-//         Robot.shooter.shootOut();	
+//         Robot.shooter.shootOut();
 //         System.out.println("Shooting!!!!");
 //     }
 
@@ -44,6 +42,5 @@ package frc.robot.legacy_code.commands;
 
 //     // Called when another command which requires one or more of the same
 //     // subsystems is scheduled to run
-    
-    
+
 // }

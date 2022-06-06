@@ -1,34 +1,34 @@
-//                                                 @                             
-//                                                  &@@                           
-//                          * .                    * @@@                          
-//                           * (@   ,                 @@@@                        
-//                               @@@*       /          @@@@                       
-//                                @@@@@@    @@(     ,* ,@@@@@                     
-//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
-//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
-//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
-//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
-//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
-//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
-//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
-//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
-//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
-//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
-//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
-//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
-//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
-//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
-//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
-//                ***   @@@@@@@@@@@  ,****@@@,                                    
-//                 *      @@@@@@@@@@.  *****@@                                    
-//                          @@@@@@@@@#   ***%@                                    
-//                           ,@@@@@@@@@    ***@,  /                               
-//                              @@@@@@@@@(    ***   //////*.     */               
-//                                 //@@@@@@%/      *    ///////                   
-//                                 @    //////////                                
-//                                   @@**                                         
-//                                       @*****                                   
-//                                             *                                  
+//                                                 @
+//                                                  &@@
+//                          * .                    * @@@
+//                           * (@   ,                 @@@@
+//                               @@@*       /          @@@@
+//                                @@@@@@    @@(     ,* ,@@@@@
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@
+//                      #********,    @@@@@@@@@@    ***  @@@@@@
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*
+//                ***   @@@@@@@@@@@  ,****@@@,
+//                 *      @@@@@@@@@@.  *****@@
+//                          @@@@@@@@@#   ***%@
+//                           ,@@@@@@@@@    ***@,  /
+//                              @@@@@@@@@(    ***   //////*.     */
+//                                 //@@@@@@%/      *    ///////
+//                                 @    //////////
+//                                   @@**
+//                                       @*****
+//                                             *
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -38,9 +38,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 public class DriveDistance extends CommandBase {
     public static double driveDistance;
@@ -74,10 +74,15 @@ public class DriveDistance extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        double pidOutput = MathUtil
-                .clamp((m_pidController.calculate(RobotContainer.m_drive.getAverageDistance()) + kF), -0.5, 0.5);
+        double pidOutput =
+                MathUtil.clamp(
+                        (m_pidController.calculate(RobotContainer.m_drive.getAverageDistance())
+                                + kF),
+                        -0.5,
+                        0.5);
         RobotContainer.m_drive.m_drive(pidOutput, 0);
-        RobotContainer.m_controller.setRumble(RumbleType.kRightRumble,
+        RobotContainer.m_controller.setRumble(
+                RumbleType.kRightRumble,
                 1 - (m_pidController.calculate(RobotContainer.m_drive.getAverageDistance())));
         RobotContainer.m_controller.setRumble(RumbleType.kLeftRumble, 0.25);
     }

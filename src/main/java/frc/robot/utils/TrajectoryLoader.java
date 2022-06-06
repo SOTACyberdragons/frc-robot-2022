@@ -1,34 +1,34 @@
-//                                                 @                             
-//                                                  &@@                           
-//                          * .                    * @@@                          
-//                           * (@   ,                 @@@@                        
-//                               @@@*       /          @@@@                       
-//                                @@@@@@    @@(     ,* ,@@@@@                     
-//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
-//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
-//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
-//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
-//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
-//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
-//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
-//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
-//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
-//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
-//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
-//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
-//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
-//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
-//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
-//                ***   @@@@@@@@@@@  ,****@@@,                                    
-//                 *      @@@@@@@@@@.  *****@@                                    
-//                          @@@@@@@@@#   ***%@                                    
-//                           ,@@@@@@@@@    ***@,  /                               
-//                              @@@@@@@@@(    ***   //////*.     */               
-//                                 //@@@@@@%/      *    ///////                   
-//                                 @    //////////                                
-//                                   @@**                                         
-//                                       @*****                                   
-//                                            
+//                                                 @
+//                                                  &@@
+//                          * .                    * @@@
+//                           * (@   ,                 @@@@
+//                               @@@*       /          @@@@
+//                                @@@@@@    @@(     ,* ,@@@@@
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@
+//                      #********,    @@@@@@@@@@    ***  @@@@@@
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*
+//                ***   @@@@@@@@@@@  ,****@@@,
+//                 *      @@@@@@@@@@.  *****@@
+//                          @@@@@@@@@#   ***%@
+//                           ,@@@@@@@@@    ***@,  /
+//                              @@@@@@@@@(    ***   //////*.     */
+//                                 //@@@@@@%/      *    ///////
+//                                 @    //////////
+//                                   @@**
+//                                       @*****
+//
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -41,9 +41,6 @@
 
 package frc.robot.utils;
 
-import java.io.IOException;
-import java.util.List;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -52,19 +49,23 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants;
+import java.io.IOException;
+import java.util.List;
 
 public final class TrajectoryLoader {
 
-    private static final TrajectoryConfig MAX_SPEED_TRAJECTORY = new TrajectoryConfig(
-            Constants.kMaxSpeedMetersPerSecond, Constants.kMaxAccelerationMetersPerSecondSquared)
+    private static final TrajectoryConfig MAX_SPEED_TRAJECTORY =
+            new TrajectoryConfig(
+                            Constants.kMaxSpeedMetersPerSecond,
+                            Constants.kMaxAccelerationMetersPerSecondSquared)
                     .setKinematics(Constants.kDriveKinematics);
 
-    private static final Trajectory DEFAULT_TRAJECTORY = TrajectoryGenerator.generateTrajectory(
-            new Pose2d(0, 0, new Rotation2d()),
-            List.of(),
-            new Pose2d(1, 0, new Rotation2d()),
-            new TrajectoryConfig(0.1, 0.1)
-                    .setKinematics(Constants.kDriveKinematics));
+    private static final Trajectory DEFAULT_TRAJECTORY =
+            TrajectoryGenerator.generateTrajectory(
+                    new Pose2d(0, 0, new Rotation2d()),
+                    List.of(),
+                    new Pose2d(1, 0, new Rotation2d()),
+                    new TrajectoryConfig(0.1, 0.1).setKinematics(Constants.kDriveKinematics));
 
     // Function that gets a trajectory from path weaver,
     // but will give a default one if it has an issue

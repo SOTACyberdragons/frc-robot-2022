@@ -20,24 +20,24 @@ package frc.robot.legacy_code.commands;
 //         addRequirements(Robot.intake);
 //         direction = this.direction;
 //     }
-    
+
 //     // Called just before this Command runs the first time
 //     @Override
-//     public void initialize() {  
+//     public void initialize() {
 //         if (direction == "up"){
 //             Robot.intake.moveIntake("up");
 //         } else if (direction == "down") {
 //            Robot.intake.moveIntake("down");
 //         }
 //         System.out.println("INtake moving!!!!");
-//     } 
+//     }
 
 //     // Called repeatedly when this Command is scheduled to run
 //     @Override
 //     public void execute() {
-        
+
 //     }
-    
+
 //     @Override
 // 	public boolean isFinished() {
 // 		return true;
@@ -50,5 +50,5 @@ package frc.robot.legacy_code.commands;
 
 //     // Called when another command which requires one or more of the same
 //     // subsystems is scheduled to run
-    
+
 // }

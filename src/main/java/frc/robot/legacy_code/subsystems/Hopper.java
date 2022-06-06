@@ -16,8 +16,6 @@ package frc.robot.legacy_code.subsystems;
 
 //     public Hopper() {
 
-       
-       
 //         hopperMotor = new WPI_TalonSRX(RobotMap.HOPPER_MOTOR);
 
 //     }
@@ -27,7 +25,6 @@ package frc.robot.legacy_code.subsystems;
 
 //    }
 
- 
 //     public void stopHopping(){
 //         hopperMotor.set(0);
 //     }

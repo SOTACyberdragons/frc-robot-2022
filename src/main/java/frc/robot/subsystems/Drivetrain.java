@@ -1,34 +1,34 @@
-//                                                 @                             
-//                                                  &@@                           
-//                          * .                    * @@@                          
-//                           * (@   ,                 @@@@                        
-//                               @@@*       /          @@@@                       
-//                                @@@@@@    @@(     ,* ,@@@@@                     
-//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@                    
-//                      #********,    @@@@@@@@@@    ***  @@@@@@                   
-//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@                  
-//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@                 
-//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@                
-//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@                
-//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@                
-//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@               
-//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@              
-//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@            
-//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@           
-//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#          
-//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@          
-//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@           
-//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*           
-//                ***   @@@@@@@@@@@  ,****@@@,                                    
-//                 *      @@@@@@@@@@.  *****@@                                    
-//                          @@@@@@@@@#   ***%@                                    
-//                           ,@@@@@@@@@    ***@,  /                               
-//                              @@@@@@@@@(    ***   //////*.     */               
-//                                 //@@@@@@%/      *    ///////                   
-//                                 @    //////////                                
-//                                   @@**                                         
-//                                       @*****                                   
-//                                             *                                  
+//                                                 @
+//                                                  &@@
+//                          * .                    * @@@
+//                           * (@   ,                 @@@@
+//                               @@@*       /          @@@@
+//                                @@@@@@    @@(     ,* ,@@@@@
+//                         %@@@@/*  @@@@@@@@       ,**. @@@@@@
+//                      #********,    @@@@@@@@@@    ***  @@@@@@
+//                   **********    /    @@@@@@@@@@@@   ,  @@@@@@
+//                              &@@/  (@  (@@@@@@@@@@@@   @@@@@@@
+//                            @@@@@//  @@@@@@@@@@@@@@@@@@& @@@@@@@
+//                          @@@@@@@//  @@@@@@@@# .@@@@@@@@@@@@@@@@
+//                         @@@@@@&///  %@@@@@@@@(  *  @@@@@@@@@@@@
+//                       *@@@@@//   @@@@@@@@@@@@@@%     @@@@@@@@@@@
+//                      .@@@@@@@@@@//   .@@@@@@@@@@@@@@  @@@@@@@@@@@
+//                      @@@@@@@@@@@@@@(/     @@@@@@@@@@@@@@@@@@@@@@@@@
+//                   @ %@@@@@@@@@@@@@@   ,  @@@@@@@@@@@@@@@@@@@@@@@@@@@
+//                  @@ @@@@@@@@@@@@@   .             *@@@@@@@@@  @@@@@@#
+//                 @@@ @@@@@@@@@@@@%   *******@@@&///     &@@@@@@@@@@@@@
+//                 @**  @@@@@@@@@@@   ******@@@@@@,          @@@@@@@@@@
+//                 #*** @@@@@@@@@@@   *****@@@@@                  @@@@*
+//                ***   @@@@@@@@@@@  ,****@@@,
+//                 *      @@@@@@@@@@.  *****@@
+//                          @@@@@@@@@#   ***%@
+//                           ,@@@@@@@@@    ***@,  /
+//                              @@@@@@@@@(    ***   //////*.     */
+//                                 //@@@@@@%/      *    ///////
+//                                 @    //////////
+//                                   @@**
+//                                       @*****
+//                                             *
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -43,7 +43,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
-
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -185,7 +184,7 @@ public class Drivetrain extends SubsystemBase {
     /**
      * Controls the left and right sides of the drive directly with voltages.
      *
-     * @param leftVolts  the commanded left output
+     * @param leftVolts the commanded left output
      * @param rightVolts the commanded right output
      */
     public void tankDriveVolts(double leftVolts, double rightVolts) {
@@ -241,8 +240,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     /**
-     * Sets the max output of the drive. Useful for scaling the drive to drive more
-     * slowly.
+     * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
      *
      * @param maxOutput the maximum output to which the drive will be constrained
      */
@@ -268,25 +266,27 @@ public class Drivetrain extends SubsystemBase {
         return Math.IEEEremainder(angle, 360) * (gyroReversed ? -1.0 : 1.0);
     }
 
-	public double getAngle() {
-		final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
-		final double[] xyz_dps = new double[3];
-		m_gyro.getRawGyro(xyz_dps);
-		final double currentAngle = m_gyro.getFusedHeading(fusionStatus);
-		return currentAngle;
-	}
+    public double getAngle() {
+        final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
+        final double[] xyz_dps = new double[3];
+        m_gyro.getRawGyro(xyz_dps);
+        final double currentAngle = m_gyro.getFusedHeading(fusionStatus);
+        return currentAngle;
+    }
 
     public double getRotation() {
         final PigeonIMU.FusionStatus fusionStatus = new PigeonIMU.FusionStatus();
         return m_gyro.getFusedHeading(fusionStatus);
     }
 
-	public void setAngle(final double angle) {
-		final double distance = (getLeftEncoder() + getRightEncoder()) / 2;
-		final double totalAngle = angle + getAngle();
-		// leftMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, totalAngle);
-		rightMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, -totalAngle);
-	}
+    public void setAngle(final double angle) {
+        final double distance = (getLeftEncoder() + getRightEncoder()) / 2;
+        final double totalAngle = angle + getAngle();
+        // leftMaster.set(ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward,
+        // totalAngle);
+        rightMaster.set(
+                ControlMode.PercentOutput, distance, DemandType.ArbitraryFeedForward, -totalAngle);
+    }
 
     public void setDistance(final double distance) {
         final double distanceTicks = distance / Constants.kEncoderDistancePerPulse;

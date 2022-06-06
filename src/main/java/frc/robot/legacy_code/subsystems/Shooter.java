@@ -14,7 +14,7 @@ package frc.robot.legacy_code.subsystems;
 
 // public class Shooter extends SubsystemBase {
 
-//     private WPI_TalonFX leftMotor , rightMotor; 
+//     private WPI_TalonFX leftMotor , rightMotor;
 //     private double speed = -0.75;
 //     private double goalHeight = 7*12;
 //     private double cameraHeight = 28;
@@ -26,7 +26,6 @@ package frc.robot.legacy_code.subsystems;
 //     private double kI = 0.001;
 //     private double kD = 0;
 //     private double kF = 0;
-
 
 //     LimeLight limeLight = new LimeLight();
 //     public Shooter() {
@@ -58,10 +57,11 @@ package frc.robot.legacy_code.subsystems;
 // 		leftMotor.config_kD(0, kD, 0);
 
 //     }
-    
+
 //     public double getDistanceFromGoal() {
 //         double verticalAngleToTarget = limeLight.getdegVerticalToTarget();
-//         double distance = (goalHeight - cameraHeight) / Math.tan(verticalAngleToTarget + cameraAngle);
+//         double distance = (goalHeight - cameraHeight) / Math.tan(verticalAngleToTarget +
+// cameraAngle);
 //         return distance;
 //     }
 
@@ -75,7 +75,7 @@ package frc.robot.legacy_code.subsystems;
 //         double verticalVelocity = horizonalVelocity*gInches/x1 - gInches*x1/2*horizonalVelocity;
 //         return Math.atan(verticalVelocity/horizonalVelocity);
 //     }
-    
+
 //     //inches per 100
 //     public void setVelocity(double targetVelocity) {
 //         double targetVelocitySensorUnites = targetVelocity /distancePerPulse;
@@ -88,7 +88,7 @@ package frc.robot.legacy_code.subsystems;
 //     public LimeLight getLimeLight() {
 // 		return limeLight;
 //     }
-    
+
 //     public void shootOut() {
 //         leftMotor.set(speed);
 //     }
@@ -96,6 +96,5 @@ package frc.robot.legacy_code.subsystems;
 //     public void stop() {
 //         leftMotor.set(0);
 //     }
-
 
 // }

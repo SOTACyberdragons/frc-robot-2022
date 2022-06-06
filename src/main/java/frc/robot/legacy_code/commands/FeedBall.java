@@ -10,7 +10,7 @@ package frc.robot.legacy_code.commands;
 //     String direction = "";
 
 //     private final Feeder m_feeder;
-    
+
 //     public FeedBall(Feeder feeder, String direction) {
 //         m_feeder = feeder;
 //         addRequirements(feeder);
@@ -22,18 +22,17 @@ package frc.robot.legacy_code.commands;
 //         addRequirements(feeder);
 //     }
 
-
 //     // Called just before this Command runs the first time
 //     @Override
-//     public void initialize() {  
+//     public void initialize() {
 
-//     } 
+//     }
 
 //     // Called repeatedly when this Command is scheduled to run
 //     @Override
 //     public void execute() {
-//         if(direction == "in") { 
-//         Robot.feeder.feedIn();	
+//         if(direction == "in") {
+//         Robot.feeder.feedIn();
 //         } else if(direction == "out") {
 //             Robot.feeder.feedOut();
 //         } else{
@@ -46,7 +45,7 @@ package frc.robot.legacy_code.commands;
 //     @Override
 //     public boolean isFinished() {
 //         return false;
-    
+
 //     }
 
 //     // Called once after isFinished returns true
@@ -54,5 +53,5 @@ package frc.robot.legacy_code.commands;
 //     public void end(boolean interrupted) {
 //         Robot.feeder.stopFeeding();
 //     }
-    
+
 // }

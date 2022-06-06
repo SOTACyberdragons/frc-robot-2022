@@ -7,9 +7,8 @@ import edu.wpi.first.wpilibj.Notifier;
 import frc.robot.utils.LimeLight.ControlMode.*;
 
 /**
- * Lime Light Class was started by Corey Applegate of Team 3244
- * Granite City Gearheads. We Hope you Enjoy the Lime Light
- * Camera.
+ * Lime Light Class was started by Corey Applegate of Team 3244 Granite City Gearheads. We Hope you
+ * Enjoy the Lime Light Camera.
  */
 public class LimeLight {
 
@@ -36,31 +35,24 @@ public class LimeLight {
 
     Notifier _hearBeat = new Notifier(new PeriodicRunnable());
 
-    /**
-     * Using the Default Lime Light NT table
-     */
+    /** Using the Default Lime Light NT table */
     public LimeLight() {
         m_tableName = "limelight";
         m_table = NetworkTableInstance.getDefault().getTable(m_tableName);
         _hearBeat.startPeriodic(_hearBeatPeriod);
     }
 
-    /**
-     * If you changed the name of your Lime Light tell Me the New Name
-     */
+    /** If you changed the name of your Lime Light tell Me the New Name */
     public LimeLight(String tableName) {
         m_tableName = tableName;
         m_table = NetworkTableInstance.getDefault().getTable(m_tableName);
         _hearBeat.startPeriodic(_hearBeatPeriod);
     }
 
-    /**
-     * Send an instance of the NetworkTabe
-     */
+    /** Send an instance of the NetworkTabe */
     public LimeLight(NetworkTable table) {
         m_table = table;
         _hearBeat.startPeriodic(_hearBeatPeriod);
-
     }
 
     // This is a test
@@ -70,7 +62,7 @@ public class LimeLight {
 
     /**
      * tv Whether the limelight has any valid targets (0 or 1)
-     * 
+     *
      * @return
      */
     public boolean getIsTargetFound() {
@@ -85,7 +77,7 @@ public class LimeLight {
 
     /**
      * tx Horizontal Offset From Crosshair To Target (-27 degrees to 27 degrees)
-     * 
+     *
      * @return
      */
     public double getdegRotationToTarget() {
@@ -96,7 +88,7 @@ public class LimeLight {
 
     /**
      * ty Vertical Offset From Crosshair To Target (-20.5 degrees to 20.5 degrees)
-     * 
+     *
      * @return
      */
     public double getdegVerticalToTarget() {
@@ -107,7 +99,7 @@ public class LimeLight {
 
     /**
      * ta Target Area (0% of image to 100% of image)
-     * 
+     *
      * @return
      */
     public double getTargetArea() {
@@ -118,7 +110,7 @@ public class LimeLight {
 
     /**
      * ts Skew or rotation (-90 degrees to 0 degrees)
-     * 
+     *
      * @return
      */
     public double getSkew_Rotation() {
@@ -128,9 +120,8 @@ public class LimeLight {
     }
 
     /**
-     * tl The pipeline’s latency contribution (ms) Add at least 11ms for image
-     * capture latency.
-     * 
+     * tl The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+     *
      * @return
      */
     public double getPipelineLatency() {
@@ -146,11 +137,9 @@ public class LimeLight {
 
     /**
      * LedMode Sets limelight’s LED state
-     * 
-     * kon
-     * koff
-     * kblink
-     * 
+     *
+     * <p>kon koff kblink
+     *
      * @param ledMode
      */
     public void setLEDMode(LedMode ledMode) {
@@ -159,7 +148,7 @@ public class LimeLight {
 
     /**
      * Returns current LED mode of the Lime Light
-     * 
+     *
      * @return LedMode
      */
     public LedMode getLEDMode() {
@@ -171,20 +160,18 @@ public class LimeLight {
 
     /**
      * camMode Sets limelight’s operation mode
-     * 
-     * kvision
-     * kdriver (Increases exposure, disables vision processing)
-     * 
+     *
+     * <p>kvision kdriver (Increases exposure, disables vision processing)
+     *
      * @param camMode
      */
-
     public void setCamMode(CamMode camMode) {
         m_table.getEntry("camMode").setValue(camMode.getValue());
     }
 
     /**
      * Returns current Cam mode of the Lime Light
-     * 
+     *
      * @return CamMode
      */
     public CamMode getCamMode() {
@@ -196,9 +183,9 @@ public class LimeLight {
 
     /**
      * pipeline Sets limelight’s current pipeline
-     * 
-     * 0 . 9 Select pipeline 0.9
-     * 
+     *
+     * <p>0 . 9 Select pipeline 0.9
+     *
      * @param pipeline
      */
     /*
@@ -216,9 +203,9 @@ public class LimeLight {
 
     /**
      * pipeline Sets limelight’s current pipeline
-     * 
-     * 0 . 9 Select pipeline 0.9
-     * 
+     *
+     * <p>0 . 9 Select pipeline 0.9
+     *
      * @param pipeline
      */
     public void setPipeline(Integer pipeline) {
@@ -234,7 +221,7 @@ public class LimeLight {
 
     /**
      * Returns current Pipeling of the Lime Light
-     * 
+     *
      * @return Pipelinge
      */
     public double getPipeline() {
@@ -245,7 +232,7 @@ public class LimeLight {
 
     /**
      * Returns current Pipeling of the Lime Light
-     * 
+     *
      * @return Pipelinge
      */
     public Integer getPipelineInt() {
@@ -256,13 +243,12 @@ public class LimeLight {
 
     /**
      * stream Sets limelight’s streaming mode
-     * 
-     * kStandard - Side-by-side streams if a webcam is attached to Limelight
-     * kPiPMain - The secondary camera stream is placed in the lower-right corner of
-     * the primary camera stream
-     * kPiPSecondary - The primary camera stream is placed in the lower-right corner
-     * of the secondary camera stream
-     * 
+     *
+     * <p>kStandard - Side-by-side streams if a webcam is attached to Limelight kPiPMain - The
+     * secondary camera stream is placed in the lower-right corner of the primary camera stream
+     * kPiPSecondary - The primary camera stream is placed in the lower-right corner of the
+     * secondary camera stream
+     *
      * @param stream
      */
     public void setStream(StreamType stream) {
@@ -278,10 +264,9 @@ public class LimeLight {
 
     /**
      * snapshot Allows users to take snapshots during a match
-     * 
-     * kon - Stop taking snapshots
-     * koff - Take two snapshots per second
-     * 
+     *
+     * <p>kon - Stop taking snapshots koff - Take two snapshots per second
+     *
      * @param snapshot
      */
     public void setSnapshot(Snapshot snapshot) {
@@ -298,13 +283,10 @@ public class LimeLight {
     // *************** Advanced Usage with Raw Contours *********************
 
     /**
-     * Limelight posts three raw contours to NetworkTables that are not influenced
-     * by your grouping mode.
-     * That is, they are filtered with your pipeline parameters, but never grouped.
-     * X and Y are returned
-     * in normalized screen space (-1 to 1) rather than degrees. *
+     * Limelight posts three raw contours to NetworkTables that are not influenced by your grouping
+     * mode. That is, they are filtered with your pipeline parameters, but never grouped. X and Y
+     * are returned in normalized screen space (-1 to 1) rather than degrees. *
      */
-
     public double getAdvanced_RotationToTarget(Advanced_Target raw) {
         NetworkTableEntry txRaw = m_table.getEntry("tx" + Integer.toString(raw.getValue()));
         double x = txRaw.getDouble(0.0);

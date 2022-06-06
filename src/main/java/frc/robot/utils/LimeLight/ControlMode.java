@@ -3,9 +3,7 @@ package frc.robot.utils.LimeLight;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
-*
-*/
+/** */
 public class ControlMode {
 
     public enum LedMode {
@@ -39,7 +37,6 @@ public class ControlMode {
         public String toString() {
             return name();
         }
-
     }
 
     public enum CamMode {
@@ -103,12 +100,11 @@ public class ControlMode {
         public String toString() {
             return name();
         }
-
     }
 
     public enum Snapshot {
-
-        kon(1), koff(0);
+        kon(1),
+        koff(0);
 
         private static final Map<Double, Snapshot> MY_MAP = new HashMap<Double, Snapshot>();
 
@@ -135,14 +131,15 @@ public class ControlMode {
         public String toString() {
             return name();
         }
-
     }
 
     public enum Advanced_Target {
+        kone(0),
+        ktwo(1),
+        kthree(2);
 
-        kone(0), ktwo(1), kthree(2);
-
-        private static final Map<Integer, Advanced_Target> MY_MAP = new HashMap<Integer, Advanced_Target>();
+        private static final Map<Integer, Advanced_Target> MY_MAP =
+                new HashMap<Integer, Advanced_Target>();
 
         static {
             for (Advanced_Target Advanced_Target : values()) {
@@ -167,14 +164,14 @@ public class ControlMode {
         public String toString() {
             return name();
         }
-
     }
 
     public enum Advanced_Crosshair {
+        kone(0),
+        ktwo(1);
 
-        kone(0), ktwo(1);
-
-        private static final Map<Integer, Advanced_Crosshair> MY_MAP = new HashMap<Integer, Advanced_Crosshair>();
+        private static final Map<Integer, Advanced_Crosshair> MY_MAP =
+                new HashMap<Integer, Advanced_Crosshair>();
 
         static {
             for (Advanced_Crosshair Advanced_Crosshair : values()) {
@@ -199,6 +196,5 @@ public class ControlMode {
         public String toString() {
             return name();
         }
-
     }
 }
